@@ -1,0 +1,6 @@
+2013-11-11 15:47:41,767 - ERROR: user lacks privilege or object not found: SERVICE
+2013-11-11 15:47:41,983 - INFO: UDPServer listening on port 12346
+2013-11-11 15:50:26,892 - INFO: UDPServer listening on port 12346
+2013-11-11 15:50:26,911 - ERROR: Exception java.sql.SQLSyntaxErrorException: object name already exists: SERVICE in statement [CREATE TABLE service(AppKey varchar(20),Secret varchar(20),Name varchar(20),PRIMARY KEY (AppKey))]
+2013-11-11 15:50:26,912 - ERROR: Exception java.sql.SQLSyntaxErrorException: object name already exists: METERING in statement [CREATE TABLE metering(AppKey varchar(20),sent int,received int,name varchar(35))]
+2013-11-11 15:50:26,912 - ERROR: Exception java.sql.SQLSyntaxErrorException: object name already exists: ROOM in statement [CREATE TABLE room(AppKey varchar(20),id varchar(20),maxPlayers int,name varchar(20),properties varchar(500),PRIMARY KEY (AppKey,id))]
