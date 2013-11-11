@@ -1,0 +1,12 @@
+@font-face {
+  font-family: 'Asap';
+  font-style: normal;
+  font-weight: 400;
+  src: local('Asap'), local('Asap-Regular'), url(../fonts/Asap.woff) format('woff');
+}
+
+body{
+	background-color: #bdc3c7;
+	color: #2c3e50;
+	font-family: 'Asap', sans-serif;
+}
