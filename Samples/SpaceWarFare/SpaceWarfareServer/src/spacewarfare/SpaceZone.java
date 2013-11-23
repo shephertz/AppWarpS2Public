@@ -16,7 +16,7 @@ import com.shephertz.app42.server.idomain.IUser;
  */
 public class SpaceZone extends BaseZoneAdaptor {
     @Override
-    public void handleCreateRoomRequest(IRoom room, HandlingResult result)
+    public void handleCreateRoomRequest(IUser user, IRoom room, HandlingResult result)
     {
         System.out.println("Room Creatd " + room.getName());
         room.setAdaptor(new SpaceRoom(room));

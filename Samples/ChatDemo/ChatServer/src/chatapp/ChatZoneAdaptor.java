@@ -7,6 +7,7 @@ package chatapp;
 import com.shephertz.app42.server.idomain.BaseZoneAdaptor;
 import com.shephertz.app42.server.idomain.HandlingResult;
 import com.shephertz.app42.server.idomain.IRoom;
+import com.shephertz.app42.server.idomain.IUser;
 
 /**
  *
@@ -14,7 +15,7 @@ import com.shephertz.app42.server.idomain.IRoom;
  */
 public class ChatZoneAdaptor extends BaseZoneAdaptor {
     @Override
-    public void handleCreateRoomRequest(IRoom room, HandlingResult result)
+    public void handleCreateRoomRequest(IUser user, IRoom room, HandlingResult result)
     {
         System.out.println("Room Created " + room.getName() + " with ID " + room.getId() );
         room.setAdaptor(new ChatRoomAdaptor());
