@@ -1,7 +1,7 @@
  
 WarpConfig = {
   ["apiKey"] = "";
-  ["warp_host"] = "127.0.0.1";
+  ["warp_host"] = "";
   ["warp_port"] = 12346;
   ["WarpClient"] = nil;
   ["session_id"] = nil;
