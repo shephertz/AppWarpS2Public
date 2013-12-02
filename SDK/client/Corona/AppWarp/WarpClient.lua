@@ -277,7 +277,7 @@
    
    function WarpClient.onConnect(success)
      if(success == true) then
-        local warpMessage = RequestBuilder.buildAuthRequest(_username, 0);
+        local warpMessage = RequestBuilder.buildAuthRequest(_username, authData, 0);
         Channel.socket_send(warpMessage);
      elseif(_connectionState == WarpConnectionState.DISCONNECTING) then
        _connectionState = WarpConnectionState.DISCONNECTED; 
