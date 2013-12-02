@@ -68,6 +68,12 @@
       NotificationListenerTable.onRoomCreated(payLoadTable['id'], payLoadTable['name'], payLoadTable['maxUsers'])  
     elseif((notifyType == WarpNotifyTypeCode.ROOM_DELETED) and (NotificationListenerTable.onRoomDeleted ~= nil)) then
       NotificationListenerTable.onRoomDeleted(payLoadTable['id'], payLoadTable['name']) 
+    elseif((notifyType == WarpNotifyTypeCode.GAME_STARTED) and (NotificationListenerTable.onGameStarted ~= nil)) then
+      NotificationListenerTable.onGameStarted(payLoadTable['sender'], payLoadTable['id'], payLoadTable['nextTurn'])
+    elseif((notifyType == WarpNotifyTypeCode.GAME_STOPPED) and (NotificationListenerTable.onGameStopped ~= nil)) then
+      NotificationListenerTable.onGameStopped(payLoadTable['sender'], payLoadTable['id']) 
+    elseif((notifyType == WarpNotifyTypeCode.MOVE_COMPLETED) and (NotificationListenerTable.onMoveCompleted ~= nil)) then
+      NotificationListenerTable.onMoveCompleted(payLoadTable['sender'], payLoadTable['id'], payLoadTable['nextTurn'], payLoadTable['moveData'])        
     elseif((notifyType == WarpNotifyTypeCode.ROOM_PROPERTY_CHANGE) and (NotificationListenerTable.onUserChangedRoomProperty ~= nil)) then
       NotificationListenerTable.onUserChangedRoomProperty(payLoadTable['sender'], payLoadTable['id'], JSON:decode(payLoadTable['properties']), JSON:decode(payLoadTable['lockProperties']))      
     end           
@@ -209,8 +215,20 @@
    elseif(requestType == WarpRequestTypeCode.UNLOCK_PROPERTIES) then     
      if(RequestListenerTable.onUnlockPropertiesDone ~= nil) then
       RequestListenerTable.onUnlockPropertiesDone(resultCode);
-     end      
-   end
+     end    
+   elseif((requestType == WarpRequestTypeCode.MOVE) and (RequestListenerTable.onSendMoveDone ~= nil)) then
+      RequestListenerTable.onSendMoveDone(resultCode);
+   elseif((requestType == WarpRequestTypeCode.START_GAME) and (RequestListenerTable.onStartGameDone ~= nil)) then
+      RequestListenerTable.onStartGameDone(resultCode);
+   elseif((requestType == WarpRequestTypeCode.STOP_GAME) and (RequestListenerTable.onStopGameDone ~= nil)) then
+      RequestListenerTable.onStopGameDone(resultCode);
+   elseif((requestType == WarpRequestTypeCode.GET_MOVE_HISTORY) and (RequestListenerTable.onGetMoveHistoryDone ~= nil)) then
+      local historyTable = nil
+      if(resultCode == WarpResponseResultCode.SUCCESS) then
+        historyTable = buildMoveHistoryTable(payLoadTable)
+      end
+      RequestListenerTable.onGetMoveHistoryDone(resultCode, historyTable); 
+   end   
  end 
     
  function WarpClient.initialize(api, host)
@@ -242,8 +260,8 @@
        end
      end
    end  
- end
-   
+ end   
+
  function WarpClient.connectWithUserName(username, auth)
     if (username==nil or isUserNameValid(username) == false) then
         fireConnectionEvent(WarpResponseResultCode.BAD_REQUEST);
@@ -259,7 +277,7 @@
    
    function WarpClient.onConnect(success)
      if(success == true) then
-        local warpMessage = RequestBuilder.buildAuthRequest(_username, authData, 0);
+        local warpMessage = RequestBuilder.buildAuthRequest(_username, 0);
         Channel.socket_send(warpMessage);
      elseif(_connectionState == WarpConnectionState.DISCONNECTING) then
        _connectionState = WarpConnectionState.DISCONNECTED; 
@@ -279,7 +297,6 @@
    end
      
    function WarpClient.Loop()   
-  
      if((Channel.isConnected == false) and (_connectionState == WarpConnectionState.CONNECTING)) then
        Channel.socket_connect()
      end     
@@ -447,9 +464,60 @@
     if(_connectionState ~= WarpConnectionState.CONNECTED) then             
         return;
     end    
-    local roomMsg = RequestBuilder.buildCreateRoomRequest(name, owner, maxUsers, properties)
+    local roomMsg = RequestBuilder.buildCreateRoomRequest(name, owner, maxUsers, properties, 0)
     Channel.socket_send(roomMsg);    
   end  
+  
+  function WarpClient.createTurnRoom(name, owner, maxUsers, properties, turnTime)
+    warplog('WarpClient.createTurnRoom')
+    if(_connectionState ~= WarpConnectionState.CONNECTED) then             
+        return;
+    end    
+    local roomMsg = RequestBuilder.buildCreateRoomRequest(name, owner, maxUsers, properties, turnTime)
+    Channel.socket_send(roomMsg);    
+  end
+  
+  function WarpClient.sendMove(moveData)
+      warplog('WarpClient.sendMove')
+      if(_connectionState ~= WarpConnectionState.CONNECTED) then             
+          return;      
+      end
+      local moveTable = {}
+      moveTable.moveData = moveData
+      local moveMessage = JSON:encode(moveTable); 
+      local warpMessage = RequestBuilder.buildWarpRequest(WarpMessageTypeCode.REQUEST, WarpConfig.session_id, 0, WarpRequestTypeCode.MOVE, 0, WarpContentTypeCode.JSON, string.len(moveMessage), tostring(moveMessage));  
+      Channel.socket_send(warpMessage);
+  end
+  
+  function WarpClient.startGame()
+    warplog('WarpClient.startGame')
+      if(_connectionState ~= WarpConnectionState.CONNECTED) then             
+          return;      
+      end    
+   local startMsg = RequestBuilder.buildWarpRequest(WarpMessageTypeCode.REQUEST, WarpConfig.session_id, 0, WarpRequestTypeCode.START_GAME, 0, WarpContentTypeCode.FLAT_STRING, 0, nil);
+    Channel.socket_send(startMsg);       
+  end
+  
+  function WarpClient.stopGame()
+    warplog('WarpClient.stopGame')
+      if(_connectionState ~= WarpConnectionState.CONNECTED) then             
+          return;      
+      end    
+   local stopMsg = RequestBuilder.buildWarpRequest(WarpMessageTypeCode.REQUEST, WarpConfig.session_id, 0, WarpRequestTypeCode.STOP_GAME, 0, WarpContentTypeCode.FLAT_STRING, 0, nil);
+    Channel.socket_send(stopMsg);       
+  end
+  
+  function WarpClient.getMoveHistory()
+      warplog('WarpClient.getMoveHistory')
+      if(_connectionState ~= WarpConnectionState.CONNECTED) then             
+          return;      
+      end
+      local historyTable = {}
+      historyTable.count = 5
+      local historyMessage = JSON:encode(historyTable); 
+      local warpMessage = RequestBuilder.buildWarpRequest(WarpMessageTypeCode.REQUEST, WarpConfig.session_id, 0, WarpRequestTypeCode.GET_MOVE_HISTORY, 0, WarpContentTypeCode.JSON, string.len(historyMessage), tostring(historyMessage));  
+      Channel.socket_send(warpMessage);
+  end
   
   function WarpClient.getAllRooms()
     warplog('WarpClient.getAllRooms')
