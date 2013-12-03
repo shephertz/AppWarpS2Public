@@ -22,7 +22,7 @@ package entities
 		private var count:Number = 0;
 		private var bounds:FlxRect = new FlxRect();
 		
-		public function Character(X:Number=0, Y:Number=0,OX:Number=0,OY:Number=0,W:Number=0,H:Number=0)
+		public function Character(X:Number=0, Y:Number=0,OX:Number=0,OY:Number=0,W:Number=0,H:Number=0, dragon:Boolean = false)
 		{	
 			bounds.x = OX;
 			bounds.y = OY;
@@ -30,7 +30,10 @@ package entities
 			bounds.height = H;
 			super(X*tileWidth, Y*tileWidth, null);
 			
-			loadGraphic(Assets.playerGreenPNG,true,true,tileWidth,tileWidth);
+			if(dragon == true)
+				loadGraphic(Assets.playerDragonPNG,true,true,tileWidth,tileWidth);
+			else
+				loadGraphic(Assets.playerGreenPNG,true,true,tileWidth,tileWidth);
 			
 			addAnimation("walkRight",[8,9,10,11],10,true);
 			addAnimation("walkLeft",[12,13,14,15],10,true);

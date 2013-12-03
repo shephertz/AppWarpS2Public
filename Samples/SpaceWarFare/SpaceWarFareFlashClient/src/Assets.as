@@ -5,6 +5,9 @@ package
 		[Embed(source = '../assets/images/player_green.png')] 
 		public static var playerGreenPNG:Class;
 		
+		[Embed(source = '../assets/images/player_dragon.png')] 
+		public static var playerDragonPNG:Class;
+		
 		[Embed(source = '../assets/images/items.png')] 
 		public static var itemsPNG:Class;
 		

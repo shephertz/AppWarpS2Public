@@ -1,0 +1,14 @@
+
+includepath source
+
+library
+{
+	".,appwarp"
+}
+
+files
+{
+	(appwarp)
+	listener.h
+	appwarp.h
+}
