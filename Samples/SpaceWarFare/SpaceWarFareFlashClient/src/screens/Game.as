@@ -67,7 +67,7 @@ package screens
 		
 		public function setup():void
 		{
-			roomID = "1064165667";//"410174383";
+			roomID = "91586126";//"410174383";
 			remote = new Array();
 			remoteMsg = new Array();
 			remoteUserNames = new Array();
@@ -287,7 +287,7 @@ package screens
 			}
 			else
 			{
-				var p:Character = new Character(obj.x/tileWidth,obj.y/tileWidth,0,0,Width,Height);
+				var p:Character = new Character(obj.x/tileWidth,obj.y/tileWidth,0,0,Width,Height, sender == "dragon" ? true : false);
 				add(p);	
 				remote[sender] = p;
 				
