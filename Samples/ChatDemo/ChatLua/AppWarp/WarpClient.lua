@@ -303,9 +303,9 @@
      if(Channel.isConnected == true) then
       Channel.socket_recv();
      end
-     if((_connectionState == WarpConnectionState.CONNECTED) and ((os.clock() - lastSendTime) > 2)) then
+     if((_connectionState == WarpConnectionState.CONNECTED) and ((os.time() - lastSendTime) > 2)) then
        WarpClient.sendKeepAlive()
-       lastSendTime = os.clock()
+       lastSendTime = os.time()
      end     
    end
    
