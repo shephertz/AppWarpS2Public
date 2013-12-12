@@ -33,9 +33,14 @@
 					var rooms = [];
 					var x = [];
 
+					var peakMemory = 0, peakCCU = 0, peakRooms = 0, peakTime = "";
+
 					var memoryCtx = document.getElementById("memoryChart").getContext("2d");
 					var ccuCtx = document.getElementById("ccuChart").getContext("2d");
 					var roomsCtx = document.getElementById("roomChart").getContext("2d");
+
+					var count = 0;
+					var countLimit = 200;
 
 					rooms.push(0);
 					ccu.push(0);
@@ -50,16 +55,39 @@
 						AppWarp.WarpClient.Admin.GetLiveStats(params.username, params.password, params.host, params.port, function(res){
 							if(res.getResultCode() == AppWarp.ResultCode.Success){
 								var data = JSON.parse(res.getPayloadStringDec("password"));
+								var dt = new Date()
 								x.push('');
 
 								memory.push(Math.floor(data.used_memory/1024));
 								ccu.push(data.ccu);
 								rooms.push( data.rooms);
 
+								if(data.used_memory > peakMemory)
+								{
+									peakMemory = data.used_memory;
+									peakCCU = data.ccu;
+									peakRooms = data.rooms;
+									peakTime = dt.toLocaleTimeString();
+
+									$("#memoryPeak").text(Math.floor(peakMemory/1024));
+									$("#ccuPeak").text(peakCCU);
+									$("#roomsPeak").text(peakRooms);
+									$("#updatePeak").text(peakTime);
+
+								}
+
 								$("#memoryInfo").text(Math.floor(data.used_memory/1024));
 								$("#ccuInfo").text(data.ccu);
 								$("#roomsInfo").text(data.rooms);
-								$("#updateInfo").text((new Date()).toLocaleTimeString());
+								$("#updateInfo").text(dt.toLocaleTimeString());
+
+								if(count > countLimit)
+								{
+									x.splice(0,x.length - countLimit,'');
+									memory.splice(0, memory.length - countLimit,0);
+									ccu.splice(0, ccu.length - countLimit,0);
+									rooms.splice(0, rooms.length - countLimit,0);
+								}
 
 								new Chart(memoryCtx).Line({
 									labels : x,
@@ -103,6 +131,8 @@
 							else{
 								console.log("Error Getting Stats");
 							}
+
+							count +=1;
 						});
 
 					}, 2000);
