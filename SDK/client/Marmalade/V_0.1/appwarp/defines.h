@@ -126,7 +126,9 @@ namespace AppWarp
             keep_alive = 63,
             start_game = 66,
             stop_game = 67,
-            get_move_history = 68
+            get_move_history = 68,
+			zone_rpc = 69,
+			room_rpc = 70
 		};
 	}
 
