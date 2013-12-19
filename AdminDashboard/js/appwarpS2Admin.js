@@ -422,6 +422,7 @@ AppWarp.WarpClient.Admin = (function(){
 				var bytearray = new Uint8Array(msg.data);
 				var res = new AppWarp.Response(bytearray, 0);
 				callback(res);
+				socket.close();
 			}
 		},
 
@@ -439,6 +440,7 @@ AppWarp.WarpClient.Admin = (function(){
 				var bytearray = new Uint8Array(msg.data);
 				var res = new AppWarp.Response(bytearray, 0);
 				callback(res);
+				socket.close();
 			}
 		},
 
@@ -456,6 +458,7 @@ AppWarp.WarpClient.Admin = (function(){
 				var bytearray = new Uint8Array(msg.data);
 				var res = new AppWarp.Response(bytearray, 0);
 				callback(res);
+				socket.close();
 			}
 		},
 
@@ -473,6 +476,7 @@ AppWarp.WarpClient.Admin = (function(){
 				var bytearray = new Uint8Array(msg.data);
 				var res = new AppWarp.Response(bytearray, 0);
 				callback(res);
+				socket.close();
 			}
 		},
 
@@ -490,6 +494,7 @@ AppWarp.WarpClient.Admin = (function(){
 				var bytearray = new Uint8Array(msg.data);
 				var res = new AppWarp.Response(bytearray, 0);
 				callback(res);
+				socket.close();
 			}
 		},
 
@@ -507,6 +512,7 @@ AppWarp.WarpClient.Admin = (function(){
 				var bytearray = new Uint8Array(msg.data);
 				var res = new AppWarp.Response(bytearray, 0);
 				callback(res);
+				socket.close();
 			}
 		},
 
@@ -524,6 +530,7 @@ AppWarp.WarpClient.Admin = (function(){
 				var bytearray = new Uint8Array(msg.data);
 				var res = new AppWarp.Response(bytearray, 0);
 				callback(res.getResultCode());
+				socket.close();
 			}
 		}
 	}

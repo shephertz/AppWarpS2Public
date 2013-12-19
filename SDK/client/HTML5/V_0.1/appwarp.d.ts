@@ -61,6 +61,7 @@ declare module AppWarp {
         GetRoomInRange = 38,
         LockProperties = 35,
         UnlockProperties = 36,
+        RPC = 62,
         KeepAlive = 63,
         AssocPort = 64,
         AssocPortAck = 65,
@@ -69,6 +70,8 @@ declare module AppWarp {
         StartGame = 66,
         StopGame = 67,
         GetMoveHistory = 68,
+        ZoneRPC = 69,
+        RoomRPC = 70,
     }
     enum PayloadType {
         FlatString = 0,
@@ -134,6 +137,7 @@ declare module AppWarp {
         onUpdatePropertyDone,
         onLockPropertiesDone,
         onUnlockPropertiesDone,
+        onRoomRPCDone,
         onCreateRoomDone,
         onDeleteRoomDone,
         onGetAllRoomsDone,
@@ -141,6 +145,7 @@ declare module AppWarp {
         onGetLiveUserInfoDone,
         onSetCustomUserDataDone,
         onGetMatchedRoomsDone,
+        onZoneRPCDone,
         onRoomCreated,
         onRoomDestroyed,
         onUserLeftRoom,
@@ -256,6 +261,8 @@ declare module AppWarp {
         static buildCreateTurnRoomRequest(name: string, owner: string, maxUsers: number, properties?: any, turnTime?: number): string;
         static buildSendMoveRequest(move: string): string;
         static buildGetMoveHistoryRequest(): string;
+        static buildZoneRPCRequest(func: string, args: any): string;
+        static buildRoomRPCRequest(room: string, func: string, args: any): string;
     }
 }
 declare module AppWarp {
@@ -356,5 +363,7 @@ declare module AppWarp {
         public startGame(): void;
         public stopGame(): void;
         public getMoveHistory(): void;
+        public invokeZoneRPC(func: string): void;
+        public invokeRoomRPC(room: string, func: string): void;
     }
 }

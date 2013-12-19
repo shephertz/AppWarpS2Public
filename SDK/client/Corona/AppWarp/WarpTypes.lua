@@ -33,7 +33,9 @@
      ["PRIVATE_CHAT"] = 12, 
      ["MOVE_COMPLETED"] = 13,
      ["USER_PAUSED"] = 14,
-     ["USER_RESUMED"] = 15
+     ["USER_RESUMED"] = 15,
+     ["GAME_STARTED"] = 16,
+     ["GAME_STOPPED"] = 17
   }
   
   WarpRequestTypeCode = {
@@ -108,7 +110,15 @@
     
      ["KEEP_ALIVE"] = 63,
     
-     ["ASSOC_PORT"] = 64
+     ["ASSOC_PORT"] = 64,
+     
+     ["ACK_ASSOC_PORT"] = 65,
+     
+     ["START_GAME"] = 66,
+     
+     ["STOP_GAME"] = 67,
+     
+     ["GET_MOVE_HISTORY"] = 68
   }
   
   WarpResponseResultCode = {    

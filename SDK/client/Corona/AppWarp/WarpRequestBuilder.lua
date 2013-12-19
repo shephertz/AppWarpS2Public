@@ -21,11 +21,11 @@ local WarpRequestBuilder = {}
   function WarpRequestBuilder.buildAuthRequest(user, auth, sid)
    local timeStamp = os.time()*1000;
    authTable ={}
-   authTable["version"] =  "Lua_1.2";
+   authTable["version"] =  "Lua_1.3";
    authTable["timeStamp"] =  timeStamp;
    authTable["user"] =  user;
    authTable["authData"] = auth
-   authTable["apiKey"] =  WarpConfig.apiKey;
+   authTable["apiKey"] =  WarpConfig.apiKey;   
    authTable["keepalive"] =  WarpConfig.keepAliveInterval;
    authTable["recoverytime"] =  RecoveryTime;
    local authMessage = JSON:encode(authTable);  
@@ -110,12 +110,17 @@ local WarpRequestBuilder = {}
    return warpMessage
   end 
  
-  function WarpRequestBuilder.buildCreateRoomRequest(name, owner, maxUsers, properties)
+  function WarpRequestBuilder.buildCreateRoomRequest(name, owner, maxUsers, properties, turnTime)
     local roomCreateTable = {}
     roomCreateTable["name"] = name
     roomCreateTable["owner"] = owner
     roomCreateTable["maxUsers"] = maxUsers
-    roomCreateTable["properties"] = properties
+    roomCreateTable["properties"] = properties       
+    if(turnTime > 0) then      
+      roomCreateTable["turnTime"] = turnTime
+      roomCreateTable["inox"] = true
+    end
+    
     local roomCreateMessage = JSON:encode(roomCreateTable)
     local lengthPayload = string.len(tostring(roomCreateMessage));
     local warpMessage = WarpRequestBuilder.buildWarpRequest(WarpMessageTypeCode.REQUEST, WarpConfig.session_id, 0, WarpRequestTypeCode.CREATE_ROOM, 0, WarpContentTypeCode.JSON,

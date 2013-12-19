@@ -26,6 +26,15 @@
             <td id="roomsInfo">0</td>
             <td id="updateInfo">0</td>
           </tr>
+          <tr>
+            <th colspan="4" align="center">Peak Values</th>
+          </tr>
+          <tr>
+            <td id="memoryPeak">0</td>
+            <td id="ccuPeak">0</td>
+            <td id="roomsPeak">0</td>
+            <td id="updatePeak">0</td>
+          </tr>
         </table>
       </div>
       <div id="dashboardGraph">

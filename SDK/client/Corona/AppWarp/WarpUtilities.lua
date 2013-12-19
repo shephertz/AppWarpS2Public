@@ -40,10 +40,22 @@ end
     local MatchingRooms = {} 
     local n = 0
     for k,v in pairs(payLoadTable) do
-      n = n+1
-      MatchingRooms[n]=k
+      n = n+1      
+      MatchingRooms[n]=v
     end        
     return MatchingRooms
+ end 
+ 
+  function buildMoveHistoryTable(payLoadTable)
+    
+    local historyArray = payLoadTable['history']
+    local historyTable = {} 
+    local n = 0
+    for k,v in pairs(historyArray) do
+      n = n+1
+      historyTable[n]=v
+    end
+    return historyTable
  end 
  
  function decodeWarpResponseMessage(message, offset)

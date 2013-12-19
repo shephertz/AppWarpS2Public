@@ -77,6 +77,7 @@ namespace AppWarp
 		virtual void onUpdatePropertyDone(AppWarp::liveroom revent){}
         virtual void onLockPropertiesDone(int result){}
         virtual void onUnlockPropertiesDone(int result){}
+		virtual void onSendRPCDone(AppWarp::RPCResult event){}
 	};
 
 	class TurnBasedRoomRequestListener
