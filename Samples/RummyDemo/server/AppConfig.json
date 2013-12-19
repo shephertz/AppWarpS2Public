@@ -1,0 +1,10 @@
+{
+	"TickTime" : 500,
+	"LogLevel" : "INFO",
+	"DBHost" : "local",
+	"DBUser" : "root",
+	"DBPassword" : "",
+	"AdminUsername" : "admin",
+	"AdminPassword" : "password",
+	"HSQLDBFile" : "HSQLDBFile"
+}

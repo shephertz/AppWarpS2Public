@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">AppWarp S2 Rummy Demo</string>
+    <string name="playGame">Play Game</string>
+    <string name="chooseMonster">Choose Monster</string>
+    <string name="alertSelect">Please select monster to start game</string>
+    <string name="enterName">Enter Your Name</string>
+    <string name="joinRoom">Join Room</string>
+	<string name="roomSearchResult">Room Not Found</string>
+	<string name="joinNewRoom">Join New Room</string>
+	<string name="chooseGameType">Choose Game Type</string>
+	<string name="sendMove">Send Move</string>
+	<string name="newCard">New Card</string>
+	<string name="topCard">Top Card</string>
+	<string-array name="gameType">
+	    <item>2 user</item>
+	    <item>3 user</item>
+	</string-array>
+</resources>
