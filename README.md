@@ -11,3 +11,5 @@ The product is currently in **alpha mode** so we will be performing frequent upd
 [**API Guide**](https://github.com/shephertz/AppWarpS2Public/wiki/API-Guide)
 
 [**Deployment**](https://github.com/shephertz/AppWarpS2Public/wiki/Deployment)
+
+[**Benchmarks**](https://github.com/shephertz/AppWarpS2Public/wiki/Benchmarks)
