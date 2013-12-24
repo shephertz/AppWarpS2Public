@@ -1,0 +1,1 @@
+This folder contains the supporting librararies required for AppWarpS2. Add these along with the AppWarpS2.jar in your class path.
