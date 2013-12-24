@@ -1,9 +1,9 @@
 package appwarp.s2.cards;
 public class Constants {
 	
-	public static String APP_KEY = "YOUR_APP_KEY";
+	public static String APP_KEY = "33a8995e-8fc1-4855-b";
 	
-    public static String HOST_NAME =  "YOUR_SERVER_ADDRESS";
+    public static String HOST_NAME =  "192.168.1.105";
     
     public static final String FB_APP_ID = "421905537937918";
     
@@ -17,14 +17,14 @@ public class Constants {
     
     public static String SERVER_NAME = "AppWarpS2";
     
-    public static final byte CARD_DATA= 1;
-    public static final byte NEW_CARD = 2;
+    public static final byte USER_HAND = 1;
+    
     public static final byte RESULT_GAME_OVER = 3;
     public static final byte RESULT_USER_LEFT = 4;
     
-    public static final int REQUEST_NEW_CARD = 111;
     // error code
     public static final int INVALID_MOVE = 121;
+    public static final byte SUBMIT_CARD = 111;
     
     // GAME_STATUS
     
@@ -47,4 +47,6 @@ public class Constants {
     public static String ALERT_CONN_RECOVERED = "Connection Recovered";
     public static String ALERT_CONN_ERR_RECOVABLE = "Recoverable connection error. Recovering session after 5 seconds";
     public static String ALERT_CONN_ERR_NON_RECOVABLE = "Non-recoverable connection error.";
+    
+    public static final String HOW_TO_PLAY = "Login: You can login with";
 }

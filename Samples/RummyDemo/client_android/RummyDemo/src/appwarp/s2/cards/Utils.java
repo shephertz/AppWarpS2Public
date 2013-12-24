@@ -13,7 +13,7 @@ import android.widget.Toast;
 
 public class Utils {
 
-	public static String userName = "";
+	public static String userName = null;
 
 	public static void showToastAlert(Context ctx, String message) {
 		Toast.makeText(ctx.getApplicationContext(), message, Toast.LENGTH_SHORT).show();
@@ -50,14 +50,14 @@ public class Utils {
 
 	public static Bitmap[] getCardsBitmapArray(Context context, int cardBlockWidth) {
 		Bitmap cardSprite = getBitmapFromAsset(context, "carddeck_tiled.png");
-		Log.d("getBitmapFromAsset", "BitmapWidth " + cardSprite.getWidth()+"x"+cardSprite.getHeight());
+//		Log.d("getBitmapFromAsset", "BitmapWidth " + cardSprite.getWidth()+"x"+cardSprite.getHeight());
 		Bitmap[] cards = null;
 		int stratX = 0;
 		int startY = 0;
 		int cardWidth = cardSprite.getWidth() / 13;
 		int cardHeight = cardSprite.getHeight() / 4;
 		int ratioCardHeight = (int)Utils.getRatioValue(cardWidth, cardHeight, cardBlockWidth, 0);
-		Log.d("ratioCardHeight", ratioCardHeight+"");
+//		Log.d("ratioCardHeight", ratioCardHeight+"");
 		cards = new Bitmap[52];
 		for (int i = 1; i <= cards.length; i++) {
 			cards[i - 1] = Bitmap.createBitmap(cardSprite, stratX, startY,

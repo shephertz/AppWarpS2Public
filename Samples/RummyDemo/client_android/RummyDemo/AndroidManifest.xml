@@ -25,7 +25,7 @@
             </intent-filter>
         </activity>
         <activity
-            android:name="appwarp.s2.cards.RoomListActivity"
+            android:name="appwarp.s2.cards.RoomSelectionActivity"
             android:configChanges="orientation|screenSize|keyboardHidden"
             android:theme="@android:style/Theme.NoTitleBar.Fullscreen" > 
         </activity>   

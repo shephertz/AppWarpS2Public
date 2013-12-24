@@ -52,15 +52,6 @@
 
     </RelativeLayout>
 
-    <Button
-        android:id="@+id/sendMove"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignParentRight="true"
-        android:layout_centerVertical="true"
-        android:onClick="onSendMoveClicked"
-        android:text="@string/sendMove" />
-
     <TextView
         android:id="@+id/turnTextView"
         android:layout_width="wrap_content"
@@ -68,5 +59,24 @@
         android:layout_alignParentLeft="true"
         android:layout_alignParentTop="true"
         android:textAppearance="?android:attr/textAppearanceLarge" />
+
+    <Button
+        android:id="@+id/button1"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentRight="true"
+        android:layout_below="@+id/relativeLayout1"
+        android:onClick="onSubmitCardsClicked"
+        android:text="@string/submitCards" />
+
+    <Button
+        android:id="@+id/sendMove"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentRight="true"
+        android:layout_below="@+id/turnTextView"
+        android:layout_marginTop="23dp"
+        android:onClick="onSendMoveClicked"
+        android:text="@string/sendMove" />
 
 </RelativeLayout>

@@ -62,22 +62,21 @@ public class CardsConstants {
     * 52.diamond
     */
     
+    public static final String SERVER_NAME = "AppWarpS2";
     
     public static final byte MAX_CARD = 52;
     // Message Constants
     
-    public static final byte CARD_DATA= 1;
+    public static final byte PLAYER_HAND = 1;
     
     public static final byte RESULT_GAME_OVER = 3;
     
     public static final byte RESULT_USER_LEFT = 4;
     
-    public static final int REQUEST_NEW_CARD = 111;
+    
     // error code
+    public static final int SUBMIT_CARD = 111;
     public static final int INVALID_MOVE = 121;
-    
-    public static final String SERVER_NAME = "AppWarpS2";
-    
     
     // GAME_STATUS
     

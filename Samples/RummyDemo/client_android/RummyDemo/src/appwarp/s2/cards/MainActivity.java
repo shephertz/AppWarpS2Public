@@ -3,7 +3,9 @@ package appwarp.s2.cards;
 
 import org.json.JSONObject;
 
+import android.app.AlertDialog;
 import android.app.ProgressDialog;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
@@ -81,7 +83,7 @@ public class MainActivity extends FacebookProfileRequesterActivity implements Co
 	
 	public void goToRoomList(){
 		Log.d("goToRoomList", "goToRoomList called");
-		Intent intent = new Intent(getApplicationContext(), RoomListActivity.class);
+		Intent intent = new Intent(getApplicationContext(), RoomSelectionActivity.class);
 		startActivity(intent);
 	}
 	
@@ -137,12 +139,9 @@ public class MainActivity extends FacebookProfileRequesterActivity implements Co
 			// do success logic
 			Log.d("UserContext.AccessToken", UserContext.AccessToken);
 			Log.d("UserContext.MyUserName", UserContext.MyUserName);
-			Log.d("UserContext.MyDisplayName", UserContext.MyDisplayName);
-			Log.d("UserContext.MyPicUrl", UserContext.MyPicUrl);
 			try {
 				JSONObject data = new JSONObject();
 				data.put("token", UserContext.AccessToken);
-				data.put("displayName", UserContext.MyDisplayName);
 				data.put("userName", UserContext.MyUserName);
 				loginToAppWarp(UserContext.MyUserName, data.toString());
 			} catch (Exception e) {

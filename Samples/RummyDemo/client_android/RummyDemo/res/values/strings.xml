@@ -7,11 +7,15 @@
     <string name="enterName">Enter Your Name</string>
     <string name="joinRoom">Join Room</string>
 	<string name="roomSearchResult">Room Not Found</string>
-	<string name="joinNewRoom">Join New Room</string>
+	<string name="join2user">Join 2 User Room</string>
+	<string name="join3user">Join 3 User Room</string>
 	<string name="chooseGameType">Choose Game Type</string>
 	<string name="sendMove">Send Move</string>
+	<string name="poweredBy">Powered by AppWarpS2</string>
+	<string name="submitCards">Submit Cards</string>
 	<string name="newCard">New Card</string>
 	<string name="topCard">Top Card</string>
+	<string name="help">How to Play ?</string>
 	<string-array name="gameType">
 	    <item>2 user</item>
 	    <item>3 user</item>

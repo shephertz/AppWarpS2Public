@@ -3,6 +3,7 @@ package rummydemo;
 import com.shephertz.app42.server.idomain.BaseZoneAdaptor;
 import com.shephertz.app42.server.idomain.HandlingResult;
 import com.shephertz.app42.server.idomain.IRoom;
+import com.shephertz.app42.server.idomain.ITurnBasedRoom;
 import com.shephertz.app42.server.idomain.IUser;
 import com.shephertz.app42.server.idomain.IZone;
 import com.shephertz.app42.server.message.WarpResponseResultCode;
@@ -10,7 +11,6 @@ import java.io.BufferedReader;
 import java.io.InputStreamReader;
 import java.net.URL;
 import java.net.URLConnection;
-import org.json.JSONException;
 import org.json.JSONObject;
 
 /*
@@ -24,19 +24,22 @@ import org.json.JSONObject;
  */
 public class RummyZoneExtension extends BaseZoneAdaptor {
     
-    RummyRoomExtension2User rummyRoomExtension;
-    RummyRoomExtension3User rummyRoomExtension3User;
-    
-    IZone izone;
+    private IZone izone;
     
     RummyZoneExtension(IZone izone){
         this.izone = izone;
     }
     
+    /*
+     *  This function invoked when server receive an authntication request. If user choose login with facebook
+     *  client send auth data (facebook token, id, display name) etc.  otherwise this is a guest user and no auth
+     *  token verification will be done.
+     */
+    
     @Override
     public void handleAddUserRequest(final IUser user, final String authData, final HandlingResult result){
         if(authData!=null && authData.length()>0){
-            result.code = WarpResponseResultCode.AUTH_PENDING;
+            result.code = WarpResponseResultCode.AUTH_PENDING;// indicates that response will be sent asynchronously
             new Thread(new Runnable() {
                 @Override
                 public void run() {
@@ -46,15 +49,15 @@ public class RummyZoneExtension extends BaseZoneAdaptor {
         }
     }
     
+    /*
+     * This function checks using facebook graph api if username(fb_id) is same for the received facebook token.
+     */
+    
     private void checkForAuth(IUser user, String authData, HandlingResult result){
         String token;
-        String userName;
-        String displayName;
         try{
             JSONObject data = new JSONObject(authData);
             token = data.getString("token");
-            userName = data.getString("userName");
-            displayName = data.getString("displayName");
             URL oracle = new URL("https://graph.facebook.com/me?access_token="+token);
             URLConnection yc = oracle.openConnection();
             
@@ -63,7 +66,7 @@ public class RummyZoneExtension extends BaseZoneAdaptor {
             String inputLine;
             while((inputLine=in.readLine())!=null){
                 JSONObject response = new JSONObject(inputLine);
-                if(response.get("id").equals(userName)){
+                if(response.get("id").equals(user.getName())){
                     // "Auth success on server"
                     izone.sendAddUserResponse(user, WarpResponseResultCode.SUCCESS, "Auth success on server");
                 }else{
@@ -74,26 +77,37 @@ public class RummyZoneExtension extends BaseZoneAdaptor {
             in.close();
         }catch(Exception e){
             izone.sendAddUserResponse(user, WarpResponseResultCode.AUTH_ERROR, "");
-            System.out.print("authData"+authData);
-            e.printStackTrace();
         }
     }
+    
+    /*
+     * This function invoked when server receive create room request. 
+     * we set adapter to room by checking maxUsers in room.
+     */
     
     @Override
     public void handleCreateRoomRequest(IUser user, IRoom room, HandlingResult result)
     {
         if(room.isTurnBased() && room.getMaxUsers()==2){
-            rummyRoomExtension = new RummyRoomExtension2User(room);
-            room.setAdaptor(rummyRoomExtension);
+            room.setAdaptor(new RummyRoomExtension2User(izone, (ITurnBasedRoom)room));
         }else if(room.isTurnBased() && room.getMaxUsers()==3){
-            rummyRoomExtension3User = new RummyRoomExtension3User(room);
-            room.setAdaptor(rummyRoomExtension3User);
+            room.setAdaptor(new RummyRoomExtension3User(izone, (ITurnBasedRoom)room));
         }
-        System.out.println("handleCreateRoomRequest: ");
+        else{
+            result.code = WarpResponseResultCode.BAD_REQUEST;
+        }
     } 
+    
+    /*
+     * This function invoked when the given user loses its connection due to an intermittent
+     * connection failure. (Using Connection Resiliency feature)
+     */
     
     @Override
     public void onUserPaused(IUser user){
+        if(user.getLocation() == null){
+            return;
+        }
         if(user.getLocation().getMaxUsers()==2){
             RummyRoomExtension2User extension = (RummyRoomExtension2User)user.getLocation().getAdaptor();
             extension.onUserPaused(user);
@@ -103,9 +117,16 @@ public class RummyZoneExtension extends BaseZoneAdaptor {
         }
     }
     
+    /*
+     * This function invoked when the given user recovers its connection from an intermittent
+     * connection failure. (Using Connection Resiliency feature)
+     */    
     @Override
     public void handleResumeUserRequest(IUser user, String authData, HandlingResult result)
     {
+        if(user.getLocation() == null){
+            return;
+        }
         if(user.getLocation().getMaxUsers()==2){
             RummyRoomExtension2User extension = (RummyRoomExtension2User)user.getLocation().getAdaptor();
             extension.onUserResume(user);
@@ -115,7 +136,4 @@ public class RummyZoneExtension extends BaseZoneAdaptor {
         }
     } 
     
-    public int add1(int a, int b){
-        return (a+b);
-    }
 }

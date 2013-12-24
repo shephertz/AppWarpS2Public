@@ -62,7 +62,7 @@ public class GameActivity extends Activity implements ConnectionRequestListener,
 	private CardView selectedCardView = null;
 	
 	private String roomId = null;
-	private String roomJoinedId = null;
+	
 	private int gameType = -1;
 	private WarpClient theClient;
 	private ProgressDialog progressDialog;
@@ -136,9 +136,9 @@ public class GameActivity extends Activity implements ConnectionRequestListener,
 		theClient.addRoomRequestListener(this);
 		theClient.addTurnBasedRoomListener(this);
 		theClient.addNotificationListener(this);
-		if(roomJoinedId==null){
-			joinRoom(roomId);
-		}
+		progressDialog = ProgressDialog.show(this, "", "Waiting to start game");
+		progressDialog.setCancelable(true);
+		
 	}
 	
 	@Override
@@ -163,14 +163,6 @@ public class GameActivity extends Activity implements ConnectionRequestListener,
         	Utils.showToastAlert(this, Constants.ALERT_INIT_EXEC);
         }
     }
-	
-	public void joinRoom(String roomId){
-		if(roomId!=null && roomId.length()>0){
-			theClient.joinRoom(roomId);
-			progressDialog = ProgressDialog.show(this, "", "joining room...");
-			progressDialog.setCancelable(true);
-		}
-	}	
 	
 	private void initScreen(){
 		int cardBlockWidth = SCREEN_WIDTH/9;
@@ -226,7 +218,7 @@ public class GameActivity extends Activity implements ConnectionRequestListener,
 		}
 		if(index!=-1){
 			Bitmap bitmap = cards[index-1];
-			selectedCardView = new CardView(this, 0, (int)0, (int)view.getY());
+			selectedCardView = new CardView(this, index, (int)0, (int)view.getY());
 			selectedCardView.setImageBitmap(bitmap);
 			mainLayout.addView(selectedCardView);
 		}
@@ -271,6 +263,10 @@ public class GameActivity extends Activity implements ConnectionRequestListener,
 						cardViewArray[releaseCardIndex].setImageBitmap(selectedBitMap);
 						selectedBitMap = null;
 						releasedBitMap = null;
+						int sel = USER_CARD.get(selectedCardIndex);
+						int rel = USER_CARD.get(releaseCardIndex);
+						USER_CARD.set(selectedCardIndex, rel);
+						USER_CARD.set(releaseCardIndex, sel);
 					}else{
 						resetCard(selectedCardIndex);// reset card on its previous position
 					}
@@ -285,6 +281,7 @@ public class GameActivity extends Activity implements ConnectionRequestListener,
 						setBitmapInImageView(topCardView, releasedBitMap);
 						TOP_CARD = cardViewArray[releaseCardIndex].getId();
 						cardViewArray[releaseCardIndex].setImageBitmap(selectedBitMap);
+						USER_CARD.set(releaseCardIndex, selectedCardView.getId());
 						isNewCardSelected = false;
 						selectedBitMap = null;
 						releasedBitMap = null;
@@ -307,6 +304,8 @@ public class GameActivity extends Activity implements ConnectionRequestListener,
 						setBitmapInImageView(topCardView, releasedBitMap);
 						TOP_CARD = cardViewArray[releaseCardIndex].getId();
 						cardViewArray[releaseCardIndex].setImageBitmap(selectedBitMap);
+						USER_CARD.set(releaseCardIndex, selectedCardView.getId());
+//						Log.d("USER_CARD", USER_CARD+"");
 						selectedBitMap = null;
 						releasedBitMap = null;
 					}else{// place new card as top card
@@ -348,7 +347,7 @@ public class GameActivity extends Activity implements ConnectionRequestListener,
 		}
 		if(REQUESTED_CARD==-1){
 			Log.d("getNewCard", "new card requested");
-			theClient.invokeRoomRPC(roomId, "requestNewCard");
+			theClient.invokeRoomRPC(roomId, "requestNewCard", Utils.userName);
 		}else{
 			selectedCardId = REQUESTED_CARD;
 			popUpCard(reqNewCardView, REQUESTED_CARD);
@@ -373,6 +372,20 @@ public class GameActivity extends Activity implements ConnectionRequestListener,
 		popUpCard(topCardView, TOP_CARD);
 	}
 	
+	public void onSubmitCardsClicked(View view){
+		if(!isUserTurn){
+			Utils.showToastAlert(this, Constants.ALERT_INV_MOVE);
+			return;
+		}else{
+			try {
+				JSONArray data = new JSONArray(USER_CARD);
+				theClient.sendChat(data.toString());
+			} catch (Exception e){
+				Log.d("onSubmitCardsClicked", e.toString());
+			}
+		}
+	}
+	
 	public void onSendMoveClicked(View view){
 		if(!isUserTurn){
 			Utils.showToastAlert(this, Constants.ALERT_INV_MOVE);
@@ -382,6 +395,7 @@ public class GameActivity extends Activity implements ConnectionRequestListener,
 				try {
 					JSONObject object = new JSONObject();
 					object.put("top", TOP_CARD);
+					object.put("cards", new JSONArray(USER_CARD));
 					Log.d("onSendMoveClicked", object.toString());
 					theClient.sendMove(object.toString());
 				} catch (JSONException e) {
@@ -390,7 +404,6 @@ public class GameActivity extends Activity implements ConnectionRequestListener,
 			}else{
 				Utils.showToastAlert(this, "Please complete your turn");
 			}
-			
 		}
 	}
 	
@@ -398,6 +411,7 @@ public class GameActivity extends Activity implements ConnectionRequestListener,
 		if(code==Constants.RESULT_USER_LEFT){
 			showNotificationDialog(data);
 		}else if(code==Constants.RESULT_GAME_OVER){
+			roomId = null;
 			try {
 				showResultDialog(data);
 			} catch (JSONException e) {
@@ -476,17 +490,14 @@ public class GameActivity extends Activity implements ConnectionRequestListener,
 	
 	@Override
 	public void onBackPressed() {
-//		if(gameStatusDialog!=null && gameStatusDialog.isShowing()){
-//			gameStatusDialog.dismiss();
-//		}
 		handleLeave();
 		super.onBackPressed();
 	}
 	
 	private void handleLeave(){
 		Log.d("handleLeave", "called");
-		if(roomJoinedId!=null){
-			theClient.leaveRoom(roomJoinedId);
+		if(roomId!=null){
+			theClient.leaveRoom(roomId);
 			roomId = null;
 		}
 		theClient.disconnect();
@@ -504,9 +515,9 @@ public class GameActivity extends Activity implements ConnectionRequestListener,
 				final String message = event.getMessage().substring(hashIndex+1, event.getMessage().length());
 				try {
 					final int CODE = Integer.parseInt(code);
-					if(CODE==Constants.NEW_CARD){
-						
-					}else if(CODE==Constants.CARD_DATA){
+					if(CODE==Constants.SUBMIT_CARD){
+						Utils.showToastAlertOnUIThread(this, message);
+					}else if(CODE==Constants.USER_HAND){
 						JSONObject object = new JSONObject(message);
 						JSONArray cardArray = object.getJSONArray(Utils.userName);
 						for(int i=0;i<cardArray.length();i++){
@@ -625,9 +636,8 @@ public class GameActivity extends Activity implements ConnectionRequestListener,
 	}
 
 	@Override
-	public void onRoomDestroyed(RoomData arg0) {
-		
-		
+	public void onRoomDestroyed(RoomData roomData) {
+		Log.d("onRoomDestroyed", roomData.getId());
 	}
 
 	@Override
@@ -708,20 +718,15 @@ public class GameActivity extends Activity implements ConnectionRequestListener,
 
 	@Override
 	public void onJoinRoomDone(RoomEvent event, String desc) {
-		if(event.getResult()==WarpResponseResultCode.SUCCESS){
-			roomJoinedId = event.getData().getId();
-			theClient.subscribeRoom(roomJoinedId);
-		}else{
-			Utils.showToastAlertOnUIThread(this, "Room Join Failed. ErrorCode: "+event.getResult());
-		}
+		
 	}
 
 	@Override
 	public void onLeaveRoomDone(RoomEvent event) {
-		if(event.getData()!=null && event.getData().getId().equals(roomJoinedId)){
-			roomJoinedId = null;
+		Log.d("onLeaveRoomDone", event.getResult()+"");
+		if(event.getData()!=null && event.getData().getId().equals(roomId)){
+			roomId = null;
 		}
-		
 	}
 
 	@Override
@@ -738,20 +743,7 @@ public class GameActivity extends Activity implements ConnectionRequestListener,
 
 	@Override
 	public void onSubscribeRoomDone(RoomEvent event) {
-		if(event.getResult()==WarpResponseResultCode.SUCCESS){
-			runOnUiThread(new Runnable() {
-				@Override
-				public void run() {
-					if(progressDialog!=null){
-						progressDialog.setMessage("Waiting to start game");
-					}else{
-						
-					}
-				}
-			});
-		}else{
-			Utils.showToastAlertOnUIThread(this, "Room Subscribe Failed. ErrorCode: "+event.getResult());
-		}
+		
 	}
 
 	@Override
@@ -811,7 +803,9 @@ public class GameActivity extends Activity implements ConnectionRequestListener,
                 @Override
                 public void run() {    
                 	recoveryCount++;
-                    progressDialog.setMessage(Constants.RECOVER_TEXT);
+                	if(progressDialog!=null){
+                		progressDialog.setMessage(Constants.RECOVER_TEXT);
+                	}
                     theClient.RecoverConnection();
                 }
             }, 5000);

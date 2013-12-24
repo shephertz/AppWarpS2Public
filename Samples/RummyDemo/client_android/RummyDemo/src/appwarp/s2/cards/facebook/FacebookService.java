@@ -72,14 +72,10 @@ public class FacebookService {
         }   
         if(facebook.isSessionValid()){
         	UserContext.AccessToken = mPrefs.getString("access_token", "");
-        	UserContext.MyDisplayName = mPrefs.getString("display_name", "");
         	UserContext.MyUserName = mPrefs.getString("warp_join_id", "");
-        	UserContext.MyPicUrl = mPrefs.getString("profile_url", "");
         }else{
         	UserContext.AccessToken = "";
-        	UserContext.MyDisplayName = "";
         	UserContext.MyUserName = "";
-        	UserContext.MyPicUrl = "";
         }
     }
     
@@ -186,34 +182,33 @@ public class FacebookService {
 	            });
 				
 			} catch (JSONException e) {
-				// TODO Auto-generated catch block
 				e.printStackTrace();
-			};
+			}
 		}
 
 		@Override
 		public void onIOException(IOException e, Object state) {
-			// TODO Auto-generated method stub
+			
 			
 		}
 
 		@Override
 		public void onFileNotFoundException(FileNotFoundException e,
 				Object state) {
-			// TODO Auto-generated method stub
+			
 			
 		}
 
 		@Override
 		public void onMalformedURLException(MalformedURLException e,
 				Object state) {
-			// TODO Auto-generated method stub
+			
 			
 		}
 
 		@Override
 		public void onFacebookError(FacebookError e, Object state) {
-			// TODO Auto-generated method stub
+			
 			
 		}
     	
@@ -234,14 +229,10 @@ public class FacebookService {
 	            JSONObject picObj = jsonObject.getJSONObject("picture");
 	            JSONObject dataObj = picObj.getJSONObject("data");
 	            
-	            UserContext.MyDisplayName = jsonObject.getString("name");
 	            UserContext.MyUserName = jsonObject.getString("id");
-	            UserContext.MyPicUrl = dataObj.getString("url");
 	            
                 SharedPreferences.Editor editor = mPrefs.edit();
-                editor.putString("display_name", UserContext.MyDisplayName);
                 editor.putString("warp_join_id", UserContext.MyUserName);
-                editor.putString("profile_url", UserContext.MyPicUrl);
                 editor.commit();
                 
 	            mUIThreadHandler.post(new Runnable() {
@@ -264,27 +255,27 @@ public class FacebookService {
 
 		@Override
 		public void onIOException(IOException e, Object state) {
-			// TODO Auto-generated method stub
+			
 			
 		}
 
 		@Override
 		public void onFileNotFoundException(FileNotFoundException e,
 				Object state) {
-			// TODO Auto-generated method stub
+			
 			
 		}
 
 		@Override
 		public void onMalformedURLException(MalformedURLException e,
 				Object state) {
-			// TODO Auto-generated method stub
+			
 			
 		}
 
 		@Override
 		public void onFacebookError(FacebookError e, Object state) {
-			// TODO Auto-generated method stub
+			
 			
 		}
 	}
