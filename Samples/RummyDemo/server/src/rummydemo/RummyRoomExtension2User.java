@@ -187,16 +187,16 @@ public class RummyRoomExtension2User extends BaseTurnRoomAdaptor {
          * A game when room full
          * or we can say max users are equals to joined users
          */
-        if(gameRoom.getMaxUsers()==2){
-            if(GAME_STATUS==CardsConstants.STOPPED && gameRoom.getJoinedUsers().size()==gameRoom.getMaxUsers()){
-                GAME_STATUS=CardsConstants.RUNNING;
-                dealNewCards();
-                gameRoom.startGame(CardsConstants.SERVER_NAME);
-            }else if(GAME_STATUS==CardsConstants.RESUMED){
-                GAME_STATUS=CardsConstants.RUNNING;
-                gameRoom.startGame(CardsConstants.SERVER_NAME);
-            }
+        
+        if(GAME_STATUS==CardsConstants.STOPPED && gameRoom.getJoinedUsers().size()==gameRoom.getMaxUsers()){
+            GAME_STATUS=CardsConstants.RUNNING;
+            dealNewCards();
+            gameRoom.startGame(CardsConstants.SERVER_NAME);
+        }else if(GAME_STATUS==CardsConstants.RESUMED){
+            GAME_STATUS=CardsConstants.RUNNING;
+            gameRoom.startGame(CardsConstants.SERVER_NAME);
         }
+        
     }
     
     /*

@@ -142,7 +142,6 @@ public class MainActivity extends FacebookProfileRequesterActivity implements Co
 			try {
 				JSONObject data = new JSONObject();
 				data.put("token", UserContext.AccessToken);
-				data.put("userName", UserContext.MyUserName);
 				loginToAppWarp(UserContext.MyUserName, data.toString());
 			} catch (Exception e) {
 				Utils.showToastAlert(this, "onFacebookProfileRetreived"+e.toString());

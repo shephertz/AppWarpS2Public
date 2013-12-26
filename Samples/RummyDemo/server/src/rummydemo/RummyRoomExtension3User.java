@@ -84,7 +84,7 @@ public class RummyRoomExtension3User extends BaseTurnRoomAdaptor {
         }catch(Exception e){
             e.printStackTrace();
         }
-        //printAll("handleMoveRequest", true);
+        printAll("handleMoveRequest", true);
     }
     
     
@@ -100,15 +100,7 @@ public class RummyRoomExtension3User extends BaseTurnRoomAdaptor {
             for(int i=0;i<cards.length();i++){
                 cardList.add(cards.get(i));
             }
-//            System.out.println("Received: "+cardList);
-//            if(sender.getName().equals(user1_name)){
-//                System.out.println("on server: "+USER_1_HAND);
-//            }else if(sender.getName().equals(user2_name)){
-//                System.out.println("on server: "+USER_2_HAND);
-//            }else if(sender.getName().equals(user3_name)){
-//                System.out.println("on server: "+USER_3_HAND);
-//            }
-            boolean status = Utils.checkForWin(cardList);
+           boolean status = Utils.checkForWin(cardList);
             if(status){// for winning condition
                 if(sender.getName().equals(user1_name)){
                     handleFinishGame(user1_name, cardList);
@@ -223,16 +215,16 @@ public class RummyRoomExtension3User extends BaseTurnRoomAdaptor {
          * A game when room full
          * or we can say max users are equals to joined users
          */
-        if(gameRoom.getMaxUsers()==3){
-            if(GAME_STATUS==CardsConstants.STOPPED && gameRoom.getJoinedUsers().size()==gameRoom.getMaxUsers()){
-                GAME_STATUS=CardsConstants.RUNNING;
-                dealNewCards();
-                gameRoom.startGame(CardsConstants.SERVER_NAME);
-            }else if(GAME_STATUS==CardsConstants.RESUMED){
-                GAME_STATUS=CardsConstants.RUNNING;
-                gameRoom.startGame(CardsConstants.SERVER_NAME);
-            }
+        
+        if(GAME_STATUS==CardsConstants.STOPPED && gameRoom.getJoinedUsers().size()==gameRoom.getMaxUsers()){
+            GAME_STATUS=CardsConstants.RUNNING;
+            dealNewCards();
+            gameRoom.startGame(CardsConstants.SERVER_NAME);
+        }else if(GAME_STATUS==CardsConstants.RESUMED){
+            GAME_STATUS=CardsConstants.RUNNING;
+            gameRoom.startGame(CardsConstants.SERVER_NAME);
         }
+       
         
     }
     /*
