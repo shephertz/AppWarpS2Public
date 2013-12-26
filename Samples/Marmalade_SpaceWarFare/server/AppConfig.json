@@ -1,0 +1,7 @@
+{
+	"TickTime" : 500,
+	"LogLevel" : "INFO",
+	"AdminUsername" : "admin",
+	"AdminPassword" : "password",
+	"HSQLDBFile" : "D:\\TestAdmin"
+}

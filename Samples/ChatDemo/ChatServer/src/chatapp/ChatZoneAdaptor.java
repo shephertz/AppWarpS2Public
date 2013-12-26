@@ -15,7 +15,7 @@ import com.shephertz.app42.server.idomain.IUser;
  */
 public class ChatZoneAdaptor extends BaseZoneAdaptor {
     @Override
-    public void handleCreateRoomRequest(IUser user, IRoom room, HandlingResult result)
+    public void onAdminRoomAdded(IRoom room)
     {
         System.out.println("Room Created " + room.getName() + " with ID " + room.getId() );
         room.setAdaptor(new ChatRoomAdaptor());
