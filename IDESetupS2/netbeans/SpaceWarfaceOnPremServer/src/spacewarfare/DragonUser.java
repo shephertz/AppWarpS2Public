@@ -19,12 +19,14 @@ public class DragonUser{
     private int x,y;
     private int health;
     private Random rnd;
+    private int step;
     
     public DragonUser(IRoom room) {
         m_room = room;
         custom = "";
         x = y = 0;
         health = 20;
+        step = 100;
         rnd = new Random();
     }
     
@@ -51,19 +53,24 @@ public class DragonUser{
         return health;
     }
     
+    /*
+     * perform a random move
+     * minx, miny, maxx and maxy defines the bounding box, 
+     * within which move is generated
+     */
     public void MoveRandomStep(int minx,int miny, int maxx, int maxy){
         switch(rnd.nextInt(4)){
                 case 0:
-                    x += 25;
+                    x += step;
                     break;
                 case 1: 
-                    x -= 25;
+                    x -= step;
                     break;
                 case 2: 
-                    y += 25;
+                    y += step;
                     break;
                 case 3: 
-                    y -= 25;
+                    y -= step;
                     break;    
             }
             
