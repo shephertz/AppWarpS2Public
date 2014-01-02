@@ -36,6 +36,8 @@
                 <path refid="classpath"/>
                 <path location="${jar.dir}/${ant.project.name}.jar"/>
             </classpath>
+			<jvmarg value="-Xmx512m"/>
+			<jvmarg value="-Xmx512m"/>
         </java>
     </target>
 
