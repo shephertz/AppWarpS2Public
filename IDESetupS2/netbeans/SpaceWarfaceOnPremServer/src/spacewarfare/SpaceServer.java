@@ -15,6 +15,7 @@ import com.shephertz.app42.server.idomain.IZone;
  */
 public class SpaceServer extends BaseServerAdaptor{
     
+    //Assign the zone adaptor to our newly created to zone
     @Override
     public void onZoneCreated(IZone zone)
     {             
