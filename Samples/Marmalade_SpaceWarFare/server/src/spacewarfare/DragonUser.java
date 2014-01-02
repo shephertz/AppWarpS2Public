@@ -53,6 +53,11 @@ public class DragonUser{
         return health;
     }
     
+    /*
+     * perform a random move
+     * minx, miny, maxx and maxy defines the bounding box, 
+     * within which move is generated
+     */
     public void MoveRandomStep(int minx,int miny, int maxx, int maxy){
         switch(rnd.nextInt(4)){
                 case 0:

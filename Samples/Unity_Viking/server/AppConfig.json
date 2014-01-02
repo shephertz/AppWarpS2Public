@@ -1,0 +1,8 @@
+{
+	"TickTime" : 500,
+	"LogLevel" : "WARN",
+	"AdminUsername" : "admin",
+	"AdminPassword" : "password",
+	"HSQLDBFile" : "HSQLDBFile",
+	"LICENSE_KEY" : ""
+}
