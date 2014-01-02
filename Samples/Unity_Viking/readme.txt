@@ -1,0 +1,4 @@
+This demo is the modified version of Unity Viking Demo (3rd person MMO controller) created for AppWarp Cloud engine which is discussed here (http://blogs.shephertz.com/2013/09/27/multiplayer-unity-viking-demo-with-appwarp-2/). This version of demo uses AppWarpS2 SDK.
+
+
+There is a small world covered in snow, here players play as viking and can move around in the world. But this version of demo has one more extra character, a simple cylindrical structure. The cylinder moves on a linear path repeatedly. The path is defined by the server. The cylinder is created and moved on server. The clients gets the real time updates about the position of cylinder and then updates the cylinder on their front-ends.
