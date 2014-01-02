@@ -11,14 +11,14 @@
 
 bool Enemy::init()
 {
-	if ( !CCNode::init() )
+	/*if ( !CCNode::init() )
     {
         return false;
-    }
+    }*/
 
 	sprites = CCSpriteFrameCache::sharedSpriteFrameCache();
 	enemySprite = CCSprite::createWithSpriteFrameName("slice01_01.png");
-	enemySprite->getTexture()->setAliasTexParameters();
+	//enemySprite->getTexture()->setAliasTexParameters();
 	this->addChild(enemySprite);
 
 	state = 0;

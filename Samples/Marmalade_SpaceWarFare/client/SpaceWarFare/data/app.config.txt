@@ -6,5 +6,6 @@
 # Setting     Documentation for setting
 #
 # e.g.
-# [MyApplicationGroup]
-# MySetting   Description of what MySetting is for, its default values, etc
+[QUICK]
+ReduceTextureThreshold <integer> 1
+ReduceTextureTwoThirds <integer> 1

@@ -1,0 +1,44 @@
+#!/usr/bin/env mkb
+
+options
+{
+	module_path="appwarp"
+}
+
+files
+{
+    (source)
+    SpaceWarFare.cpp
+    AppDelegate.cpp
+	AppDelegate.h
+	HelloWorldScene.cpp
+	HelloWorldScene.h
+	GameScene.cpp
+	GameScene.h
+	GameLayer.cpp
+	GameLayer.h
+	GameController.cpp
+	GameController.h
+	Button.h
+	Button.cpp
+	GameListener.h
+	GameListener.cpp
+	Enemy.h
+	Enemy.cpp
+	Player.h
+	Player.cpp
+}
+
+subprojects
+{
+    iwutil
+    iwgl
+    third_party\cocos2dx\cocos2dx\proj.marmalade\cocos2dx
+    third_party\cocos2dx\external\Box2D\proj.marmalade\Box2D
+	appwarp
+}
+
+deployment
+{
+}
+

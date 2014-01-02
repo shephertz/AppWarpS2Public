@@ -3,14 +3,14 @@
 
 bool Player::init()
 {
-	if ( !CCNode::init() )
+	/*if ( !CCNode::init() )
     {
         return false;
-    }
+    }*/
 
 	sprites = CCSpriteFrameCache::sharedSpriteFrameCache();
 	player = CCSprite::createWithSpriteFrameName("slice28_28.png");
-	player->getTexture()->setAliasTexParameters();
+	//player->getTexture()->setAliasTexParameters();
 	addChild(player);
 
 	direction = 0;

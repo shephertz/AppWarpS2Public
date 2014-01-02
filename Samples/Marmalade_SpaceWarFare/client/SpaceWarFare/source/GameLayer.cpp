@@ -19,6 +19,7 @@ bool GameLayer::init()
 	addChild(map, 0);
 
 	player = Player::create();
+	player->init();
 	player->setPosition(CCPoint(CCDirector::sharedDirector()->getWinSize().width /2,100));
 	player->setScale(ZOOM);
 	player->setLabel("You");
@@ -62,7 +63,7 @@ void GameLayer::update(float dt)
 {
 	warpClient->update();
 	//s3eDebugTracePrintf("Updating %f",dt);
-	player->update(dt, ccpMult(ccp(map->getContentSize().width,map->getContentSize().height), ZOOM));
+	player->update(dt, CCSize(map->getContentSize().width*ZOOM,map->getContentSize().height*ZOOM));
 
 	float distance = sqrtf(pow(prevPos.x - player->getPositionX(), 2) + pow(prevPos.y - player->getPositionY(),2));
 	if(distance >= 100)
@@ -193,6 +194,7 @@ void GameLayer::onChatReceived(AppWarp::chat chatevent)
 			if(enemy == NULL)
 			{
 				enemy = Enemy::create();
+				enemy->init();
 				enemy->setScale(ZOOM);
 				enemy->setPosition((float)x, (float)y);
 				enemy->setTarget((float)x, (float)y);

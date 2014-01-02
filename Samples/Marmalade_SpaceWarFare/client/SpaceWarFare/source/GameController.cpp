@@ -46,7 +46,7 @@ bool GameController::init()
 	ccColor3B color;
 	color.r = color.g = color.b = 0;
 	label->setColor(color);
-	label->getTexture()->setAliasTexParameters();
+	//label->getTexture()->setAliasTexParameters();
 	label->setPosition(CCPoint(192,CCDirector::sharedDirector()->getWinSize().height - 32));
 	this->addChild(label);
     
