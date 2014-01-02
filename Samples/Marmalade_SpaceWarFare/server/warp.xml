@@ -1,4 +1,4 @@
-<project name="AppWarp" basedir="." default="main">
+<project name="SpaceWarFareDemo" basedir="." default="main">
 
     <property name="src.dir"     value="src"/>
     <property name="build.dir"   value="build"/>
@@ -18,7 +18,7 @@
 
     <target name="compile">
         <mkdir dir="${classes.dir}"/>
-        <javac srcdir="${src.dir}" destdir="${classes.dir}" classpathref="classpath" compiler="classic" source = "1.6" target = "1.6" />
+        <javac srcdir="${src.dir}" includeantruntime = "false" source = "1.7" target = "1.7" fork="true" destdir="${classes.dir}" classpathref="classpath" compiler="classic" />
     </target>
 
     <target name="jar" depends="compile">
