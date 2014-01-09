@@ -1,5 +1,5 @@
 <div class="row-fluid">
-	<div class="span6 offset3 well"><h1>AppWarp S2</h1></div>
+	<div class="span6 offset3 well"><h1>AppWarp S2 (alpha)</h1></div>
 </div>
 <div class="row-fluid">
 	<div class="span6 offset3 well">

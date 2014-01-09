@@ -2,7 +2,7 @@
   <div class="row-fluid">
     <div class="span2 well">
       <!--Sidebar content-->
-      <h3>AppWarp S2</h3>
+      <h3>AppWarp S2 (alpha)</h3>
       <ul class="nav nav-list">
       	<li><a href="#/dashboard">Home</a></li>
       	<li><a href="#/zones">Zones</a></li>

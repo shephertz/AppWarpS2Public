@@ -407,6 +407,28 @@ AppWarp.WarpClient.Admin = (function(){
 		return JSON.stringify(json);
 	}
 
+	var buildGetRoomsRequest = function(apiKey, username, password){
+
+		var timeStamp = AppWarp.Utility.getODataUTCDateFilter();
+		var params = "";
+		params += "apiKey" + apiKey;
+		params += "timeStamp" + timeStamp;
+		params += "user" + username;
+		params += "version" + "Admin_1.0";
+
+		var hmac = AppWarp.CryptoJS.HmacSHA1(params, password).toString();
+		var signature = encodeURIComponent(AppWarp.Utility.base64_encode(AppWarp.Utility.hex2bin(hmac)));
+
+		var json = {};
+		json.apiKey = apiKey;
+		json.version = "Admin_1.0";
+		json.timeStamp = timeStamp;
+		json.user = username;
+		json.signature = signature;
+
+		return JSON.stringify(json);
+	}
+
 	return {
 		CreateRoom : function(apiKey, name, maxUsers, properties, username, password, host, port, callback){
 			var socket = new WebSocket("ws://"+host+":"+port);
@@ -483,18 +505,31 @@ AppWarp.WarpClient.Admin = (function(){
 		GetLiveStats : function(username, password, host, port, callback){
 			var socket = new WebSocket("ws://"+host+":"+port);
 			socket.binaryType = "arraybuffer";
+			var connected = false;
+			var timer;
 			socket.onopen = function(){
-				var payload = buildAdminRequest(username, password);
-				var bytes = buildWarpRequest(0,AppWarp.RequestType.GetLiveStats, AppWarp.Utility.aesEncrypt(payload, password), true);
-				socket.send(bytes.buffer);
+				connected = true;
+				timer = setInterval(function(){
+					if(connected == true)
+					{
+						var payload = buildAdminRequest(username, password);
+						var bytes = buildWarpRequest(0,AppWarp.RequestType.GetLiveStats, AppWarp.Utility.aesEncrypt(payload, password), true);
+						socket.send(bytes.buffer);
+					}
+					else
+					{
+						clearInterval(timer);
+					}
+				}, 2000);
 			};
 			socket.onclose = function(){
+				connected = false;
 			};
 			socket.onmessage = function(msg){
 				var bytearray = new Uint8Array(msg.data);
 				var res = new AppWarp.Response(bytearray, 0);
 				callback(res);
-				socket.close();
+				//socket.close();
 			}
 		},
 
@@ -530,6 +565,24 @@ AppWarp.WarpClient.Admin = (function(){
 				var bytearray = new Uint8Array(msg.data);
 				var res = new AppWarp.Response(bytearray, 0);
 				callback(res.getResultCode());
+				socket.close();
+			}
+		},
+
+		GetRooms : function(apiKey,username, password, host, port, callback){
+			var socket = new WebSocket("ws://"+host+":"+port);
+			socket.binaryType = "arraybuffer";
+			socket.onopen = function(){
+				var payload = buildGetRoomsRequest(apiKey, username, password);
+				var bytes = buildWarpRequest(0,AppWarp.RequestType.GetRooms, AppWarp.Utility.aesEncrypt(payload, password), true);
+				socket.send(bytes.buffer);
+			};
+			socket.onclose = function(){
+			};
+			socket.onmessage = function(msg){
+				var bytearray = new Uint8Array(msg.data);
+				var res = new AppWarp.Response(bytearray, 0);
+				callback(res);
 				socket.close();
 			}
 		}

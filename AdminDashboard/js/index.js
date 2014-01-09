@@ -47,7 +47,7 @@
 					memory.push(0);
 					x.push(0);
 
-					setInterval(function() {
+					//setInterval(function() {
 						//memory.append(new Date().getTime(), Math.random() * 100);
 						//ccu.append(new Date().getTime(), Math.random() * 100);
 						//rooms.append(new Date().getTime(), Math.random() * 100);
@@ -58,7 +58,7 @@
 								var dt = new Date()
 								x.push('');
 
-								memory.push(Math.floor(data.used_memory/1024));
+								memory.push((Math.round((data.used_memory / (1024*1024)*100)))/100);
 								ccu.push(data.ccu);
 								rooms.push( data.rooms);
 
@@ -69,14 +69,14 @@
 									peakRooms = data.rooms;
 									peakTime = dt.toLocaleTimeString();
 
-									$("#memoryPeak").text(Math.floor(peakMemory/1024));
+									$("#memoryPeak").text((Math.round((peakMemory / (1024*1024)*100)))/100);
 									$("#ccuPeak").text(peakCCU);
 									$("#roomsPeak").text(peakRooms);
 									$("#updatePeak").text(peakTime);
 
 								}
 
-								$("#memoryInfo").text(Math.floor(data.used_memory/1024));
+								$("#memoryInfo").text((Math.round((data.used_memory / (1024*1024)*100)))/100);
 								$("#ccuInfo").text(data.ccu);
 								$("#roomsInfo").text(data.rooms);
 								$("#updateInfo").text(dt.toLocaleTimeString());
@@ -135,7 +135,7 @@
 							count +=1;
 						});
 
-					}, 2000);
+					//}, 2000);
 				});
 			else
 				this.$element().html('You are not logged in!!! <a href="#/">Click here to login</a>');
@@ -144,6 +144,50 @@
 		this.get('#/rooms', function(){
 			if(params != null)
 				this.partial('templates/rooms.hb', function(){
+					var AppKeys = [];
+					AppWarp.WarpClient.Admin.GetZones(params.username, params.password, params.host, params.port, function(res){
+						if(res.getResultCode() == AppWarp.ResultCode.Success){
+							var zones = JSON.parse(res.getPayloadStringDec("password"));
+							var html = "";
+							for(var i=0; i<zones.length; ++i)
+							{
+								AppKeys.push(zones[i]);
+								html = html + '<option value="' + zones[i].AppKey+ '">'+ zones[i].AppName + " (" + zones[i].AppKey + ")" + "</option>";
+							}
+							$("#appkey").html(html);
+							$("#appkey2").html(html);
+							$("#appkey3").html(html);
+						}
+					});
+
+					$("#appkey2").change(function(){
+						AppWarp.WarpClient.Admin.GetRooms($("#appkey2").val(), params.username, params.password, params.host, params.port, function(res){
+							if(res.getResultCode() == AppWarp.ResultCode.Success){
+								var rooms = JSON.parse(res.getPayloadStringDec("password"));
+								var html = "";
+								for(var i=0; i<rooms.length; ++i)
+								{
+									html = html + '<option value="' + rooms[i].id+ '">'+ rooms[i].name + " (" + rooms[i].id + ")" + "</option>";
+								}
+								$("#roomname2").html(html);
+							}
+						});
+					});
+
+					$("#refresh").click(function(){
+						AppWarp.WarpClient.Admin.GetRooms($("#appkey2").val(), params.username, params.password, params.host, params.port, function(res){
+							if(res.getResultCode() == AppWarp.ResultCode.Success){
+								var rooms = JSON.parse(res.getPayloadStringDec("password"));
+								var html = "";
+								for(var i=0; i<rooms.length; ++i)
+								{
+									html = html + '<option value="' + rooms[i].id+ '">'+ rooms[i].name + " (" + rooms[i].id + ")" + "</option>";
+								}
+								$("#roomname2").html(html);
+							}
+						});
+					});
+
 					$("#createRoom").click(function(){
 						if($("#appkey").val() == "" || $("#roomname").val() == "" || $("#maxusers").val() == ""){
 							$("#log").html("Error: Not all details were specified<br/>");
@@ -177,6 +221,27 @@
 							});
 						}
 					});
+
+					$("#getRooms").click(function(){
+						if($("#appkey3").val() == ""){
+							$("#rooms").html("Error: Not all details were specified<br/>");
+						}
+						else{
+							AppWarp.WarpClient.Admin.GetRooms($("#appkey3").val(), params.username, params.password, params.host, params.port, function(res){
+								if(res.getResultCode() == AppWarp.ResultCode.Success){
+									var rooms = JSON.parse(res.getPayloadStringDec("password"));
+									$("#rooms").html("");
+									for(var i=0; i<rooms.length; ++i)
+									{
+										$("#rooms").html($("#rooms").html() + "<br/><strong>" + rooms[i].name + "</strong> : "+rooms[i].id  );								
+									}
+								}
+								else{
+									$("#rooms").html("Error: Getting All Room<br/>");
+								}
+							});
+						}
+					});
 				});
 			else
 				this.$element().html('You are not logged in!!! <a href="#/">Click here to login</a>');
@@ -193,7 +258,7 @@
 							AppWarp.WarpClient.Admin.CreateZone($("#appname").val(), params.username, params.password, params.host, params.port, function(res){
 								if(res.getResultCode() == AppWarp.ResultCode.Success){
 									var zone = JSON.parse(res.getPayloadStringDec("password"));
-									$("#log").html("Success: App Created<br/>"+"App : " + zone.AppName + "<br/>AppKey : "+zone.AppKey + "<br/>Secret Key : "+zone.Secret);
+									$("#log").html("Success: App Created<br/>"+"App Name : " + zone.AppName + "<br/>AppKey : "+zone.AppKey + "<br/>Secret Key : "+zone.Secret);
 									AppWarp.WarpClient.Admin.GetZones(params.username, params.password, params.host, params.port, function(res){
 										if(res.getResultCode() == AppWarp.ResultCode.Success){
 											var zones = JSON.parse(res.getPayloadStringDec("password"));
@@ -201,7 +266,7 @@
 											$("#zones").html("");
 											for(var i=0; i<zones.length; ++i)
 											{
-												$("#zones").html($("#zones").html() + "<br/><br/>"  +"App : " + zones[i].AppName + "<br/>AppKey : "+zones[i].AppKey + "<br/>Secret Key : "+zones[i].Secret );
+												$("#zones").html($("#zones").html() + "<br/><br/>"  +"App Name : " + zones[i].AppName + "<br/>AppKey : "+zones[i].AppKey/* + "<br/>Secret Key : "+zones[i].Secret*/ );
 											}
 										}
 									});
@@ -229,7 +294,7 @@
 											$("#zones").html("");
 											for(var i=0; i<zones.length; ++i)
 											{
-												$("#zones").html($("#zones").html() + "<br/><br/>"  +"App : " + zones[i].AppName + "<br/>AppKey : "+zones[i].AppKey + "<br/>Secret Key : "+zones[i].Secret );
+												$("#zones").html($("#zones").html() + "<br/><br/>"  +"App Name : " + zones[i].AppName + "<br/>AppKey : "+zones[i].AppKey /*+ "<br/>Secret Key : "+zones[i].Secret*/ );
 											}
 										}
 									});
@@ -249,7 +314,7 @@
 								$("#zones").html("");
 								for(var i=0; i<zones.length; ++i)
 								{
-									$("#zones").html($("#zones").html() + "<br/><br/>"  +"App : " + zones[i].AppName + "<br/>AppKey : "+zones[i].AppKey + "<br/>Secret Key : "+zones[i].Secret );
+									$("#zones").html($("#zones").html() + "<br/><br/>"  +"App Name : " + zones[i].AppName + "<br/>AppKey : "+zones[i].AppKey /*+ "<br/>Secret Key : "+zones[i].Secret*/ );
 								}
 							}
 						});
