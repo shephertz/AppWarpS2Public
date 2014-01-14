@@ -18,6 +18,10 @@ bool GameScene::init()
         return false;
     }
 
+	/*
+	Create GameLayer and GameController and add them to Game
+	*/
+
 	gameLayer = GameLayer::create();
 	controllerLayer = GameController::create();
 

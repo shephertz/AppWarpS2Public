@@ -18,7 +18,7 @@ bool Enemy::init()
 
 	sprites = CCSpriteFrameCache::sharedSpriteFrameCache();
 	enemySprite = CCSprite::createWithSpriteFrameName("slice01_01.png");
-	//enemySprite->getTexture()->setAliasTexParameters();
+	enemySprite->getTexture()->setAliasTexParameters();
 	this->addChild(enemySprite);
 
 	state = 0;
@@ -55,7 +55,7 @@ void Enemy::setTarget(float x, float y)
 	this->runAction(CCMoveTo::create(1.0,target));
 }
 
-void Enemy::setLabel(std::string text)
+void Enemy::setLabel(std::string text, float zoom)
 {
 	name = text;
 	std::stringstream ss;
@@ -63,6 +63,7 @@ void Enemy::setLabel(std::string text)
 	label = CCLabelTTF::create(ss.str().c_str(), "CosmicSansNeueMono", 12, CCSizeMake(72, 24), kCCTextAlignmentCenter);
 	ccColor3B color;
 	color.r = color.g = color.b = 0;
+	label->setScale(zoom);
 	label->setColor(color);
 	label->getTexture()->setAliasTexParameters();
 	label->setPosition(ccpAdd(enemySprite->getPosition(),CCPoint(0,24)));

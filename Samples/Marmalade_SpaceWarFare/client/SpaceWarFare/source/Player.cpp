@@ -9,9 +9,10 @@ bool Player::init()
     }*/
 
 	sprites = CCSpriteFrameCache::sharedSpriteFrameCache();
-	player = CCSprite::createWithSpriteFrameName("slice28_28.png");
+	//player = CCSprite::createWithSpriteFrameName("slice28_28.png");
 	//player->getTexture()->setAliasTexParameters();
-	addChild(player);
+	player = CCSprite::create();
+	this->addChild(player);
 
 	direction = 0;
 	speed = 100;
@@ -31,11 +32,12 @@ void Player::update(float dt, CCSize bounds)
 		this->setPosition(CCPoint(this->getPositionX() - speed*dt, this->getPositionY()));
 }
 
-void Player::setLabel(std::string text)
+void Player::setLabel(std::string text, float zoom)
 {
-	label = CCLabelTTF::create(text.c_str(), "CosmicSansNeueMono", 12, CCSizeMake(28, 18), kCCTextAlignmentCenter);
+	label = CCLabelTTF::create(text.c_str(), "CosmicSansNeueMono", 16, CCSizeMake(28, 18), kCCTextAlignmentCenter);
 	ccColor3B color;
 	color.r = color.g = color.b = 0;
+	label->setScale(zoom);
 	label->setColor(color);
 	label->getTexture()->setAliasTexParameters();
 	label->setPosition(ccpAdd(player->getPosition(),CCPoint(0,18)));
@@ -45,6 +47,7 @@ void Player::setLabel(std::string text)
 void Player::run(int i)
 {
 	direction = i;
+	
 	if(direction == 1)
 	{
 		CCAnimation *animation = CCAnimation::create();

@@ -18,7 +18,7 @@ public:
 	//static Enemy* create();
 	virtual bool init();
 	void setHealth(int i);
-	void setLabel(std::string text);
+	void setLabel(std::string text, float zoom);
 	void run();
 	void stop();
 	void setTarget(float x, float y);

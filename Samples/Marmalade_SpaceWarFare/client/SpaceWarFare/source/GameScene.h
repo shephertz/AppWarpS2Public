@@ -12,7 +12,9 @@ class GameScene;
 
 class GameScene : public cocos2d::CCLayer
 {
+	//GameLayer contains players, enemies and our map
 	GameLayer *gameLayer;
+	//GameController shows onscreen buttons and connection status
 	GameController *controllerLayer;
 public:
     virtual bool init();  

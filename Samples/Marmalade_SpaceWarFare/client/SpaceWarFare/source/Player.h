@@ -15,7 +15,7 @@ class Player : public CCNode
 public:
 	virtual bool init();
 	void update(float dt, CCSize bounds);
-	void setLabel(std::string text);
+	void setLabel(std::string text, float zoom);
 	void run(int i);
 	void stop();
 	CCSprite *getSprite();

@@ -8,11 +8,14 @@ using namespace cocos2d;
 
 class GameController : public cocos2d::CCLayer
 {
+	//On-Screen buttons
 	CCSprite *btnUp;
 	CCSprite *btnDown;
 	CCSprite *btnRight;
 	CCSprite *btnLeft;
+	//Label for Connection Status
 	CCLabelTTF *label;
+	//GameLayer
 	GameLayer *game;
 public:
 	void SetGameLayer(GameLayer *layer);

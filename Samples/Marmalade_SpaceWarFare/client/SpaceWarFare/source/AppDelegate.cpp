@@ -12,13 +12,15 @@ AppDelegate::~AppDelegate()
 }
 
 bool AppDelegate::applicationDidFinishLaunching() {
+	//Initialize
     CCDirector* pDirector = CCDirector::sharedDirector();
     CCEGLView* pEGLView = CCEGLView::sharedOpenGLView();
 
     pDirector->setOpenGLView(pEGLView);
-    pDirector->setDisplayStats(true);
+    //pDirector->setDisplayStats(true);
     pDirector->setAnimationInterval(1.0 / 60);
 
+	//Run our Main Game Scene
     CCScene *pScene = GameScene::scene();
     pDirector->runWithScene(pScene);
 

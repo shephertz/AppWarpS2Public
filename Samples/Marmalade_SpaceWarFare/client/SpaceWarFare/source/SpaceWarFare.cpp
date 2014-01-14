@@ -9,7 +9,9 @@
 int main()
 {
 
+	//Creating our App
     AppDelegate* app = new AppDelegate;
+	//Let's run our app
     cocos2d::CCApplication::sharedApplication()->Run();
 
 	return 0;
