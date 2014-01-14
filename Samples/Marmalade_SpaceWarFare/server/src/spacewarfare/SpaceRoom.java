@@ -27,7 +27,7 @@ public class SpaceRoom extends BaseRoomAdaptor{
     public SpaceRoom(IRoom room) {
         m_room = room;
         dragon = new DragonUser(m_room);
-        dragon.SetPosition(1200,800);
+        dragon.SetPosition(300,200);
         ticks = 0L;
     }
     
@@ -89,7 +89,7 @@ public class SpaceRoom extends BaseRoomAdaptor{
             if(dragon.GetHealth() > 0)
             {
                 //move our dragon randomly 
-                dragon.MoveRandomStep(100,100,2560-100, 1536-100);
+                dragon.MoveRandomStep(200,100,800, 400);
 
                 //and send information to all players
                 JSONObject tobeSent = new JSONObject();
@@ -112,7 +112,7 @@ public class SpaceRoom extends BaseRoomAdaptor{
             //if dragon has been dead for more than 10 seconds, re-spawn him
             else if(time-ticks > 10000){
                 dragon.Spawn(20);
-                dragon.SetPosition(1200, 800);
+                dragon.SetPosition(300, 200);
                 ticks = time;
             }
         }

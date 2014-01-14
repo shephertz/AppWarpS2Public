@@ -126,13 +126,15 @@ void GameLayer::touch(CCPoint loc)
 	if(enemy != NULL)
 	{
 		//Check if bullet will collide with enemy
-		CCRect *box = new CCRect(enemy->getPositionX(), enemy->getPositionY(), enemy->getSprite()->getContentSize().width*ZOOM, enemy->getSprite()->getContentSize().height*ZOOM);
-		s3eDebugTracePrintf("%f, %f ,%f, %f",enemy->getPositionX(),enemy->getPositionY(), location.x,location.y);
+		float tW = enemy->getSprite()->getContentSize().width*ZOOM;
+		float tH = enemy->getSprite()->getContentSize().height*ZOOM;
+		CCRect *box = new CCRect(enemy->getPositionX() - tW/2, enemy->getPositionY() - tH/2, tW, tH);
+		//s3eDebugTracePrintf("Touched Screen %f, %f ,%f, %f, %f, %f",box->origin.x, box->origin.y,box->size.width, box->size.height, location.x,location.y);
 		if(box->containsPoint(location))
 		{
 			//Bullet is going to hit the enemy
 			//Let's send this information
-			s3eDebugTracePrintf("Enemy Hit");
+			//s3eDebugTracePrintf("Enemy Hit");
 			//Create JSON message
 			cJSON *json;
 			json = cJSON_CreateObject();
@@ -186,7 +188,7 @@ void GameLayer::onSendRPCDone(AppWarp::RPCResult result)
 void GameLayer::onChatReceived(AppWarp::chat chatevent)
 {
 	//A chat message has been recieved, let's parse it
-	s3eDebugTracePrintf( "%s says : %s",chatevent.sender.c_str(),chatevent.chat.c_str());
+	//s3eDebugTracePrintf( "%s says : %s",chatevent.sender.c_str(),chatevent.chat.c_str());
 	std::string name;
 	int type=0, health=0,x=0,y=0;
 	cJSON *json, *begPtr;
