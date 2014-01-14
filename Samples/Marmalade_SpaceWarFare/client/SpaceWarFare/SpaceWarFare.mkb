@@ -11,16 +11,12 @@ files
     SpaceWarFare.cpp
     AppDelegate.cpp
 	AppDelegate.h
-	HelloWorldScene.cpp
-	HelloWorldScene.h
 	GameScene.cpp
 	GameScene.h
 	GameLayer.cpp
 	GameLayer.h
 	GameController.cpp
 	GameController.h
-	Button.h
-	Button.cpp
 	GameListener.h
 	GameListener.cpp
 	Enemy.h
