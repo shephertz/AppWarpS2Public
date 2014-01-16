@@ -11,6 +11,8 @@ files
     SpaceWarFare.cpp
     AppDelegate.cpp
 	AppDelegate.h
+	Menu.h
+	Menu.cpp
 	GameScene.cpp
 	GameScene.h
 	GameLayer.cpp

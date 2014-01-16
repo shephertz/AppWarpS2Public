@@ -1,5 +1,5 @@
 #include "AppDelegate.h"
-#include "GameScene.h"
+#include "Menu.h"
 
 USING_NS_CC;
 
@@ -21,7 +21,7 @@ bool AppDelegate::applicationDidFinishLaunching() {
     pDirector->setAnimationInterval(1.0 / 60);
 
 	//Run our Main Game Scene
-    CCScene *pScene = GameScene::scene();
+    CCScene *pScene = Menu::scene();
     pDirector->runWithScene(pScene);
 
     return true;

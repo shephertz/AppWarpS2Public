@@ -44,11 +44,9 @@ void Player::setLabel(std::string text, float zoom)
 	this->addChild(label);
 }
 
-void Player::run(int i)
+void Player::playAnim(int i)
 {
-	direction = i;
-	
-	if(direction == 1)
+	if(i == 1)
 	{
 		CCAnimation *animation = CCAnimation::create();
 		animation->setDelayPerUnit(0.2f);
@@ -59,7 +57,7 @@ void Player::run(int i)
 	
 		player->runAction(CCRepeatForever::create(CCAnimate::create(animation)));
 	}
-	else if(direction == 2)
+	else if(i == 2)
 	{
 		CCAnimation *animation = CCAnimation::create();
 		animation->setDelayPerUnit(0.2f);
@@ -70,7 +68,7 @@ void Player::run(int i)
 	
 		player->runAction(CCRepeatForever::create(CCAnimate::create(animation)));
 	}
-	else if(direction == 3)
+	else if(i == 3)
 	{
 		CCAnimation *animation = CCAnimation::create();
 		animation->setDelayPerUnit(0.2f);
@@ -81,7 +79,7 @@ void Player::run(int i)
 	
 		player->runAction(CCRepeatForever::create(CCAnimate::create(animation)));
 	}
-	else if(direction == 4)
+	else if(i == 4)
 	{
 		CCAnimation *animation = CCAnimation::create();
 		animation->setDelayPerUnit(0.2f);
@@ -92,6 +90,12 @@ void Player::run(int i)
 	
 		player->runAction(CCRepeatForever::create(CCAnimate::create(animation)));
 	}
+}
+
+void Player::run(int i)
+{
+	direction = i;
+	playAnim(direction);
 }
 
 void Player::stop()

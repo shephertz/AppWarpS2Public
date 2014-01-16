@@ -40,7 +40,7 @@ class GameLayer : public cocos2d::CCLayer, public AppWarp::ConnectionRequestList
 	Enemy *enemy;
 	int bulletSpeed;
 	int state;
-	CCPoint prevPos;
+	float updateTime;
 	std::string name;
 	//WarpClient to communicate with AppWarpS2 server
 	AppWarp::Client *warpClient;
@@ -68,8 +68,10 @@ public:
 	void onJoinRoomDone(AppWarp::room revent);
 	//Invoked in response to a InvokeRPC request. 
 	void onSendRPCDone(AppWarp::RPCResult result);
-	//Invoked when a joined user sends a chat. Rooms subscribers will receive this. 
+	//Invoked when a joined user sends a chat. Room subscribers will receive this. 
 	void onChatReceived(AppWarp::chat chatevent);
+	//Invoked when a joined user lefts the room. Room subscribers will receive this. 
+	void onUserLeftRoom(AppWarp::room rData, std::string user);
 };
 
 #endif

@@ -24,7 +24,6 @@ bool GameLayer::init()
 	player->setPosition(CCPoint(CCDirector::sharedDirector()->getWinSize().width /2,100));
 	player->setScale(ZOOM);
 	player->setLabel("You",ZOOM/4);
-	prevPos = player->getPosition();
 	addChild(player, 1);
 	player->run(2);
 
@@ -34,6 +33,7 @@ bool GameLayer::init()
 
 	bulletSpeed = 480;
 	state = 0;
+	updateTime = 0.0f;
 
 	//We need a unique name to connect to server
 	//You can use facebook id or something like that, but to keep this simple, 
@@ -77,11 +77,12 @@ void GameLayer::update(float dt)
 	warpClient->update();
 	//s3eDebugTracePrintf("Updating %f",dt);
 	player->update(dt, CCSize(map->getContentSize().width*ZOOM,map->getContentSize().height*ZOOM));
-
-	//We send update about player only when he has moved 100 distance.
+	
 	//If we send chat messages at every update, there will numberous amount of traffic resulting in network failure
-	float distance = sqrtf(pow(prevPos.x - player->getPositionX(), 2) + pow(prevPos.y - player->getPositionY(),2));
-	if(distance >= 100)
+	//So, instead of sending continously several messages we send update message only after 0.10 seconds
+	//i.e we are sending 10 messages per second.
+	updateTime += dt;
+	if(updateTime >= 0.10f)
 	{
 		//Create JSON message to be sent
 		cJSON *json;
@@ -95,7 +96,7 @@ void GameLayer::update(float dt)
 		free(cRet);
 		//Send the message to all players in room
 		warpClient->sendChat(message);
-		prevPos = player->getPosition();
+		updateTime = 0.0f;
 	}
 
 	if(firstUpdate == true)
@@ -104,10 +105,11 @@ void GameLayer::update(float dt)
 		firstUpdate = false;
 	}
 
-	/*for(std::map<std::string, Player*>::iterator p = remoteClients.begin(); p != remoteClients.end(); ++p)
+	for(std::map<std::string, Player*>::iterator p = remoteClients.begin(); p != remoteClients.end(); ++p)
 	{
-		p->second->update(dt, ccpMult(ccp(map->getContentSize().width,map->getContentSize().height), ZOOM));
-	}*/
+		CCPoint point = ccpMult(ccp(map->getContentSize().width,map->getContentSize().height), ZOOM);
+		p->second->update(dt,  CCSize(point.x, point.y));
+	}
 }
 
 void GameLayer::touch(CCPoint loc)
@@ -180,6 +182,19 @@ void GameLayer::onJoinRoomDone(AppWarp::room revent)
 		state = 1;
 }
 
+void GameLayer::onUserLeftRoom(AppWarp::room rData, std::string user) 
+{
+	Player *remote;
+	std::map<std::string,Player*>::iterator p = remoteClients.find(user);
+
+	if(p != remoteClients.end())
+	{
+		remote = p->second;
+		this->removeChild(remote);
+		remoteClients.erase(p);
+	}
+}
+
 void GameLayer::onSendRPCDone(AppWarp::RPCResult result)
 {
 	s3eDebugTracePrintf("onSendRPCDone %d",result.result);
@@ -188,7 +203,7 @@ void GameLayer::onSendRPCDone(AppWarp::RPCResult result)
 void GameLayer::onChatReceived(AppWarp::chat chatevent)
 {
 	//A chat message has been recieved, let's parse it
-	//s3eDebugTracePrintf( "%s says : %s",chatevent.sender.c_str(),chatevent.chat.c_str());
+	s3eDebugTracePrintf( "%s says : %s",chatevent.sender.c_str(),chatevent.chat.c_str());
 	std::string name;
 	int type=0, health=0,x=0,y=0;
 	cJSON *json, *begPtr;
@@ -270,14 +285,15 @@ void GameLayer::onChatReceived(AppWarp::chat chatevent)
 			remote = Player::create();
 			remote->setScale(ZOOM);
 			remote->setPosition(CCPoint(x,y));
-			addChild(remote, 1);
+			remote->playAnim(2);
+			this->addChild(remote);
 			remoteClients.insert(std::pair<std::string, Player*>(chatevent.sender, remote));
 		}
 		else 
 		{
 			//remote already exits, simply update him with new position
 			remote = p->second;
-			remote->runAction(CCMoveTo::create(1.0,CCPoint(x,y)));
+			remote->setPosition(CCPoint(x,y));
 		}
 	}
 }

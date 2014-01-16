@@ -18,6 +18,7 @@ public:
 	void setLabel(std::string text, float zoom);
 	void run(int i);
 	void stop();
+	void playAnim(int i);
 	CCSprite *getSprite();
 	CREATE_FUNC(Player);
 };
