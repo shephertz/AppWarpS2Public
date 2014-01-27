@@ -626,7 +626,7 @@ else
             params.maxUsers = maxUsers;
 
             if (properties != null)
-                params.addOrUpdate = properties;
+                params.properties = properties;
 
             if (turnTime >= 0)
                 params.turnTime = turnTime;
