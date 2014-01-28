@@ -245,7 +245,7 @@ declare module AppWarp {
 declare module AppWarp {
     class RequestBuilder {
         static buildWarpRequest(AppWarpSessionId: number, requestType: number, payload: any, isText: boolean): Uint8Array;
-        static buildAuthRequest(apiKey: string, user: string, authData: string): string;
+        static buildAuthRequest(recovery: number, apiKey: string, user: string, authData: string): string;
         static buildLobbyRequest(): string;
         static buildChatRequest(msg: string): string;
         static buildPrivateChatRequest(user: string, msg: string): string;
@@ -311,14 +311,18 @@ declare module AppWarp {
         private static instance;
         private static apiKey;
         private static serverAddress;
+        private static recoveryAllowance;
         private responseCallbacks;
         private updateCallbacks;
         private socket;
         private SessionID;
         private isConnected;
         private timeout;
+        private userName;
+        private authData;
+        private recovering;
         constructor();
-        static initialize(API_KEY: string, server?: string): void;
+        static initialize(API_KEY: string, server: string): void;
         static getInstance(): WarpClient;
         private sendMessage(data);
         private onMessage(msg);
@@ -365,5 +369,7 @@ declare module AppWarp {
         public getMoveHistory(): void;
         public invokeZoneRPC(func: string): void;
         public invokeRoomRPC(room: string, func: string): void;
+        public setRecoveryAllowance(time: number): void;
+        public recoverConnection(): void;
     }
 }
