@@ -492,16 +492,17 @@ var AppWarp;
             return bytearray;
         };
 
-        RequestBuilder.buildAuthRequest = function (apiKey, user, authData) {
+        RequestBuilder.buildAuthRequest = function (recovery, apiKey, user, authData) {
             var timeStamp = AppWarp.Utility.getODataUTCDateFilter();
 
             var json = {};
             json.apiKey = apiKey;
-            json.version = "JS_1.2";
+            json.version = "JS_1.4";
             json.timeStamp = timeStamp;
             json.user = user;
             json.authData = authData;
             json.keepalive = 6;
+            json.recoverytime = recovery;
 
             return JSON.stringify(json);
         };
@@ -626,7 +627,7 @@ else
             params.maxUsers = maxUsers;
 
             if (properties != null)
-                params.addOrUpdate = properties;
+                params.properties = properties;
 
             if (turnTime >= 0)
                 params.turnTime = turnTime;
@@ -854,6 +855,9 @@ var AppWarp;
             this.SessionID = 0;
             this.isConnected = false;
             this.timeout = 0;
+            this.userName = "";
+            this.authData = "";
+            this.recovering = false;
             if (WarpClient.instance) {
                 throw new Error("Error: Instantiation failed: Use WarpClient.getInstance() instead of new.");
             }
@@ -872,7 +876,6 @@ var AppWarp;
             }, 500);
         }
         WarpClient.initialize = function (API_KEY, server) {
-            if (typeof server === "undefined") { server = ""; }
             WarpClient.apiKey = API_KEY;
 
             WarpClient.serverAddress = server;
@@ -908,17 +911,23 @@ var AppWarp;
 
         WarpClient.prototype.handleResponse = function (res) {
             if (res.getRequestType() == AppWarp.RequestType.Auth) {
+                var result = res.getResultCode();
                 if (res.getResultCode() == AppWarp.ResultCode.Success) {
                     var json = JSON.parse(res.getPayloadString());
                     this.SessionID = json.sessionid;
 
                     this.isConnected = true;
+                    if (this.recovering == true) {
+                        result = AppWarp.ResultCode.SuccessRecovered;
+                        this.recovering = false;
+                    }
                 } else {
                     this.isConnected = false;
+                    this.SessionID = 0;
                 }
 
                 if (this.responseCallbacks[AppWarp.Events.onConnectDone])
-                    this.responseCallbacks[AppWarp.Events.onConnectDone](res.getResultCode());
+                    this.responseCallbacks[AppWarp.Events.onConnectDone](result);
             } else if (res.getRequestType() == AppWarp.RequestType.JoinLobby) {
                 var _lobby = new AppWarp.Lobby(res.getResultCode(), res.getPayloadString());
 
@@ -1136,7 +1145,7 @@ var AppWarp;
         };
 
         WarpClient.prototype.joinZone = function (user, authData) {
-            var payload = AppWarp.RequestBuilder.buildAuthRequest(WarpClient.apiKey, user, authData);
+            var payload = AppWarp.RequestBuilder.buildAuthRequest(WarpClient.recoveryAllowance, WarpClient.apiKey, user, authData);
             var data = AppWarp.RequestBuilder.buildWarpRequest(this.SessionID, AppWarp.RequestType.Auth, payload, true);
             this.sendMessage(data.buffer);
         };
@@ -1160,68 +1169,36 @@ var AppWarp;
         };
 
         WarpClient.prototype.connect = function (user, authData) {
-            if (WarpClient.serverAddress == "") {
-                var xmlHttp = new XMLHttpRequest();
-                var that = this;
-                xmlHttp.onreadystatechange = function () {
-                    if (xmlHttp.readyState == 4 && xmlHttp.status == 200) {
-                        var res = JSON.parse(xmlHttp.responseText);
+            this.userName = user;
+            this.authData = authData;
+            this.socket = new WebSocket("ws://" + WarpClient.serverAddress + ":12346");
+            this.socket.binaryType = "arraybuffer";
+            var that = this;
+            this.socket.onopen = function () {
+                if (user) {
+                    that.joinZone(user, authData);
+                } else {
+                    if (that.responseCallbacks[AppWarp.Events.onConnectDone])
+                        that.responseCallbacks[AppWarp.Events.onConnectDone](AppWarp.ResultCode.BadRequest);
+                }
+            };
 
-                        if (res.address) {
-                            that.socket = new WebSocket("ws://" + res.address + ":12346");
-                            that.socket.binaryType = "arraybuffer";
-
-                            that.socket.onopen = function () {
-                                if (user) {
-                                    that.joinZone(user, authData);
-                                } else {
-                                    if (that.responseCallbacks[AppWarp.Events.onConnectDone])
-                                        that.responseCallbacks[AppWarp.Events.onConnectDone](AppWarp.ResultCode.BadRequest);
-                                }
-                            };
-
-                            that.socket.onclose = function () {
-                                that.SessionID = 0;
-                                that.isConnected = false;
-                                if (that.responseCallbacks[AppWarp.Events.onConnectDone])
-                                    that.responseCallbacks[AppWarp.Events.onConnectDone](AppWarp.ResultCode.ConnectionError);
-                            };
-
-                            that.socket.onmessage = function (msg) {
-                                that.onMessage(msg);
-                            };
-                        }
-                    } else if (xmlHttp.readyState == 4 && xmlHttp.status == 404) {
-                        if (that.responseCallbacks[AppWarp.Events.onConnectDone])
-                            that.responseCallbacks[AppWarp.Events.onConnectDone](AppWarp.ResultCode.ApiNotFound);
-                    }
-                };
-                xmlHttp.open("GET", "http://control.appwarp.shephertz.com/lookup?api=" + WarpClient.apiKey, true);
-                xmlHttp.send();
-            } else {
-                this.socket = new WebSocket("ws://" + WarpClient.serverAddress + ":12346");
-                this.socket.binaryType = "arraybuffer";
-                var that = this;
-                this.socket.onopen = function () {
-                    if (user) {
-                        that.joinZone(user, authData);
-                    } else {
-                        if (that.responseCallbacks[AppWarp.Events.onConnectDone])
-                            that.responseCallbacks[AppWarp.Events.onConnectDone](AppWarp.ResultCode.BadRequest);
-                    }
-                };
-
-                this.socket.onclose = function () {
+            this.socket.onclose = function () {
+                that.isConnected = false;
+                if (WarpClient.recoveryAllowance > 0 && that.SessionID != 0) {
+                    that.recovering = true;
+                    if (that.responseCallbacks[AppWarp.Events.onConnectDone])
+                        that.responseCallbacks[AppWarp.Events.onConnectDone](AppWarp.ResultCode.ConnectionErrorRecoverable);
+                } else if (that.recovering == false) {
                     that.SessionID = 0;
-                    that.isConnected = false;
                     if (that.responseCallbacks[AppWarp.Events.onConnectDone])
                         that.responseCallbacks[AppWarp.Events.onConnectDone](AppWarp.ResultCode.ConnectionError);
-                };
+                }
+            };
 
-                this.socket.onmessage = function (msg) {
-                    that.onMessage(msg);
-                };
-            }
+            this.socket.onmessage = function (msg) {
+                that.onMessage(msg);
+            };
         };
 
         WarpClient.prototype.disconnect = function () {
@@ -1473,7 +1450,22 @@ var AppWarp;
             var data = AppWarp.RequestBuilder.buildWarpRequest(this.SessionID, AppWarp.RequestType.RoomRPC, payload, true);
             this.sendMessage(data.buffer);
         };
+
+        WarpClient.prototype.setRecoveryAllowance = function (time) {
+            WarpClient.recoveryAllowance = time;
+        };
+
+        WarpClient.prototype.recoverConnection = function () {
+            if (this.SessionID == 0 || this.isConnected == true || WarpClient.serverAddress == "") {
+                if (this.responseCallbacks[AppWarp.Events.onConnectDone])
+                    this.responseCallbacks[AppWarp.Events.onConnectDone](AppWarp.ResultCode.BadRequest);
+            } else {
+                this.connect(this.userName, this.authData);
+            }
+        };
         WarpClient.instance = null;
+
+        WarpClient.recoveryAllowance = 0;
         return WarpClient;
     })();
     AppWarp.WarpClient = WarpClient;
