@@ -1,7 +1,12 @@
 {
 	"TickTime" : 500,
+	"ListenPort" : 12346,
+	"MasterHost" : 127.0.0.1,
 	"LogLevel" : "INFO",
+	"DBHost" : "local",
+	"DBUser" : "root",
+	"DBPassword" : "",
 	"AdminUsername" : "admin",
 	"AdminPassword" : "password",
-	"HSQLDBFile" : "D:\\TestAdmin"
+	"HSQLDBFile" : "HSQLDBFile"
 }
