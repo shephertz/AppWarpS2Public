@@ -1,13 +1,9 @@
-/*
- * To change this template, choose Tools | Templates
- * and open the template in the editor.
+/**
+ *
+ * @author Suyash Mohan
  */
 package viking;
 
-/**
- *
- * @author shephertz
- */
 public class Robot {
     /*
      * start and end are the extreme points on the linear path, that robot will follow 

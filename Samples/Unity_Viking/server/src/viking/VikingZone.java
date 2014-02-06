@@ -1,3 +1,7 @@
+/**
+ *
+ * @author Suyash Mohan
+ */
 package viking;
 
 import com.shephertz.app42.server.idomain.BaseZoneAdaptor;
@@ -5,15 +9,6 @@ import com.shephertz.app42.server.idomain.HandlingResult;
 import com.shephertz.app42.server.idomain.IRoom;
 import com.shephertz.app42.server.idomain.IUser;
 
-/*
- * To change this template, choose Tools | Templates
- * and open the template in the editor.
- */
-
-/**
- *
- * @author shephertz
- */
 public class VikingZone extends BaseZoneAdaptor {
     /*
      * onAdminRoomAdded is called for all the rooms being

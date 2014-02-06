@@ -1,13 +1,8 @@
-/*
- * To change this template, choose Tools | Templates
- * and open the template in the editor.
- */
-package viking;
-
 /**
  *
- * @author shephertz
+ * @author Suyash Mohan
  */
+package viking;
 
 /*
  * Vector 3f

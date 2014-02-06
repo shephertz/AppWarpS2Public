@@ -1,39 +1,25 @@
+/**
+ *
+ * @author Suyash Mohan
+ */
 package viking;
 
-import com.shephertz.app42.server.domain.User;
 import com.shephertz.app42.server.idomain.BaseRoomAdaptor;
 import com.shephertz.app42.server.idomain.HandlingResult;
 import com.shephertz.app42.server.idomain.IRoom;
 import com.shephertz.app42.server.idomain.IUser;
-import java.io.ByteArrayInputStream;
-import java.io.ByteArrayOutputStream;
-import java.io.DataOutputStream;
-import java.io.IOException;
-import java.util.Random;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-/*
- * To change this template, choose Tools | Templates
- * and open the template in the editor.
- */
-
-/**
- *
- * @author shephertz
- */
 public class VikingRoom extends BaseRoomAdaptor{
 
     //Reference to current room
     private IRoom m_room;
-    //ticks to simulate a timer
-    private Long ticks;
     //Instance of our robot
     private Robot bot;
     
     public VikingRoom(IRoom room) {
         m_room = room;
-        ticks = 0L;
         bot = new Robot();
         //Set path from (38.84f, 2.26f, 46.51f) to (68.84f, 2.26f, 46.51f)
         bot.setPath(new Vector3f(38.84f, 2.26f, 46.51f), new Vector3f(68.84f, 2.26f, 46.51f), 1);

@@ -1,6 +1,6 @@
-/*
- * To change this template, choose Tools | Templates
- * and open the template in the editor.
+/**
+ *
+ * @author Suyash Mohan
  */
 package chatapp;
 
@@ -8,10 +8,6 @@ import com.shephertz.app42.server.idomain.BaseRoomAdaptor;
 import com.shephertz.app42.server.idomain.HandlingResult;
 import com.shephertz.app42.server.idomain.IUser;
 
-/**
- *
- * @author shephertz
- */
 public class ChatRoomAdaptor extends BaseRoomAdaptor{
     
     private String[] blacklist = {"fuck", "shit", "asshole", "cunt", "fag", "fuk", "fck", "fcuk", "assfuck", "assfucker", "fucker",
