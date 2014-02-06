@@ -1,15 +1,17 @@
 <div class="container-fluid">
   <div class="row-fluid">
-    <div class="span2 well">
+    <div class="span3 well">
       <!--Sidebar content-->
-      <h3>AppWarp S2 (alpha)</h3>
+      <img src="img/logo.png" />
+      <h4>AppWarp S2 (alpha)</h4>
       <ul class="nav nav-list">
       	<li><a href="#/dashboard">Home</a></li>
       	<li><a href="#/zones">Zones</a></li>
       	<li><a href="#/rooms">Rooms</a></li>
-      </ul>
+      </ul><br>
+      <a href="index.html" class="btn btn-primary">Sign Out</a>
     </div>
-    <div class="span10 well">
+    <div class="span9 well">
       <!--Body content-->
       <div id="dashboardStats">
         <h4>Stats</h4>
@@ -39,11 +41,11 @@
       </div>
       <div id="dashboardGraph">
         <h4>Memory</h4>
-        <canvas id="memoryChart" width="700" height="200"></canvas>
+        <canvas id="memoryChart" width="600" height="200"></canvas>
         <h4>CCU</h4>
-        <canvas id="ccuChart" width="700" height="200"></canvas>
+        <canvas id="ccuChart" width="600" height="200"></canvas>
         <h4>Rooms</h4>
-        <canvas id="roomChart" width="700" height="200"></canvas>
+        <canvas id="roomChart" width="600" height="200"></canvas>
       </div>
     </div>
   </div>

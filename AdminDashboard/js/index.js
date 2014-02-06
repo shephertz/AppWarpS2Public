@@ -7,7 +7,9 @@
 		this.use('Handlebars', 'hb');
 
 		this.get('#/', function(){
-			this.partial('templates/login.hb');
+			this.partial('templates/login.hb', function(){
+				$("#host").val(document.location.hostname);
+			});
 		});
 
 		this.post('#/login', function(){
