@@ -1,23 +1,17 @@
+/**
+ *
+ * @author Suyash Mohan
+ */
+
 package spacewarfare;
 
-import com.shephertz.app42.server.domain.User;
 import com.shephertz.app42.server.idomain.BaseRoomAdaptor;
 import com.shephertz.app42.server.idomain.HandlingResult;
 import com.shephertz.app42.server.idomain.IRoom;
 import com.shephertz.app42.server.idomain.IUser;
-import java.util.Random;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-/*
- * To change this template, choose Tools | Templates
- * and open the template in the editor.
- */
-
-/**
- *
- * @author shephertz
- */
 public class SpaceRoom extends BaseRoomAdaptor{
 
     private DragonUser dragon;
@@ -26,7 +20,7 @@ public class SpaceRoom extends BaseRoomAdaptor{
     
     public SpaceRoom(IRoom room) {
         m_room = room;
-        dragon = new DragonUser(m_room);
+        dragon = new DragonUser();
         dragon.SetPosition(300,200);
         ticks = 0L;
     }
@@ -43,7 +37,7 @@ public class SpaceRoom extends BaseRoomAdaptor{
      * a new chat message has been recieved
      * here we will check if player has hit the dragon
      * type = 2 in JSON message means player has hit someone
-     * and p = "dragon" show the person shot by player was dragon
+     * and target = "dragon" show the person shot by player was dragon
      */
     @Override
     public void handleChatRequest(IUser sender, String message, HandlingResult result)
@@ -53,14 +47,14 @@ public class SpaceRoom extends BaseRoomAdaptor{
         try
         {
             JSONObject json = new JSONObject(message);
-            if(json.getInt("type") == 2 && json.getString("p").equals("dragon")){
+            if(json.getInt("type") == Message.MESSAGE_HIT && json.getString("target").equals("dragon")){
                 //reduce the health of dragon by 1
                 if(dragon.ReduceHealth() <= 0){
                     JSONObject tobeSent = new JSONObject();
                     try
                     {
                         tobeSent.put("name", "Dragon");
-                        tobeSent.put("type", 3);
+                        tobeSent.put("type", Message.MESSAGE_DEATH);
                     }
                     catch(JSONException ex)
                     {
@@ -96,7 +90,7 @@ public class SpaceRoom extends BaseRoomAdaptor{
                 try
                 {
                     tobeSent.put("name", "Dragon"); // Name i.e. Dragon
-                    tobeSent.put("type", 1); // type of message, 1 = movement
+                    tobeSent.put("type", Message.MESSAGE_MOVE); // type of message, 1 = movement
                     tobeSent.put("x",dragon.GetX());// x component of new position of dragon
                     tobeSent.put("y", dragon.GetY());// y component of new position of dragon
                     tobeSent.put("health",dragon.GetHealth()); // health of dragon

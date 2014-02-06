@@ -1,18 +1,13 @@
-/*
- * To change this template, choose Tools | Templates
- * and open the template in the editor.
+/**
+ *
+ * @author Suyash Mohan
  */
+
 package spacewarfare;
 
 import com.shephertz.app42.server.idomain.BaseServerAdaptor;
-import com.shephertz.app42.server.idomain.HandlingResult;
-import com.shephertz.app42.server.idomain.IRoom;
 import com.shephertz.app42.server.idomain.IZone;
 
-/**
- *
- * @author shephertz
- */
 public class SpaceServer extends BaseServerAdaptor{
     
     //Assign the zone adaptor to our newly created to zone

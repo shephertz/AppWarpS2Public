@@ -12,6 +12,13 @@ using namespace cocos2d;
 const float ZOOM = 4.0;
 const float ZOOM2 = 3.0; 
 
+enum MESSAGE
+{
+		MESSAGE_MOVE = 1, // Moving
+		MESSAGE_HIT = 2,  // Hit by a Bullet
+		MESSAGE_Death = 3 // Dealth Occured
+};
+
 //Location of your server
 const std::string IP = "127.0.0.1";
 //AppKey of the Zone. Zone should be created before starting the game. Use AdminDashboard to create a zone

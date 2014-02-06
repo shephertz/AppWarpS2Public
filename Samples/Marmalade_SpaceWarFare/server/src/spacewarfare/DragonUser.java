@@ -1,29 +1,19 @@
-package spacewarfare;
-
-import com.shephertz.app42.server.idomain.IRoom;
-import java.util.Random;
-
-/*
- * To change this template, choose Tools | Templates
- * and open the template in the editor.
- */
-
 /**
  *
- * @author shephertz
+ * @author Suyash Mohan
  */
-public class DragonUser{
 
-    private IRoom m_room;
-    private String custom;
+package spacewarfare;
+
+import java.util.Random;
+
+public class DragonUser{
     private int x,y;
     private int health;
     private Random rnd;
     private int step;
     
-    public DragonUser(IRoom room) {
-        m_room = room;
-        custom = "";
+    public DragonUser() {
         x = y = 0;
         health = 20;
         step = 100;

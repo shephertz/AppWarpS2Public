@@ -87,7 +87,7 @@ void GameLayer::update(float dt)
 		//Create JSON message to be sent
 		cJSON *json;
 		json = cJSON_CreateObject();
-		cJSON_AddNumberToObject(json, "type", 1); // Type of message = 1 i.e. moving
+		cJSON_AddNumberToObject(json, "type", MESSAGE_MOVE); // Type of message = 1 i.e. moving
 		cJSON_AddNumberToObject(json, "x", (int)player->getPositionX()); // X componenet of position vector
 		cJSON_AddNumberToObject(json, "y", (int)player->getPositionY()); // Y componenet of position vector
 		cJSON_AddStringToObject(json, "name", name.c_str()); // Name of player
@@ -140,10 +140,10 @@ void GameLayer::touch(CCPoint loc)
 			//Create JSON message
 			cJSON *json;
 			json = cJSON_CreateObject();
-			cJSON_AddNumberToObject(json, "type", 2); // Type = 2 i.e. someone has been hit
+			cJSON_AddNumberToObject(json, "type", MESSAGE_HIT); // Type = 2 i.e. someone has been hit
 			cJSON_AddNumberToObject(json, "x", location.x);
 			cJSON_AddNumberToObject(json, "y", location.y);
-			cJSON_AddStringToObject(json, "p", "dragon"); // p=dragon i.e It's the dragon who has been hit with bullet
+			cJSON_AddStringToObject(json, "target", "dragon"); // target=dragon i.e It's the dragon who has been hit with bullet
 			char* cRet = cJSON_PrintUnformatted(json);
 			std::string message = cRet;
 			free(cRet);
@@ -243,7 +243,7 @@ void GameLayer::onChatReceived(AppWarp::chat chatevent)
 		//It's dragon who has sent the message
 		//Remember dragon is an enemy that exits on server
 		
-		if(type == 1)
+		if(type == MESSAGE_MOVE)
 		{
 			//type = 1 i.e. movement
 
@@ -266,7 +266,7 @@ void GameLayer::onChatReceived(AppWarp::chat chatevent)
 				enemy->setHealth(health);
 			}
 		}
-		else if(type == 3)
+		else if(type == MESSAGE_Death)
 		{
 			//type = 3 i.e dragon has been killed
 			this->removeChild(enemy,true);
