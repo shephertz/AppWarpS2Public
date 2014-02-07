@@ -1,18 +1,26 @@
-<div class="container-fluid">
-  <div class="row-fluid">
-    <div class="span3 well">
-      <!--Sidebar content-->
-      <img src="img/logo.png" />
-      <h4>AppWarp S2 (alpha)</h4>
-      <ul class="nav nav-list">
-       <li><a href="#/dashboard">Home</a></li>
-       <li><a href="#/zones">Zones</a></li>
-       <li><a href="#/rooms">Rooms</a></li>
-     </ul><br>
-      <a href="index.html" class="btn btn-primary">Sign Out</a>
-   </div>
-   <div class="span9 well">
-    <!--Body content-->
+<div class="appwarp_header_wrapper">
+  <div class="appwarp_header_inner">
+    <div class="appwarp_header">
+      <div id="logo"><a title="AppWarp" href="http://appwarp.shephertz.com/" target="_blank"><img border="0" alt="AppWarp" src="img/logo.png"></a></div>
+      <div class="top_navi">
+        <div class="menu">
+          <ul id="dropdown_menu">
+            <li><a href="#/dashboard">Home</a> |</li>
+            <li><a href="#/zones">Zones</a> |</li>
+            <li><a href="#/rooms">Rooms</a></li>
+          </ul>
+        </div>
+      </div>
+      <div class="navigation_login"> <a href="index.html" class="signOut">Sign Out</a> </div>
+    </div>
+  </div>
+</div>
+<div class="clear"></div>
+<div class="body_wrapper">
+  <div class="body_inner">
+    <div class="body_inner_box"> 
+      <!--Body content-->
+      <div class="dashboardStats">
     <h4>Rooms</h4>
       <div class="well">
         <form class="form-horizontal">
@@ -90,8 +98,9 @@
             </div>
           </div>
         </form>
-        <div id="rooms">
-        </div>
+        <div id="rooms"></div>
       </div>
+      </div>
+    </div>
   </div>
 </div>

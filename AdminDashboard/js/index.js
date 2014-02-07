@@ -140,7 +140,7 @@
 					//}, 2000);
 				});
 			else
-				this.$element().html('You are not logged in!!! <a href="#/">Click here to login</a>');
+				this.$element().html('<div class="loggedWrapper">You are not logged in!!! <a href="#/">Click here to login</a></div>');
 		});
 
 		this.get('#/rooms', function(){
@@ -246,7 +246,7 @@
 					});
 				});
 			else
-				this.$element().html('You are not logged in!!! <a href="#/">Click here to login</a>');
+				this.$element().html('<div class="loggedWrapper">You are not logged in!!! <a href="#/">Click here to login</a></div>');
 		});
 
 		this.get('#/zones', function(){
@@ -323,7 +323,7 @@
 					});
 				});
 			else
-				this.$element().html('You are not logged in!!! <a href="#/">Click here to login</a>');
+				this.$element().html('<div class="loggedWrapper">You are not logged in!!! <a href="#/">Click here to login</a></div>');
 		});
 	});
 
