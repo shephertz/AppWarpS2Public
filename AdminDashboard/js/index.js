@@ -260,7 +260,7 @@
 							AppWarp.WarpClient.Admin.CreateZone($("#appname").val(), params.username, params.password, params.host, params.port, function(res){
 								if(res.getResultCode() == AppWarp.ResultCode.Success){
 									var zone = JSON.parse(res.getPayloadStringDec("password"));
-									$("#log").html("Success: App Created<br/>"+"App Name : " + zone.AppName + "<br/>AppKey : "+zone.AppKey + "<br/>Secret Key : "+zone.Secret);
+									$("#log").html("Success: App Created<br/>"+"App Name : " + zone.AppName + "<br/>AppKey : "+zone.AppKey/* + "<br/>Secret Key : "+zone.Secret*/);
 									AppWarp.WarpClient.Admin.GetZones(params.username, params.password, params.host, params.port, function(res){
 										if(res.getResultCode() == AppWarp.ResultCode.Success){
 											var zones = JSON.parse(res.getPayloadStringDec("password"));
