@@ -31,7 +31,6 @@
         </excludedEntries>
       </libraryPathEntry>
       <libraryPathEntry kind="3" linkType="1" path="lib/AppWarpLibS2.swc" useDefaultLinkType="false"/>
-      <libraryPathEntry kind="3" linkType="1" path="lib/GraphAPI_Desktop_1_8_1.swc" useDefaultLinkType="false"/>
     </libraryPath>
     <sourceAttachmentPath/>
   </compiler>

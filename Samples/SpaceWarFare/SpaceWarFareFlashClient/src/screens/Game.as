@@ -47,10 +47,10 @@ package screens
 		private var user:String;
 		private var name:String;
 		
-		public function Game(u:String,n:String)
+		public function Game()
 		{
-			user = u;
-			name = n;
+			user = "";
+			name = "";
 		}
 		
 		override public function create():void

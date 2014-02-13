@@ -4,16 +4,13 @@ package
 	import com.adobe.serialization.json.JSON;
 	import com.shephertz.appwarp.WarpClient;
 	import com.shephertz.appwarp.types.ResultCode;
-	
-	//import flash.external.ExternalInterface;
 
 	public class Connector
 	{	
 		private static var _listener:Listener;
 		private static var caller:Object;
-		private static var APIKEY:String = "49130234-abf8-402b-b";//"b737804fa68a9314b1230e90fedf2d42fe4246f20f1efb0d5bc53351dce9e98a";
-		private static var SECRETEKEY:String = "5b29e59f-8ddf-40d7-8" ;//"adfbfe14b4d4bba6b9b652252f71856ece42901ed8c9f63dbb21eaf38a48d941";
-		
+		private static var APIKEY:String = "49130234-abf8-402b-b"; // Your APP Key
+		private static var HOST:String = "localhost";
 		public static var Connected:Boolean = false;
 		
 		private static var client:WarpClient;
@@ -37,14 +34,13 @@ package
 			Name = username;
 			if(Connected == false)
 			{
-				WarpClient.initialize(APIKEY, "localhost");
+				WarpClient.initialize(APIKEY, HOST);
 				client = WarpClient.getInstance();
 				if(id == "")
-					User = generateRandomString(10);
+					User = generateRandomString(6);
 				else
 					User = id;
 				
-				//ExternalInterface.call("console.log",User);
 				_listener = new Listener(caller,client,User);
 				client.setConnectionRequestListener(_listener);
 				client.setRoomRequestListener(_listener);
