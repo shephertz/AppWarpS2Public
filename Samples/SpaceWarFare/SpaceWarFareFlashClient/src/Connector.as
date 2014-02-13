@@ -9,8 +9,9 @@ package
 	{	
 		private static var _listener:Listener;
 		private static var caller:Object;
-		private static var APIKEY:String = "49130234-abf8-402b-b"; // Your APP Key
-		private static var HOST:String = "localhost";
+		public static var APIKEY:String = "bc518d9e-0a75-4526-9"; // Your APP Key
+		public static var HOST:String = "localhost"; // Your HOST Address
+		public static var ROOMID:String = "425943289"; // Room ID
 		public static var Connected:Boolean = false;
 		
 		private static var client:WarpClient;

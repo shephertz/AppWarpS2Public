@@ -45,7 +45,7 @@
   <flashCatalyst validateFlashCatalystCompatibility="false"/>
   <buildTargets>
     <buildTarget buildTargetName="default" platformId="default">
-      <airSettings airCertificatePath="E:/suyash/flash/air/cert.p12" airTimestamp="false" anePathSet="true" version="1">
+      <airSettings airCertificatePath="F:/Suyash/Shephertz/flash/air/cert.p12" airTimestamp="false" anePathSet="true" version="1">
         <airExcludes/>
         <anePaths/>
         <newLaunchParams/>

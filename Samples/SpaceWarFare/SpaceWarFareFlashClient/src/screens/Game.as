@@ -67,7 +67,7 @@ package screens
 		
 		public function setup():void
 		{
-			roomID = "91586126";//"410174383";
+			roomID = Connector.ROOMID;
 			remote = new Array();
 			remoteMsg = new Array();
 			remoteUserNames = new Array();
