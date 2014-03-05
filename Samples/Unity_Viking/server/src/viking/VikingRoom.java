@@ -47,7 +47,7 @@ public class VikingRoom extends BaseRoomAdaptor{
      * Called after particular interval defined in AppConfig.json
      */
     @Override
-    public void handleTimerTick(long time) {
+    public void onTimerTick(long time) {
         bot.moveStepX();
         Vector3f pos = bot.getPosition();
         //Get the current position of robot and send it to all clients

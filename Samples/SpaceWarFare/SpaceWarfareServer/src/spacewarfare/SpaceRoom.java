@@ -61,7 +61,7 @@ public class SpaceRoom extends BaseRoomAdaptor{
     }
     
     @Override
-    public void handleTimerTick(long time) {
+    public void onTimerTick(long time) {
         if(time - ticks > 1000){
             ticks = time;
                       

@@ -76,7 +76,7 @@ public class SpaceRoom extends BaseRoomAdaptor{
      * Called after particular interval defined in AppConfig.json
      */
     @Override
-    public void handleTimerTick(long time) {
+    public void onTimerTick(long time) {
         // if time has elapsed more then 1 second
         if(time - ticks > 1000){          
             //if health is more than 0
