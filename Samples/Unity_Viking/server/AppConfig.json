@@ -2,10 +2,8 @@
 	"TickTime" : 500,
 	"ListenPort" : 12346,
 	"MasterHost" : 127.0.0.1,
-	"LogLevel" : "INFO",
-	"DBHost" : "local",
-	"DBUser" : "root",
-	"DBPassword" : "",
+	"LogLevel" : "WARN",
+	"FlashPolicyPort" : 8430,
 	"AdminUsername" : "admin",
 	"AdminPassword" : "password",
 	"HSQLDBFile" : "HSQLDBFile"

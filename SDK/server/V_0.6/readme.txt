@@ -1,0 +1,2 @@
+-Zone and Room component API name updates
+-Exposing property infra from server side
