@@ -210,7 +210,7 @@ public class RummyRoomExtension3User extends BaseTurnRoomAdaptor {
     }
     
     @Override
-    public void handleTimerTick(long time){
+    public void onTimerTick(long time){
         /*
          * A game when room full
          * or we can say max users are equals to joined users
