@@ -113,7 +113,7 @@ public class RummyRoomExtension2User extends BaseTurnRoomAdaptor {
      * server declare other user as winner.
      */
     @Override
-    public void onUserLeavingTurnRoom(IUser user, HandlingResult result){
+    public void handleUserLeavingTurnRoom(IUser user, HandlingResult result){
         if(GAME_STATUS!=CardsConstants.RUNNING){
             return;
         }

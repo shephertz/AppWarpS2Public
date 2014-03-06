@@ -124,7 +124,7 @@ public class RummyRoomExtension3User extends BaseTurnRoomAdaptor {
      * server continue game with remaining two users and add the cards of third user in total cards.
      */
     @Override
-    public void onUserLeavingTurnRoom(IUser user, HandlingResult result){
+    public void handleUserLeavingTurnRoom(IUser user, HandlingResult result){
         if(GAME_STATUS!=CardsConstants.RUNNING){
             return;
         }
