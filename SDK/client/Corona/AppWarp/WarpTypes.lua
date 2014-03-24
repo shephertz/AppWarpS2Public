@@ -118,7 +118,11 @@
      
      ["STOP_GAME"] = 67,
      
-     ["GET_MOVE_HISTORY"] = 68
+     ["GET_MOVE_HISTORY"] = 68,
+
+     ["ZONE_RPC"] = 69,
+
+     ["ROOM_RPC"] = 70
   }
   
   WarpResponseResultCode = {    

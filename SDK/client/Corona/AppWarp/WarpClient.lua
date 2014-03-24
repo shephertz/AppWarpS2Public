@@ -228,6 +228,22 @@
         historyTable = buildMoveHistoryTable(payLoadTable)
       end
       RequestListenerTable.onGetMoveHistoryDone(resultCode, historyTable); 
+   elseif(requestType == WarpRequestTypeCode.ZONE_RPC) then 
+      if(RequestListenerTable.onInvokeZoneRPCDone ~= nil) then
+        if(resultCode == WarpResponseResultCode.SUCCESS) then
+          RequestListenerTable.onInvokeZoneRPCDone(resultCode, payLoadTable["appKey"],payLoadTable["function"],payLoadTable["return"]);
+        else
+          RequestListenerTable.onInvokeZoneRPCDone(resultCode);
+        end
+      end 
+   elseif(requestType == WarpRequestTypeCode.ROOM_RPC) then 
+      if(RequestListenerTable.onInvokeRoomRPCDone ~= nil) then
+        if(resultCode == WarpResponseResultCode.SUCCESS) then
+          RequestListenerTable.onInvokeRoomRPCDone(resultCode, payLoadTable["appKey"],payLoadTable["roomId"],payLoadTable["function"],payLoadTable["return"]);
+        else
+          RequestListenerTable.onInvokeRoomRPCDone(resultCode);
+        end
+      end    
    end   
  end 
     
@@ -661,6 +677,35 @@
     local warpMsg = RequestBuilder.buildWarpRequest(WarpMessageTypeCode.REQUEST, WarpConfig.session_id, 0, WarpRequestTypeCode.GET_ROOM_IN_RANGE, 0, WarpContentTypeCode.JSON, lengthPayload, reqPayload);
     Channel.socket_send(warpMsg);
   end
+
+  function WarpClient.invokeZoneRPC(funcName, ...)
+    local args = {}
+    local reqTable = {}
+    for i,v in ipairs(arg) do
+      args[i] = v;
+    end
+    reqTable["function"] = funcName
+    reqTable["args"] = args
+    local reqPayload = tostring(JSON:encode(reqTable))
+    local lengthPayload = string.len(reqPayload);
+    local warpMsg = RequestBuilder.buildWarpRequest(WarpMessageTypeCode.REQUEST, WarpConfig.session_id, 0, WarpRequestTypeCode.ZONE_RPC, 0, WarpContentTypeCode.JSON, lengthPayload, reqPayload);
+    Channel.socket_send(warpMsg);
+  end
+
+  function WarpClient.invokeRoomRPC(roomId, funcName, ...)
+    local args = {}
+    local reqTable = {}
+    for i,v in ipairs(arg) do
+      args[i] = v;
+    end
+    reqTable["roomId"] = roomId
+    reqTable["function"] = funcName
+    reqTable["args"] = args
+    local reqPayload = tostring(JSON:encode(reqTable))
+    local lengthPayload = string.len(reqPayload);
+    local warpMsg = RequestBuilder.buildWarpRequest(WarpMessageTypeCode.REQUEST, WarpConfig.session_id, 0, WarpRequestTypeCode.ROOM_RPC, 0, WarpContentTypeCode.JSON, lengthPayload, reqPayload);
+    Channel.socket_send(warpMsg);
+  end  
   
  return WarpClient
  
