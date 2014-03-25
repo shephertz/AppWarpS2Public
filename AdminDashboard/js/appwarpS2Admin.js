@@ -429,7 +429,14 @@ AppWarp.WarpClient.Admin = (function(){
 		return JSON.stringify(json);
 	}
 
+	var isLiveStatRunning = false;
+	var statsSocket;
+
 	return {
+		isStatsRunning : function(){
+			return isLiveStatRunning;
+		},
+
 		CreateRoom : function(apiKey, name, maxUsers, properties, username, password, host, port, callback){
 			var socket = new WebSocket("ws://"+host+":"+port);
 			socket.binaryType = "arraybuffer";
@@ -503,18 +510,19 @@ AppWarp.WarpClient.Admin = (function(){
 		},
 
 		GetLiveStats : function(username, password, host, port, callback){
-			var socket = new WebSocket("ws://"+host+":"+port);
-			socket.binaryType = "arraybuffer";
+			statsSocket = new WebSocket("ws://"+host+":"+port);
+			statsSocket.binaryType = "arraybuffer";
 			var connected = false;
 			var timer;
-			socket.onopen = function(){
+			statsSocket.onopen = function(){
+				isLiveStatRunning = true;
 				connected = true;
 				timer = setInterval(function(){
 					if(connected == true)
 					{
 						var payload = buildAdminRequest(username, password);
 						var bytes = buildWarpRequest(0,AppWarp.RequestType.GetLiveStats, AppWarp.Utility.aesEncrypt(payload, password), true);
-						socket.send(bytes.buffer);
+						statsSocket.send(bytes.buffer);
 					}
 					else
 					{
@@ -522,15 +530,21 @@ AppWarp.WarpClient.Admin = (function(){
 					}
 				}, 2000);
 			};
-			socket.onclose = function(){
+			statsSocket.onclose = function(){
 				connected = false;
+				isLiveStatRunning = false;
 			};
-			socket.onmessage = function(msg){
+			statsSocket.onmessage = function(msg){
 				var bytearray = new Uint8Array(msg.data);
 				var res = new AppWarp.Response(bytearray, 0);
 				callback(res);
-				//socket.close();
+				//statsSocket.close();
 			}
+		},
+
+		StopLiveStats : function()
+		{
+			statsSocket.close();
 		},
 
 		GetZones : function(username, password, host, port, callback){
@@ -551,8 +565,9 @@ AppWarp.WarpClient.Admin = (function(){
 			}
 		},
 
-		ValidateCredentials : function(username, password, host, port, callback){
+		ValidateCredentials : function(username, password, host, port, callback, callbackFail){
 			var socket = new WebSocket("ws://"+host+":"+port);
+			var msgReceived = false;
 			socket.binaryType = "arraybuffer";
 			socket.onopen = function(){
 				var payload = buildAdminRequest(username, password);
@@ -560,11 +575,14 @@ AppWarp.WarpClient.Admin = (function(){
 				socket.send(bytes.buffer);
 			};
 			socket.onclose = function(){
+				if(msgReceived == true)
+					callbackFail();
 			};
 			socket.onmessage = function(msg){
 				var bytearray = new Uint8Array(msg.data);
 				var res = new AppWarp.Response(bytearray, 0);
 				callback(res.getResultCode());
+				msgReceived = true;
 				socket.close();
 			}
 		},

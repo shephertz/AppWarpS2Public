@@ -2,6 +2,18 @@
 (function($){
 
 	var app = $.sammy('#main',function(){
+		var memory = [];
+		var ccu = [];
+		var rooms = [];
+		var x = [];
+		var peakMemory = 0, peakCCU = 0, peakRooms = 0, peakTime = "";
+		var countLimit = 50;
+
+		rooms.push(0);
+		ccu.push(0);
+		memory.push(0);
+		x.push(0);
+
 		var params = null;
 
 		this.use('Handlebars', 'hb');
@@ -22,37 +34,31 @@
 					that.redirect('#/dashboard');
 				}
 				else{
-					$("#loginInfo").text("Error in Logging In");
+					$("#loginInfo").text("Invalid Username/Password");
 				}
+			}, function(){
+				//$("#loginInfo").text("Invalid Host/Port");
 			});
 		});
 
 		this.get('#/dashboard', function(){
 			if(params != null)
 				this.partial('templates/dashboard.hb', function(){
-					var memory = [];
-					var ccu = [];
-					var rooms = [];
-					var x = [];
-
-					var peakMemory = 0, peakCCU = 0, peakRooms = 0, peakTime = "";
-
 					var memoryCtx = document.getElementById("memoryChart").getContext("2d");
 					var ccuCtx = document.getElementById("ccuChart").getContext("2d");
 					var roomsCtx = document.getElementById("roomChart").getContext("2d");
+					var count = x.length;
 
-					var count = 0;
-					var countLimit = 200;
-
-					rooms.push(0);
-					ccu.push(0);
-					memory.push(0);
-					x.push(0);
+					peakMemory = 0, peakCCU = 0, peakRooms = 0, peakTime = "";
 
 					//setInterval(function() {
 						//memory.append(new Date().getTime(), Math.random() * 100);
 						//ccu.append(new Date().getTime(), Math.random() * 100);
 						//rooms.append(new Date().getTime(), Math.random() * 100);
+						if(AppWarp.WarpClient.Admin.isStatsRunning() == true)
+						{
+							AppWarp.WarpClient.Admin.StopLiveStats();
+						}
 
 						AppWarp.WarpClient.Admin.GetLiveStats(params.username, params.password, params.host, params.port, function(res){
 							if(res.getResultCode() == AppWarp.ResultCode.Success){
@@ -136,7 +142,7 @@
 
 							count +=1;
 						});
-
+					
 					//}, 2000);
 				});
 			else

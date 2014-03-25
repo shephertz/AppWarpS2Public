@@ -10,7 +10,7 @@
   <div class="body_inner">
     <div class="body_inner_box">
       <div class="formWrapper">
-        <form class="loginForm" action="#/login" method="post">
+        <form class="loginForm" action="#/login" method="post" id="loginForm">
           <div class="formTr">
             <label for="username">Username</label>
             <div class="inputWrapper">
@@ -37,10 +37,12 @@
           </div>
           <div class="formTr">
             <div class="btnWrapper">
-              <input type="submit" class="button" value="Sign in">
+              <input type="submit" class="button" value="Sign in" id="signInBtn">
             </div>
           </div>
         </form>
+
+          <div id="loginInfo" class="alert alert-error">*All fields are required</div>
       </div>
     </div>
   </div>
