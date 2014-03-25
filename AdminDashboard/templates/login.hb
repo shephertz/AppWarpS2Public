@@ -36,7 +36,7 @@
             </div>
           </div>
           <div class="formTr">
-            <div class="btnWrapper">
+            <div class="btnWrapper" id="btnWrapper">
               <input type="submit" class="button" value="Sign in" id="signInBtn">
             </div>
           </div>

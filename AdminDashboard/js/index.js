@@ -21,6 +21,10 @@
 		this.get('#/', function(){
 			this.partial('templates/login.hb', function(){
 				$("#host").val(document.location.hostname);
+				$("#signInBtn").click(function(){
+					$("#btnWrapper").html('<input type="button" class="buttonD" value="Signing In...">');
+					$("#loginForm").submit();
+				});
 			});
 		});
 
@@ -38,6 +42,11 @@
 				}
 			}, function(){
 				$("#loginInfo").text("Invalid Host/Port");
+				$("#btnWrapper").html('<input type="submit" class="button" value="Sign in" id="signInBtn">');
+				$("#signInBtn").click(function(){
+					$("#btnWrapper").html('<input type="button" class="buttonD" value="Signing In...">');
+					$("#loginForm").submit();
+				});
 			});
 		});
 

@@ -45,6 +45,7 @@ body, ul, li, p, a, img, input, h1, h2, h3, h4, h5 { font-family: "Open Sans", H
 .loginForm input { background-color: #FAFAFA; border: 1px solid #c8c8c8; border-radius: 5px; color: #1A1A1A; font-family: Arial,Helvetica,sans-serif; font-size: 14px; padding: 8px 5px; width: 275px;}
 .btnWrapper{ float:left; margin:0 0 0 155px;}
 .button, .signOut { background: linear-gradient(to bottom, #7DB9E8 0%, #0F78C2 100%) repeat scroll 0 0 rgba(0, 0, 0, 0); border: 1px solid #0B6FB6 !important; color: #FFFFFF !important; cursor: pointer; font-weight: bold; text-align: center; width: 289px !important;}
+.buttonD { background: linear-gradient(to bottom, #333333 0%, #666666 100%) repeat scroll 0 0 rgba(0, 0, 0, 0); border: 1px solid #0B6FB6 !important; color: #FFFFFF !important; cursor: pointer; font-weight: bold; text-align: center; width: 289px !important;}
 .button:hover, .signOut:hover { background: linear-gradient(to bottom, #5B8BFF 0%, #0046DC 100%) repeat scroll 0 0 rgba(0, 0, 0, 0); border-color: #013BB6; color: #FFFFFF; text-shadow: none; text-decoration:none;}
 .signOut{ width: 108px !important; padding: 8px 12px; border-radius: 5px; font-weight: normal;}
 .graph{ float: left; margin: 0 30px 0 0; width: 454px; border: 1px solid #CCCCD3; border-radius: 5px; padding: 5px; margin-bottom: 20px;} 
