@@ -37,7 +37,7 @@
 					$("#loginInfo").text("Invalid Username/Password");
 				}
 			}, function(){
-				//$("#loginInfo").text("Invalid Host/Port");
+				$("#loginInfo").text("Invalid Host/Port");
 			});
 		});
 

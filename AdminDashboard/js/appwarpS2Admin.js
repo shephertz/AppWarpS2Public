@@ -575,7 +575,7 @@ AppWarp.WarpClient.Admin = (function(){
 				socket.send(bytes.buffer);
 			};
 			socket.onclose = function(){
-				if(msgReceived == true)
+				if(msgReceived == false)
 					callbackFail();
 			};
 			socket.onmessage = function(msg){
