@@ -8,7 +8,7 @@
         <script src="bootstrap.min.js"></script>
         <script src="appwarp.min.js"></script>
         <script type="text/javascript">
-            var apiKey = "58d66348-4c94-4e58-b";
+            var apiKey = "49130234-abf8-402b-b";
 			
             var _warpclient;
             var nameId = "";
@@ -20,9 +20,8 @@
             {
                 if(res == AppWarp.ResultCode.Success)
                 {
-                    $("#roomInfo").html("Connected");
-                    $("#chat").html("Getting Rooms!!!!");
-                    _warpclient.getAllRooms();
+                    $("#roomInfo").html("Joining Lobby...");
+                    _warpclient.joinLobby();
                 }
                 else
                 {
@@ -40,12 +39,38 @@
                 }
                 
             }
+
+            function onJoinLobbyDone(lobby)
+            {
+                if(lobby.getResult() == 0)
+                {
+                    $("#roomInfo").html("Subscribing Lobby...");
+                    _warpclient.subscribeLobby();
+                }
+                else
+                {
+                    $("#roomInfo").html("Error joining lobby");
+                }
+            }
+
+            function onSubscribeLobbyDone(lobby)
+            {
+                if(lobby.getResult() == 0)
+                {
+                    $("#roomInfo").html("Connected");
+                    inRoom = true;
+                    _warpclient.getAllRooms();
+                }
+                else
+                {
+                    $("#roomInfo").html("Error subscribing lobby");
+                }
+            }
             
             function onGetLiveRoomInfo(room)
             {
                 roomsText += '<li><a href="#" onClick="joinRoom(\''+room.getRoom().getRoomId()+'\')">' + room.getRoom().getName() + '</a></li>';
                 $("#roomsList").html(roomsText);
-                $("#chat").html("Select a room");
             }
             
             function onJoinRoomDone(room)
@@ -57,6 +82,10 @@
                     $("#roomInfo").html("Joined Room : " + room.getName());
                     $("#chat").html("");
                     $("#roomsList").html('<button id="leaveBtn" onClick="leaveRoom()" type="button" class="btn btn-primary">Leave Room</button>');
+                }
+                else
+                {
+                    $("#roomInfo").html("Error joining room");
                 }
             }
             
@@ -77,7 +106,7 @@
             
             function joinRoom(id)
             {
-                if(inRoom == false)
+                //if(inRoom == false)
                 {
                     _warpclient.joinRoom(id);
                 }
@@ -108,6 +137,8 @@
 						_warpclient.setResponseListener(AppWarp.Events.onGetLiveRoomInfoDone, onGetLiveRoomInfo);
 						_warpclient.setResponseListener(AppWarp.Events.onJoinRoomDone, onJoinRoomDone);
 						_warpclient.setResponseListener(AppWarp.Events.onLeaveRoomDone, onLeaveRoomDone);
+                        _warpclient.setResponseListener(AppWarp.Events.onJoinLobbyDone, onJoinLobbyDone);
+                        _warpclient.setResponseListener(AppWarp.Events.onSubscribeLobbyDone, onSubscribeLobbyDone);
 						_warpclient.setNotifyListener(AppWarp.Events.onChatReceived, onChatReceived);
 						_warpclient.connect(nameId,"");
 					}
@@ -173,7 +204,7 @@
                                   </div>
                                   <div class="panel-body">
                                       <dl id="chat">
-                                          Please wait!!!
+                                          
                                       </dl>
                                   </div>
                                 </div>
