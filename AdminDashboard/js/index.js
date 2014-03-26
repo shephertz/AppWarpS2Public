@@ -39,6 +39,11 @@
 				}
 				else{
 					$("#loginInfo").text("Invalid Username/Password");
+					$("#btnWrapper").html('<input type="submit" class="button" value="Sign in" id="signInBtn">');
+					$("#signInBtn").click(function(){
+						$("#btnWrapper").html('<input type="button" class="buttonD" value="Signing In...">');
+						$("#loginForm").submit();
+					});
 				}
 			}, function(){
 				$("#loginInfo").text("Invalid Host/Port");
