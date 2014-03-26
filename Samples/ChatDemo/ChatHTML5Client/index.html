@@ -57,7 +57,7 @@
             {
                 if(lobby.getResult() == 0)
                 {
-                    $("#roomInfo").html("Connected");
+                    $("#roomInfo").html("Joined Lobby");
                     inRoom = true;
                     _warpclient.getAllRooms();
                 }
@@ -96,6 +96,7 @@
                     inRoom = false;
                     _warpclient.getAllRooms();
                     $("#chat").html("");
+                    _warpclient.joinLobby();
                 }
             }
             
