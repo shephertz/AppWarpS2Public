@@ -14,6 +14,7 @@
             var nameId = "";
             var roomsText = "";
             var inRoom = false;
+            var inLobby = false;
             var roomId = "";
             
             function onConnectDone(res)
@@ -44,26 +45,13 @@
             {
                 if(lobby.getResult() == 0)
                 {
-                    $("#roomInfo").html("Subscribing Lobby...");
-                    _warpclient.subscribeLobby();
-                }
-                else
-                {
-                    $("#roomInfo").html("Error joining lobby");
-                }
-            }
-
-            function onSubscribeLobbyDone(lobby)
-            {
-                if(lobby.getResult() == 0)
-                {
                     $("#roomInfo").html("Joined Lobby");
-                    inRoom = true;
+                    inLobby = true;
                     _warpclient.getAllRooms();
                 }
                 else
                 {
-                    $("#roomInfo").html("Error subscribing lobby");
+                    $("#roomInfo").html("Error joining lobby");
                 }
             }
             
@@ -99,6 +87,16 @@
                     _warpclient.joinLobby();
                 }
             }
+
+            function onLeaveLobbyDone(lobby)
+            {
+                if(lobby.getResult() == AppWarp.ResultCode.Success)
+                {
+                    inLobby = false;
+                    $("#roomInfo").html("Joining room");
+                    _warpclient.joinRoom(roomId);
+                }
+            }
             
             function onChatReceived(chat)
             {
@@ -107,9 +105,15 @@
             
             function joinRoom(id)
             {
-                //if(inRoom == false)
+                if(inLobby == true)
                 {
-                    _warpclient.joinRoom(id);
+                    _warpclient.leaveLobby();
+                    roomId = id;
+                }
+                else
+                {
+                    $("#roomInfo").html("Joining room");
+                    _warpclient.joinRoom(roomId);
                 }
             }
             
@@ -139,14 +143,14 @@
 						_warpclient.setResponseListener(AppWarp.Events.onJoinRoomDone, onJoinRoomDone);
 						_warpclient.setResponseListener(AppWarp.Events.onLeaveRoomDone, onLeaveRoomDone);
                         _warpclient.setResponseListener(AppWarp.Events.onJoinLobbyDone, onJoinLobbyDone);
-                        _warpclient.setResponseListener(AppWarp.Events.onSubscribeLobbyDone, onSubscribeLobbyDone);
+                        _warpclient.setResponseListener(AppWarp.Events.onLeaveLobbyDone, onLeaveLobbyDone);
 						_warpclient.setNotifyListener(AppWarp.Events.onChatReceived, onChatReceived);
 						_warpclient.connect(nameId,"");
 					}
                 });
 				
 				$("#chatBtn").click(function(){
-                    if(inRoom == true)
+                    if(inRoom == true || inLobby == true)
                     {
                         if($("#chatText").val() != "")
                         {
