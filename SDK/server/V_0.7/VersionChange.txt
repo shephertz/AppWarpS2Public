@@ -1,0 +1,3 @@
+* RPC response to contain zone key and room id
+* Server to send back keep alive responses
+* Bug Fixes
