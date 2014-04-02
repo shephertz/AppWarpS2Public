@@ -76,7 +76,7 @@
 
 						AppWarp.WarpClient.Admin.GetLiveStats(params.username, params.password, params.host, params.port, function(res){
 							if(res.getResultCode() == AppWarp.ResultCode.Success){
-								var data = JSON.parse(res.getPayloadStringDec("password"));
+								var data = JSON.parse(res.getPayloadStringDec(params.password));
 								var dt = new Date()
 								x.push('');
 
@@ -169,7 +169,7 @@
 					var AppKeys = [];
 					AppWarp.WarpClient.Admin.GetZones(params.username, params.password, params.host, params.port, function(res){
 						if(res.getResultCode() == AppWarp.ResultCode.Success){
-							var zones = JSON.parse(res.getPayloadStringDec("password"));
+							var zones = JSON.parse(res.getPayloadStringDec(params.password));
 							var html = "";
 							for(var i=0; i<zones.length; ++i)
 							{
@@ -185,7 +185,7 @@
 					$("#appkey2").change(function(){
 						AppWarp.WarpClient.Admin.GetRooms($("#appkey2").val(), params.username, params.password, params.host, params.port, function(res){
 							if(res.getResultCode() == AppWarp.ResultCode.Success){
-								var rooms = JSON.parse(res.getPayloadStringDec("password"));
+								var rooms = JSON.parse(res.getPayloadStringDec(params.password));
 								var html = "";
 								for(var i=0; i<rooms.length; ++i)
 								{
@@ -199,7 +199,7 @@
 					$("#refresh").click(function(){
 						AppWarp.WarpClient.Admin.GetRooms($("#appkey2").val(), params.username, params.password, params.host, params.port, function(res){
 							if(res.getResultCode() == AppWarp.ResultCode.Success){
-								var rooms = JSON.parse(res.getPayloadStringDec("password"));
+								var rooms = JSON.parse(res.getPayloadStringDec(params.password));
 								var html = "";
 								for(var i=0; i<rooms.length; ++i)
 								{
@@ -217,7 +217,7 @@
 						else{
 							AppWarp.WarpClient.Admin.CreateRoom($("#appkey").val(),$("#roomname").val(),$("#maxusers").val(),{}, params.username, params.password, params.host, params.port, function(res){
 								if(res.getResultCode() == AppWarp.ResultCode.Success){
-									var room = JSON.parse(res.getPayloadStringDec("password"));
+									var room = JSON.parse(res.getPayloadStringDec(params.password));
 									$("#log").html("Success: Room Created<br/>"+"Room : " + room.name + "<br/>ID : "+room.id);
 								}
 								else{
@@ -234,7 +234,7 @@
 						else{
 							AppWarp.WarpClient.Admin.DeleteRoom($("#appkey2").val(),$("#roomname2").val(), params.username, params.password, params.host, params.port, function(res){
 								if(res.getResultCode() == AppWarp.ResultCode.Success){
-									var room = JSON.parse(res.getPayloadStringDec("password"));
+									var room = JSON.parse(res.getPayloadStringDec(params.password));
 									$("#log").html("Success: Room Deleted<br/>");
 								}
 								else{
@@ -251,7 +251,7 @@
 						else{
 							AppWarp.WarpClient.Admin.GetRooms($("#appkey3").val(), params.username, params.password, params.host, params.port, function(res){
 								if(res.getResultCode() == AppWarp.ResultCode.Success){
-									var rooms = JSON.parse(res.getPayloadStringDec("password"));
+									var rooms = JSON.parse(res.getPayloadStringDec(params.password));
 									$("#rooms").html("");
 									for(var i=0; i<rooms.length; ++i)
 									{
@@ -279,11 +279,11 @@
 						else{
 							AppWarp.WarpClient.Admin.CreateZone($("#appname").val(), params.username, params.password, params.host, params.port, function(res){
 								if(res.getResultCode() == AppWarp.ResultCode.Success){
-									var zone = JSON.parse(res.getPayloadStringDec("password"));
+									var zone = JSON.parse(res.getPayloadStringDec(params.password));
 									$("#log").html("Success: App Created<br/>"+"App Name : " + zone.AppName + "<br/>AppKey : "+zone.AppKey/* + "<br/>Secret Key : "+zone.Secret*/);
 									AppWarp.WarpClient.Admin.GetZones(params.username, params.password, params.host, params.port, function(res){
 										if(res.getResultCode() == AppWarp.ResultCode.Success){
-											var zones = JSON.parse(res.getPayloadStringDec("password"));
+											var zones = JSON.parse(res.getPayloadStringDec(params.password));
 											var html;
 											$("#zones").html("");
 											for(var i=0; i<zones.length; ++i)
@@ -311,7 +311,7 @@
 
 									AppWarp.WarpClient.Admin.GetZones(params.username, params.password, params.host, params.port, function(res){
 										if(res.getResultCode() == AppWarp.ResultCode.Success){
-											var zones = JSON.parse(res.getPayloadStringDec("password"));
+											var zones = JSON.parse(res.getPayloadStringDec(params.password));
 											var html;
 											$("#zones").html("");
 											for(var i=0; i<zones.length; ++i)
@@ -331,7 +331,7 @@
 					$("#getZones").click(function(){
 						AppWarp.WarpClient.Admin.GetZones(params.username, params.password, params.host, params.port, function(res){
 							if(res.getResultCode() == AppWarp.ResultCode.Success){
-								var zones = JSON.parse(res.getPayloadStringDec("password"));
+								var zones = JSON.parse(res.getPayloadStringDec(params.password));
 								var html;
 								$("#zones").html("");
 								for(var i=0; i<zones.length; ++i)
