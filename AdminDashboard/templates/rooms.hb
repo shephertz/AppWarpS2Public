@@ -8,6 +8,7 @@
             <li><a href="#/dashboard">Home</a> |</li>
             <li><a href="#/zones">Zones</a> |</li>
             <li><a href="#/rooms">Rooms</a></li>
+            <li><a href="#/props">Properties</a></li>
           </ul>
         </div>
       </div>
