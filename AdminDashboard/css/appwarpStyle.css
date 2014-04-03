@@ -1,6 +1,6 @@
 /*  File Name   : appwarp_stylesheet.css
- *  Description : Style Sheet for AppWarp 
- *  Author      : Rameshwar Sah  Date: 23rd,June,2013  Creation
+ *  Description : Style Sheet for AppWarp AdminDashboard 
+ *  Author      : Rameshwar Sah  Date: 20ty,Dec,2013  Creation
  */ 
 /*@font-face { font-family: 'Open Sans'; src: url('font/opensans.ttf'); font-family: 'Open Sans';
 src: url('font/opensans-bold.ttf') font-weight: normal; font-style: normal; }
@@ -27,7 +27,6 @@ body, ul, li, p, a, img, input, h1, h2, h3, h4, h5 { font-family: "Open Sans", H
 .top_navi .menu { float: left; font-family: "Open Sans", Helvetica, Arial, sans-serif; font-size: 13px; font-weight: bold; margin: 27px 0 0 0px; }
 .top_navi .menu a { color: #ccc; font-size: 13px; font-family: "Open Sans", Helvetica, Arial, sans-serif; text-decoration: none; padding: 0 20px!important; margin-top: 0px; }
 .top_navi .menu a:hover { color: #fff;}
-@media screen and (-webkit-min-device-pixel-ratio:0) {
 #dropdown_menu, #dropdown_menu ul { list-style: none outside none; margin: 0; padding: 0;}
 #dropdown_menu:before, #dropdown_menu:after { content: ""; display: table;}
 #dropdown_menu:after { clear: both;}
