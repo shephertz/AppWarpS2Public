@@ -33,6 +33,14 @@
    NotificationListenerTable[notification] = listener
  end 
  
+ function WarpClient.resetRequestListener(request)
+   RequestListenerTable[request] = nil
+ end
+ 
+ function WarpClient.resetNotificationListener(notification)
+   NotificationListenerTable[notification] = nil
+ end
+ 
  local function handleAuthResponse(resultCode, payLoadTable)
     if(resultCode == WarpResponseResultCode.SUCCESS) then -- Success
       WarpConfig.session_id = tonumber(payLoadTable['sessionid']);
