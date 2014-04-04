@@ -1,0 +1,38 @@
+{
+    "Questions": [
+        {
+            "id": 1,
+            "Question": {
+                "Question": "Who prevailed in the 1977 elections and ended Indira Gandhi’s emergency rule?",
+                "AttachedElement": {
+                    "Type": 1,
+                    "Value": ""
+                }
+            },
+            "Options": [
+                {
+                    "Type": 1,
+                    "Value": "Atal Bihari Vajpayee"
+                },
+                {
+                    "Type": 1,
+                    "Value": "Morarji Desai"
+                },
+                {
+                    "Type": 1,
+                    "Value": "Charan Singh"
+                },
+                {
+                    "Type": 1,
+                    "Value": "Lal Bahudar Shastri"
+                }
+            ]
+        }
+    ],
+    "Answers": [
+        {
+            "QuestionId": 1,
+            "Answer": 2
+        }
+    ]
+}

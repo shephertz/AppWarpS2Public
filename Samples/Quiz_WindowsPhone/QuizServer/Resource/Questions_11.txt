@@ -1,0 +1,42 @@
+{
+    "Questions": [
+        {
+            "id": 1,
+            "Question": {
+                "Question": "Which former Indian cricketer was nicknamed 'Tiger'?",
+                "AttachedElement": {
+                    "Type": 1,
+                    "Value": ""
+                }
+            },
+            "Options": [
+                {
+                    "Type": 1,
+                    "Value": "Salim Durrani"
+                },
+                {
+                    "Type": 1,
+                    "Value": "Farooq Engineer"
+                },
+                {
+                    "Type": 1,
+                    "Value": "Vijay Hazare"
+                },
+                {
+                    "Type": 1,
+                    "Value": "Mansur Ali Khan Pataudi"
+                }
+            ]
+        }
+    ],
+    "Answers": [
+        {
+            "QuestionId": 1,
+            "Answer": 4
+        },
+        {
+            "QuestionId": 2,
+            "Answer": 3
+        }
+    ]
+}

@@ -1,0 +1,38 @@
+{
+    "Questions": [
+        {
+            "id": 1,
+            "Question": {
+                "Question": "Which state has the largest Legislative assembly?",
+                "AttachedElement": {
+                    "Type": 1,
+                    "Value": ""
+                }
+            },
+            "Options": [
+                {
+                    "Type": 1,
+                    "Value": "Rajasthan"
+                },
+                {
+                    "Type": 1,
+                    "Value": "Madhya Pradesh"
+                },
+                {
+                    "Type": 1,
+                    "Value": "Uttar Pradesh"
+                },
+                {
+                    "Type": 1,
+                    "Value": "Asam"
+                }
+            ]
+        }
+    ],
+    "Answers": [
+        {
+            "QuestionId": 1,
+            "Answer": 3
+        }
+    ]
+}
