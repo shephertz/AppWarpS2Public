@@ -345,6 +345,148 @@
 			else
 				this.$element().html('<div class="loggedWrapper">You are not logged in!!! <a href="#/">Click here to login</a></div>');
 		});
+
+		this.get("#/props", function(){
+			if(params != null)
+				this.partial('templates/properties.hb', function(){
+					var AppKeys = [];
+					AppWarp.WarpClient.Admin.GetZones(params.username, params.password, params.host, params.port, function(res){
+						if(res.getResultCode() == AppWarp.ResultCode.Success){
+							var zones = JSON.parse(res.getPayloadStringDec(params.password));
+							var html = "";
+							for(var i=0; i<zones.length; ++i)
+							{
+								AppKeys.push(zones[i]);
+								html = html + '<option value="' + zones[i].AppKey+ '">'+ zones[i].AppName + " (" + zones[i].AppKey + ")" + "</option>";
+							}
+							$("#appkey").html(html);
+							$("#appkey").trigger("change");
+						}
+					});
+
+					$("#appkey").change(function(){
+						AppWarp.WarpClient.Admin.GetRooms($("#appkey").val(), params.username, params.password, params.host, params.port, function(res){
+							if(res.getResultCode() == AppWarp.ResultCode.Success){
+								var rooms = JSON.parse(res.getPayloadStringDec(params.password));
+								var html = "";
+								for(var i=0; i<rooms.length; ++i)
+								{
+									html = html + '<option value="' + rooms[i].id+ '">'+ rooms[i].name + " (" + rooms[i].id + ")" + "</option>";
+								}
+								$("#roomname").html(html);
+								$("#roomname").trigger("change");
+							}
+						});
+					});
+
+					$("#refresh").click(function(){
+						AppWarp.WarpClient.Admin.GetRooms($("#appkey").val(), params.username, params.password, params.host, params.port, function(res){
+							if(res.getResultCode() == AppWarp.ResultCode.Success){
+								var rooms = JSON.parse(res.getPayloadStringDec(params.password));
+								var html = "";
+								for(var i=0; i<rooms.length; ++i)
+								{
+									html = html + '<option value="' + rooms[i].id+ '">'+ rooms[i].name + " (" + rooms[i].id + ")" + "</option>";
+								}
+								$("#roomname").html(html);
+								$("#roomname").trigger("change");
+							}
+						});
+					});
+					
+					$("#roomname").change(function(){
+						AppWarp.WarpClient.Admin.GetLiveRoomInfo($("#appkey").val(), $("#roomname").val() ,params.username, params.password, params.host, params.port, function(res){
+							if(res.getResultCode() == AppWarp.ResultCode.Success){
+								var data = JSON.parse(res.getPayloadStringDec(params.password));
+								$("#properties").val(data.properties);
+
+								var html = "";
+								//var ele = '<div class="controls"><input type="text" value="key" /> <input type="text" value="value" /> <button type="button" class="btn btn-default btn-lg"><span class="icon-remove"></span> </button></div><br>';
+								var props = JSON.parse(data.properties);
+								var key;
+								for(key in props)
+								{
+									if(props.hasOwnProperty(key))
+									{
+										var ele = '<div data-type="controls" class="controls"><input data-type="key" type="text" value="'+key+'" /> <input data-type="value" type="text" value="'+props[key]+'" /> <button data-type="btnRemove" type="button" class="btn btn-default btn-lg"><span class="icon-remove"></span> </button><br><br></div>';
+										html += ele;
+									}
+								}
+		
+								$("#keyValues").html(html);
+								$("#keyValues").data("properties",data.properties);
+
+								$("button[data-type|='btnRemove']").click(function(){
+									$(this).parent().remove();
+								});
+							}
+							else
+							{
+								$("#properties").val("");
+								$("#log").html("Error: Getting Room Properties<br/>");
+							}
+						});
+					});
+
+					$("#updateRoom").click(function(){
+
+						function isNumber(n) {
+							return !isNaN(parseFloat(n)) && isFinite(n);
+						}
+
+						var json = {};
+						var removeArr = [];
+						$("div[data-type]").each(function(index){
+							var key = $(this).children("input[data-type|='key']").val();
+							var value = $(this).children("input[data-type|='value']").val();	
+							if(key.trim() != "" && value.trim() != "")
+							{
+								if(isNumber(value))
+									json[key] = eval(value);
+								else
+									json[key] = value;
+							}
+						});
+						var orgJson = JSON.parse($("#keyValues").data("properties"));
+						for(key in orgJson)
+						{
+							if(orgJson.hasOwnProperty(key))
+							{
+								if(!json.hasOwnProperty(key))
+								{
+									removeArr.push(key);
+								}
+							}
+						}
+
+						AppWarp.WarpClient.Admin.UpdateRoomProperties($("#appkey").val(), $("#roomname").val(), json, removeArr ,params.username, params.password, params.host, params.port, function(res){							
+							if(res.getResultCode() == AppWarp.ResultCode.Success){
+								var data = JSON.parse(res.getPayloadStringDec(params.password));
+								$("#log").html("Success: Room Properties Updated<br/>");
+								$("#log").html($("#log").html() + "Room: "+data.name+"<br>");
+								$("#log").html($("#log").html() + "Id: "+data.id+"<br>");
+								$("#log").html($("#log").html() + "Properties: "+data.properties+"<br>");
+								$("#keyValues").data("properties",data.properties);
+								//$("#roomname").trigger("change");
+							}
+							else
+							{
+								$("#log").html("Error: Updating Room Properties<br/>Error Result : "+res.getResultCode()+"<br>");
+							}
+						});
+					});
+
+					$("#addProp").click(function(){				
+						var ele = '<div data-type="controls" class="controls"><input data-type="key" type="text" placeholder="Key" /> <input data-type="value" type="text" placeholder="Value" /> <button data-type="btnRemove" type="button" class="btn btn-default btn-lg"><span class="icon-remove"></span> </button><br><br></div>';
+						$("#keyValues").append(ele);
+						$("button[data-type|='btnRemove']").click(function(){
+							$(this).parent().remove();
+						});
+					});
+				});
+			else
+				this.$element().html('<div class="loggedWrapper">You are not logged in!!! <a href="#/">Click here to login</a></div>');
+		});
 	});
 
 	$(function(){

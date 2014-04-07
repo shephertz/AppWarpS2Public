@@ -1,0 +1,38 @@
+{
+    "Questions": [
+        {
+            "id": 1,
+            "Question": {
+                "Question": "Abdul Kalam was elected as president in which year?",
+                "AttachedElement": {
+                    "Type": 1,
+                    "Value": ""
+                }
+            },
+            "Options": [
+                {
+                    "Type": 1,
+                    "Value": "1986"
+                },
+                {
+                    "Type": 1,
+                    "Value": "1992"
+                },
+                {
+                    "Type": 1,
+                    "Value": "1996"
+                },
+                {
+                    "Type": 1,
+                    "Value": "2002"
+                }
+            ]
+        }
+    ],
+    "Answers": [
+        {
+            "QuestionId": 1,
+            "Answer": 4
+        }
+    ]
+}

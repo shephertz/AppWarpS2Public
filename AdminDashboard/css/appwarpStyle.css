@@ -2,16 +2,16 @@
  *  Description : Style Sheet for AppWarp AdminDashboard 
  *  Author      : Rameshwar Sah  Date: 20ty,Dec,2013  Creation
  */ 
-@font-face { font-family: 'Open Sans'; src: url('font/opensans.ttf'); font-family: 'Open Sans';
+/*@font-face { font-family: 'Open Sans'; src: url('font/opensans.ttf'); font-family: 'Open Sans';
 src: url('font/opensans-bold.ttf') font-weight: normal; font-style: normal; }
 @font-face { font-family: 'helvetica'; src: url('font/helvetica.ttf'); font-family: 'helvetica';
-src: url('font/helvetica-bold.ttf') font-weight: normal; font-style: normal; }
+src: url('font/helvetica-bold.ttf') font-weight: normal; font-style: normal; }*/
 * { margin: 0; padding: 0; outline: none!important; }
 ul, li { list-style: none; }
 a img, fieldset { border: 0; outline: none!important; }
 p { padding: 6px 0; }
 html { height: 100%; }
-body { background-image: url(http://appwarp.shephertz.com/wp-content/themes/twentytwelve/images/mainpage-bg.jpg); background-repeat: repeat; background-position: left top; }
+body { background-image: url("../img/mainpage-bg.jpg"); background-repeat: repeat; background-position: left top; }
 body, ul, li, p, a, img, input, h1, h2, h3, h4, h5 { font-family: "Open Sans", Helvetica, Arial, sans-serif; text-rendering: optimizelegibility; font-weight: normal; font-size-adjust: inherit; font-style: normal; color: #656565; outline: 0 }
 .left { float: left; }
 .right { float: right; }
@@ -19,7 +19,7 @@ body, ul, li, p, a, img, input, h1, h2, h3, h4, h5 { font-family: "Open Sans", H
 .mZero{ margin:0!important;}
 /********************************** Header **************************************/
 .mainWrapper{ float:left; width:100%;}
-.appwarp_header_wrapper { background: url("http://appwarp.shephertz.com/wp-content/themes/twentytwelve/images/top_nav_bg.png") repeat-x scroll center center rgba(0, 0, 0, 0); float: left; height: 70px; min-width: 1024px; width: 100%; z-index: 999; }
+.appwarp_header_wrapper { background: url("../img/top_nav_bg.png") repeat-x scroll center center rgba(0, 0, 0, 0); float: left; height: 70px; min-width: 1024px; width: 100%; z-index: 999; }
 .appwarp_header_wrapper .appwarp_header_inner { margin: 0 auto; width: 1024px; }
 .appwarp_header_wrapper .appwarp_header_inner .appwarp_header { float: left; padding: 0 10px; width: 1004px; }
 #logo { float: left; margin-right: 15px; margin-top: 15px; text-align: left; width: 157px; z-index: 2; }

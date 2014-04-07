@@ -362,6 +362,29 @@ AppWarp.WarpClient.Admin = (function(){
 		return JSON.stringify(json);
 	}
 
+	var buildRoomRequest = function(apiKey, id, username, password){
+
+		var timeStamp = AppWarp.Utility.getODataUTCDateFilter();
+		var params = "";
+		params += "apiKey" + apiKey;
+		params += "timeStamp" + timeStamp;
+		params += "user" + username;
+		params += "version" + "Admin_1.0";
+
+		var hmac = AppWarp.CryptoJS.HmacSHA1(params, password).toString();
+		var signature = encodeURIComponent(AppWarp.Utility.base64_encode(AppWarp.Utility.hex2bin(hmac)));
+
+		var json = {};
+		json.apiKey = apiKey;
+		json.version = "Admin_1.0";
+		json.timeStamp = timeStamp;
+		json.user = username;
+		json.signature = signature;
+		json.id = id;
+
+		return JSON.stringify(json);
+	}
+
 	var buildCreateZoneRequest = function(zone, username, password){
 
 		var timeStamp = AppWarp.Utility.getODataUTCDateFilter();
@@ -425,6 +448,44 @@ AppWarp.WarpClient.Admin = (function(){
 		json.timeStamp = timeStamp;
 		json.user = username;
 		json.signature = signature;
+
+		return JSON.stringify(json);
+	}
+
+	var buildUpdateRoomPropertiesRequest = function(roomId, properties, removeArray, apiKey, username, password){
+
+		var timeStamp = AppWarp.Utility.getODataUTCDateFilter();
+		var params = "";
+		params += "apiKey" + apiKey;
+		params += "timeStamp" + timeStamp;
+		params += "user" + username;
+		params += "version" + "Admin_1.0";
+
+		var hmac = AppWarp.CryptoJS.HmacSHA1(params, password).toString();
+		var signature = encodeURIComponent(AppWarp.Utility.base64_encode(AppWarp.Utility.hex2bin(hmac)));
+
+		var json = {};
+		json.apiKey = apiKey;
+		json.version = "Admin_1.0";
+		json.timeStamp = timeStamp;
+		json.user = username;
+		json.signature = signature;
+
+		var removeProperties = "";
+		if (removeArray != null) {
+			if (removeArray.length > 0) {
+				for (var i = 0; i < removeArray.length; ++i) {
+					if (i < removeArray.length - 1)
+						removeProperties += removeArray[i] + ";";
+					else
+						removeProperties += removeArray[i];
+				}
+			}
+		}
+
+        json.id = roomId;
+        json.addOrUpdate = properties;
+        json.remove = removeProperties;
 
 		return JSON.stringify(json);
 	}
@@ -593,6 +654,42 @@ AppWarp.WarpClient.Admin = (function(){
 			socket.onopen = function(){
 				var payload = buildGetRoomsRequest(apiKey, username, password);
 				var bytes = buildWarpRequest(0,AppWarp.RequestType.GetRooms, AppWarp.Utility.aesEncrypt(payload, password), true);
+				socket.send(bytes.buffer);
+			};
+			socket.onclose = function(){
+			};
+			socket.onmessage = function(msg){
+				var bytearray = new Uint8Array(msg.data);
+				var res = new AppWarp.Response(bytearray, 0);
+				callback(res);
+				socket.close();
+			}
+		},
+
+		UpdateRoomProperties: function (apiKey,roomId, properties, remove, username, password, host, port, callback) {
+            var socket = new WebSocket("ws://"+host+":"+port);
+			socket.binaryType = "arraybuffer";
+			socket.onopen = function(){
+				var payload = buildUpdateRoomPropertiesRequest(roomId, properties, remove, apiKey, username, password);
+				var bytes = buildWarpRequest(0,AppWarp.RequestType.UpdateRoomProperty, AppWarp.Utility.aesEncrypt(payload, password), true);
+				socket.send(bytes.buffer);
+			};
+			socket.onclose = function(){
+			};
+			socket.onmessage = function(msg){
+				var bytearray = new Uint8Array(msg.data);
+				var res = new AppWarp.Response(bytearray, 0);
+				callback(res);
+				socket.close();
+			}
+		},
+
+		GetLiveRoomInfo: function (apiKey,roomId, username, password, host, port, callback) {
+            var socket = new WebSocket("ws://"+host+":"+port);
+			socket.binaryType = "arraybuffer";
+			socket.onopen = function(){
+				var payload = buildRoomRequest(apiKey,roomId, username, password);
+				var bytes = buildWarpRequest(0,AppWarp.RequestType.GetRoomInfo, AppWarp.Utility.aesEncrypt(payload, password), true);
 				socket.send(bytes.buffer);
 			};
 			socket.onclose = function(){

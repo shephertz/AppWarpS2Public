@@ -1,0 +1,40 @@
+{
+    "Levels": [
+        {
+            "levelId": 1,
+            "totalQuestions": 1,
+            "pointsPerCorrectAnswer": 3,
+            "pointsPerWrongAnswer": -1,
+            "timePerQuestion": 12
+        },
+        {
+            "levelId": 2,
+            "totalQuestions": 1,
+            "pointsPerCorrectAnswer": 3,
+            "pointsPerWrongAnswer": -1,
+            "timePerQuestion": 12
+        },
+        {
+            "levelId": 3,
+            "totalQuestions": 1,
+            "pointsPerCorrectAnswer": 3,
+            "pointsPerWrongAnswer": -1,
+            "timePerQuestion": 12
+        },
+        {
+            "levelId": 4,
+            "totalQuestions": 1,
+            "pointsPerCorrectAnswer": 3,
+            "pointsPerWrongAnswer": -1,
+            "timePerQuestion": 12
+        },
+        {
+            "levelId": 5,
+            "totalQuestions": 1,
+            "pointsPerCorrectAnswer": 3,
+            "pointsPerWrongAnswer": -1,
+            "timePerQuestion": 12
+        }
+    ],
+	"delayInBetweenTheLevels":"5"
+}
