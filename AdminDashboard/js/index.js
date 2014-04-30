@@ -46,7 +46,7 @@
 					});
 				}
 			}, function(){
-				$("#loginInfo").text("Invalid Host/Port");
+				$("#loginInfo").text("Host/Port not available");
 				$("#btnWrapper").html('<input type="submit" class="button" value="Sign in" id="signInBtn">');
 				$("#signInBtn").click(function(){
 					$("#btnWrapper").html('<input type="button" class="buttonD" value="Signing In...">');
