@@ -8,6 +8,15 @@ declare module AppWarp {
     }
 }
 declare module AppWarp {
+    class AllServerEvent {
+        private result;
+        private servers;
+        constructor(_result: number, payload: string);
+        public getResult(): number;
+        public getServers(): AppWarp.Server[];
+    }
+}
+declare module AppWarp {
     class AllUsersEvent {
         private json;
         private res;
@@ -72,6 +81,10 @@ declare module AppWarp {
         GetMoveHistory = 68,
         ZoneRPC = 69,
         RoomRPC = 70,
+        GetAllServers = 1,
+        MasterAuth = 2,
+        ClientCustomMessage = 3,
+        MasterSignout = 4,
     }
     enum PayloadType {
         FlatString = 0,
@@ -114,6 +127,7 @@ declare module AppWarp {
         GameStopped = 17,
         UserPaused = 14,
         UserResumed = 15,
+        ClientCustomMessage = 10,
     }
     enum Constants {
         MaxPropertySizeBytes = 2048,
@@ -167,6 +181,12 @@ declare module AppWarp {
         onStopGameDone,
         onGetMoveHistoryDone,
     }
+    enum MasterEvents {
+        onConnectDone,
+        onDisconnectDone,
+        onGetAllServerDone,
+        onCustomMessageReceived,
+    }
 }
 declare module AppWarp {
     class LiveRoom {
@@ -203,6 +223,28 @@ declare module AppWarp {
         public getName();
         public getIsPrimary();
         public getMaxUsers();
+    }
+}
+declare module AppWarp {
+    class MasterClient {
+        private static instance;
+        private masterHost;
+        private masterPort;
+        private isConnected;
+        private socket;
+        private responseCallbacks;
+        constructor();
+        static initialize(host: string, port: string): void;
+        static getInstance(): MasterClient;
+        public connect(): void;
+        public disconnect(): void;
+        private sendMessage(data);
+        private onMessage(msg);
+        private handleResponse(res);
+        private handleNotify(res);
+        public setListener(evnt: number, callback: Function): void;
+        public getAllServers(): void;
+        public sendCustomMessage(bytes: Uint8Array): void;
     }
 }
 declare module AppWarp {
@@ -244,7 +286,7 @@ declare module AppWarp {
 }
 declare module AppWarp {
     class RequestBuilder {
-        static buildWarpRequest(AppWarpSessionId: number, requestType: number, payload: any, isText: boolean): Uint8Array;
+        static buildWarpRequest(AppWarpSessionId: number, requestType: number, payload: any, isText: boolean, reserved?: number): Uint8Array;
         static buildAuthRequest(recovery: number, apiKey: string, user: string, authData: string): string;
         static buildLobbyRequest(): string;
         static buildChatRequest(msg: string): string;
@@ -298,11 +340,28 @@ declare module AppWarp {
     }
 }
 declare module AppWarp {
+    class Address {
+        private host;
+        private port;
+        constructor(_host: string, _port: number);
+        public getHost(): string;
+        public getPort(): number;
+    }
+    class Server {
+        private address;
+        private appKeys;
+        constructor(_address: Address, _appKeys: string[]);
+        public getAddress(): Address;
+        public getAppKeys(): string[];
+    }
+}
+declare module AppWarp {
     class Utility {
         static getODataUTCDateFilter(): string;
         static hex2bin(hex);
         static base64_encode(data);
         static bin2String(array: Uint8Array): string;
+        static string2bin(str: string): Uint8Array;
         static bytesToIntger(bytes, offset): number;
     }
 }
@@ -310,6 +369,7 @@ declare module AppWarp {
     class WarpClient {
         private static instance;
         private static apiKey;
+        private static serverPort;
         private static serverAddress;
         private static recoveryAllowance;
         private responseCallbacks;
@@ -322,7 +382,7 @@ declare module AppWarp {
         private authData;
         private recovering;
         constructor();
-        static initialize(API_KEY: string, server: string): void;
+        static initialize(API_KEY: string, server: string, port: string): void;
         static getInstance(): WarpClient;
         private sendMessage(data);
         private onMessage(msg);
