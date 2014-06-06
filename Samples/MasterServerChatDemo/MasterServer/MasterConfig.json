@@ -1,5 +1,5 @@
 {
-	"ListenPort" : 12345,
+	"ListenPort" : 12349,
 	"LogLevel" : "INFO",
 	"GameServers" : [
 		{
