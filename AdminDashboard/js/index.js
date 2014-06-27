@@ -61,6 +61,11 @@
 					var memoryCtx = document.getElementById("memoryChart").getContext("2d");
 					var ccuCtx = document.getElementById("ccuChart").getContext("2d");
 					var roomsCtx = document.getElementById("roomChart").getContext("2d");
+					
+					var memoryChart = new Chart(memoryCtx);
+					var ccuChart = new Chart(ccuCtx);
+					var roomsChart = new Chart(roomsCtx);
+					
 					var count = x.length;
 
 					peakMemory = 0, peakCCU = 0, peakRooms = 0, peakTime = "";
@@ -111,7 +116,7 @@
 									rooms.splice(0, rooms.length - countLimit,0);
 								}
 
-								new Chart(memoryCtx).Line({
+								memoryChart.Line({
 									labels : x,
 									datasets : [
 										{
@@ -124,7 +129,7 @@
 									]
 								}, {animation: false, pointDot : false});
 
-								new Chart(ccuCtx).Line({
+								ccuChart.Line({
 									labels : x,
 									datasets : [
 										{
@@ -137,7 +142,7 @@
 									]
 								}, {animation: false, pointDot : false});
 
-								new Chart(roomsCtx).Line({
+								roomsChart.Line({
 									labels : x,
 									datasets : [
 										{
