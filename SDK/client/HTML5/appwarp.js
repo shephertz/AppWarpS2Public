@@ -24,6 +24,28 @@ var AppWarp;
 })(AppWarp || (AppWarp = {}));
 var AppWarp;
 (function (AppWarp) {
+    var AllServerEvent = (function () {
+        function AllServerEvent(_result, payload) {
+            this.servers = new Array();
+            this.result = _result;
+            var json = JSON.parse(payload);
+            for (var i in json) {
+                this.servers.push(new AppWarp.Server(new AppWarp.Address(json[i].address.host, json[i].address.port), json[i].zones));
+            }
+        }
+        AllServerEvent.prototype.getResult = function () {
+            return this.result;
+        };
+
+        AllServerEvent.prototype.getServers = function () {
+            return this.servers;
+        };
+        return AllServerEvent;
+    })();
+    AppWarp.AllServerEvent = AllServerEvent;
+})(AppWarp || (AppWarp = {}));
+var AppWarp;
+(function (AppWarp) {
     var AllUsersEvent = (function () {
         function AllUsersEvent(result, payload) {
             this.json = JSON.parse(payload);
@@ -124,6 +146,11 @@ var AppWarp;
         RequestType[RequestType["GetMoveHistory"] = 68] = "GetMoveHistory";
         RequestType[RequestType["ZoneRPC"] = 69] = "ZoneRPC";
         RequestType[RequestType["RoomRPC"] = 70] = "RoomRPC";
+
+        RequestType[RequestType["GetAllServers"] = 1] = "GetAllServers";
+        RequestType[RequestType["MasterAuth"] = 2] = "MasterAuth";
+        RequestType[RequestType["ClientCustomMessage"] = 3] = "ClientCustomMessage";
+        RequestType[RequestType["MasterSignout"] = 4] = "MasterSignout";
     })(AppWarp.RequestType || (AppWarp.RequestType = {}));
     var RequestType = AppWarp.RequestType;
 
@@ -174,6 +201,8 @@ var AppWarp;
         UpdateType[UpdateType["GameStopped"] = 17] = "GameStopped";
         UpdateType[UpdateType["UserPaused"] = 14] = "UserPaused";
         UpdateType[UpdateType["UserResumed"] = 15] = "UserResumed";
+
+        UpdateType[UpdateType["ClientCustomMessage"] = 10] = "ClientCustomMessage";
     })(AppWarp.UpdateType || (AppWarp.UpdateType = {}));
     var UpdateType = AppWarp.UpdateType;
 
@@ -238,6 +267,14 @@ var AppWarp;
         Events[Events["onGetMoveHistoryDone"] = 44] = "onGetMoveHistoryDone";
     })(AppWarp.Events || (AppWarp.Events = {}));
     var Events = AppWarp.Events;
+
+    (function (MasterEvents) {
+        MasterEvents[MasterEvents["onConnectDone"] = 0] = "onConnectDone";
+        MasterEvents[MasterEvents["onDisconnectDone"] = 1] = "onDisconnectDone";
+        MasterEvents[MasterEvents["onGetAllServerDone"] = 2] = "onGetAllServerDone";
+        MasterEvents[MasterEvents["onCustomMessageReceived"] = 3] = "onCustomMessageReceived";
+    })(AppWarp.MasterEvents || (AppWarp.MasterEvents = {}));
+    var MasterEvents = AppWarp.MasterEvents;
 })(AppWarp || (AppWarp = {}));
 var AppWarp;
 (function (AppWarp) {
@@ -341,6 +378,121 @@ var AppWarp;
         return Lobby;
     })();
     AppWarp.Lobby = Lobby;
+})(AppWarp || (AppWarp = {}));
+var AppWarp;
+(function (AppWarp) {
+    var MasterClient = (function () {
+        function MasterClient() {
+            this.masterHost = "";
+            this.masterPort = "";
+            this.isConnected = false;
+            this.responseCallbacks = [];
+            if (MasterClient.instance) {
+                throw new Error("Error: Instantiation failed: Use MasterClient.getInstance() instead of new.");
+            }
+
+            MasterClient.instance = this;
+        }
+        MasterClient.initialize = function (host, port) {
+            MasterClient.getInstance().masterHost = host;
+            MasterClient.getInstance().masterPort = port;
+        };
+
+        MasterClient.getInstance = function () {
+            if (MasterClient.instance == null) {
+                MasterClient.instance = new MasterClient();
+            }
+
+            return MasterClient.instance;
+        };
+
+        MasterClient.prototype.connect = function () {
+            this.socket = new WebSocket("ws://" + this.masterHost + ":" + this.masterPort);
+            this.socket.binaryType = "arraybuffer";
+            var that = this;
+            this.socket.onopen = function () {
+                that.isConnected = true;
+                if (that.responseCallbacks[AppWarp.MasterEvents.onConnectDone])
+                    that.responseCallbacks[AppWarp.MasterEvents.onConnectDone](AppWarp.ResultCode.Success);
+            };
+            this.socket.onclose = function () {
+                that.isConnected = false;
+                if (that.responseCallbacks[AppWarp.MasterEvents.onConnectDone])
+                    that.responseCallbacks[AppWarp.MasterEvents.onConnectDone](AppWarp.ResultCode.ConnectionError);
+            };
+            this.socket.onmessage = function (msg) {
+                that.onMessage(msg);
+            };
+        };
+
+        MasterClient.prototype.disconnect = function () {
+            var that = this;
+            this.socket.onclose = function () {
+                that.isConnected = false;
+                if (that.responseCallbacks[AppWarp.MasterEvents.onDisconnectDone])
+                    that.responseCallbacks[AppWarp.MasterEvents.onDisconnectDone](AppWarp.ResultCode.Success);
+            };
+            this.socket.close();
+        };
+
+        MasterClient.prototype.sendMessage = function (data) {
+            this.socket.send(data);
+        };
+
+        MasterClient.prototype.onMessage = function (msg) {
+            var bytearray = new Uint8Array(msg.data);
+            var numRead = bytearray.length;
+            var numDecoded = 0;
+
+            while (numDecoded < numRead) {
+                if (bytearray[numDecoded] == AppWarp.MessageType.Response) {
+                    var res = new AppWarp.Response(bytearray, numDecoded);
+                    numDecoded += this.handleResponse(res);
+                } else if (bytearray[numDecoded] == AppWarp.MessageType.Update) {
+                    var notify = new AppWarp.Notify(bytearray, numDecoded);
+                    numDecoded += this.handleNotify(notify);
+                }
+            }
+        };
+
+        MasterClient.prototype.handleResponse = function (res) {
+            if (res.getRequestType() == AppWarp.RequestType.GetAllServers) {
+                var evnt = new AppWarp.AllServerEvent(res.getResultCode(), res.getPayloadString());
+                if (this.responseCallbacks[AppWarp.MasterEvents.onGetAllServerDone])
+                    this.responseCallbacks[AppWarp.MasterEvents.onGetAllServerDone](evnt);
+            }
+            return 9 + res.getPayloadSize();
+        };
+
+        MasterClient.prototype.handleNotify = function (res) {
+            if (res.getUpdateType() == AppWarp.UpdateType.ClientCustomMessage) {
+                if (this.responseCallbacks[AppWarp.MasterEvents.onCustomMessageReceived])
+                    this.responseCallbacks[AppWarp.MasterEvents.onCustomMessageReceived](res.getPayload());
+            }
+            return 8 + res.getPayloadSize();
+        };
+
+        MasterClient.prototype.setListener = function (evnt, callback) {
+            this.responseCallbacks[evnt] = callback;
+        };
+
+        MasterClient.prototype.getAllServers = function () {
+            if (this.isConnected == true) {
+                var data = AppWarp.RequestBuilder.buildWarpRequest(0, AppWarp.RequestType.GetAllServers, "", true, 3);
+                this.sendMessage(data.buffer);
+            }
+        };
+
+        MasterClient.prototype.sendCustomMessage = function (bytes) {
+            if (this.isConnected == true) {
+                var data = AppWarp.RequestBuilder.buildWarpRequest(0, AppWarp.RequestType.ClientCustomMessage, bytes, false, 3);
+                this.sendMessage(data.buffer);
+            }
+        };
+        MasterClient.instance = null;
+        return MasterClient;
+    })();
+    AppWarp.MasterClient = MasterClient;
 })(AppWarp || (AppWarp = {}));
 var AppWarp;
 (function (AppWarp) {
@@ -452,7 +604,8 @@ var AppWarp;
     var RequestBuilder = (function () {
         function RequestBuilder() {
         }
-        RequestBuilder.buildWarpRequest = function (AppWarpSessionId, requestType, payload, isText) {
+        RequestBuilder.buildWarpRequest = function (AppWarpSessionId, requestType, payload, isText, reserved) {
+            if (typeof reserved === "undefined") { reserved = 0; }
             var bytearray = new Uint8Array(16 + payload.length);
             bytearray[0] = AppWarp.MessageType.Request;
             bytearray[1] = requestType;
@@ -466,7 +619,7 @@ var AppWarp;
                 bytearray[i] = 0;
             }
 
-            bytearray[10] = 0;
+            bytearray[10] = reserved;
 
             if (payload.length > 0 && requestType != AppWarp.RequestType.UpdatePeers) {
                 bytearray[11] = AppWarp.PayloadType.Json;
@@ -753,6 +906,40 @@ var AppWarp;
 })(AppWarp || (AppWarp = {}));
 var AppWarp;
 (function (AppWarp) {
+    var Address = (function () {
+        function Address(_host, _port) {
+            this.host = _host;
+            this.port = _port;
+        }
+        Address.prototype.getHost = function () {
+            return this.host;
+        };
+
+        Address.prototype.getPort = function () {
+            return this.port;
+        };
+        return Address;
+    })();
+    AppWarp.Address = Address;
+
+    var Server = (function () {
+        function Server(_address, _appKeys) {
+            this.address = _address;
+            this.appKeys = _appKeys;
+        }
+        Server.prototype.getAddress = function () {
+            return this.address;
+        };
+
+        Server.prototype.getAppKeys = function () {
+            return this.appKeys;
+        };
+        return Server;
+    })();
+    AppWarp.Server = Server;
+})(AppWarp || (AppWarp = {}));
+var AppWarp;
+(function (AppWarp) {
     var Utility = (function () {
         function Utility() {
         }
@@ -834,6 +1021,15 @@ var AppWarp;
             return str;
         };
 
+        Utility.string2bin = function (str) {
+            var strLen = str.length;
+            var data = new Uint8Array(strLen);
+            for (var i = 0; i < strLen; ++i) {
+                data[i] = str.charCodeAt(i);
+            }
+            return data;
+        };
+
         Utility.bytesToIntger = function (bytes, offset) {
             var value = 0;
             for (var i = 0; i < 4; i++) {
@@ -875,10 +1071,11 @@ var AppWarp;
                 }
             }, 500);
         }
-        WarpClient.initialize = function (API_KEY, server) {
+        WarpClient.initialize = function (API_KEY, server, port) {
             WarpClient.apiKey = API_KEY;
 
             WarpClient.serverAddress = server;
+            WarpClient.serverPort = port;
         };
 
         WarpClient.getInstance = function () {
@@ -1171,7 +1368,7 @@ var AppWarp;
         WarpClient.prototype.connect = function (user, authData) {
             this.userName = user;
             this.authData = authData;
-            this.socket = new WebSocket("ws://" + WarpClient.serverAddress + ":12346");
+            this.socket = new WebSocket("ws://" + WarpClient.serverAddress + ":" + WarpClient.serverPort);
             this.socket.binaryType = "arraybuffer";
             var that = this;
             this.socket.onopen = function () {
@@ -1464,6 +1661,8 @@ var AppWarp;
             }
         };
         WarpClient.instance = null;
+
+        WarpClient.serverPort = "12346";
 
         WarpClient.recoveryAllowance = 0;
         return WarpClient;

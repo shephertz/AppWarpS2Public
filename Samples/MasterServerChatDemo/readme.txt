@@ -1,0 +1,3 @@
+This is a demo of how to use the AppWarp Master server library (AppWarpMS.jar). It illustrates the use by a trivial application that clients can connect to and fetch information about the different game servers. This can be used as a starting point to understand how it interacts with AppWarp S2 Game Server and the clients, and used as a base for building your own Master Server application.
+
+NOTE* This will only work if you have purchased and added a valid license key to your AppWarp S2 Game Server Application's (ChatServer in this case) AppConfig.json file.

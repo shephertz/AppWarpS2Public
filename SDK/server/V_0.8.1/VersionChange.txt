@@ -1,0 +1,2 @@
+* Fix bug in delayed auth case which causes recover connection to fail
+* Other Minor bug fixes

@@ -1,0 +1,4 @@
+* Master Client Added
+* Added setAppKey, setPort, setHostAddress setter methods and their corresponding getters 
+
+

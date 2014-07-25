@@ -1,0 +1,14 @@
+{
+	"ListenPort" : 12349,
+	"LogLevel" : "INFO",
+	"GameServers" : [
+		{
+			"Host" : "127.0.0.1",
+			"Port" : "12340"
+		},
+		{
+			"Host" : "127.0.0.1",
+			"Port" : "12341"
+		}
+	]
+}

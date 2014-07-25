@@ -1,0 +1,1 @@
+This is the HTML 5 chat client which works with the AppWarp S2 Master Server and AppWarp S2 Game Server
