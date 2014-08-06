@@ -9,19 +9,9 @@ AppWarp.Response = AppWarp.Response || {};
 
 AppWarp.RequestType = 
 {
-	Auth : 1,
-	JoinLobby : 2,
-	SubscribeLobby : 3,   
-	UnsubscribeLobby : 4,    
-	LeaveLobby : 5,    
-	CreateRoom : 6,    
-	JoinRoom : 7,    
-	SubscribeRoom : 8,    
-	UnsubscribeRoom : 9,    
-	LeaveRoom : 10,    
-	DeleteRoom : 11,    
-	Chat : 12,    
-	UpdatePeers : 13,    
+	Auth : 1,    
+	CreateRoom : 6,   
+	DeleteRoom : 11,  
 	Signout : 14,
 	CreateZone : 15,
 	DeleteZone : 16,  
@@ -32,24 +22,18 @@ AppWarp.RequestType =
 	SetCustomRoomData : 21,
 	SetCustomUserData : 22,        
 	GetLobbyInfo : 23,
-
-	JoinRoomWithNUser : 24,
 	UpdateRoomProperty : 25,
-	JoinRoomWithProperties : 27,
 	GetRoomWithNUser : 28,
 	GetRoomWithProperties : 29,
-	JoinRoomInRange : 37,
 	GetRoomInRange : 38,
-
-	LockProperties : 35,
-	UnlockProperties : 36,
-	KeepAlive : 63,
-	PrivateChat : 30,
-	Move : 31,
 
 	GetZones : 59,
 	ValidateAdminCredentials : 60,
-	GetLiveStats : 61
+	GetLiveStats : 61,
+	UpdateLicense : 80,
+	QueryLicense : 81,
+	UnlinkLicense : 82
+
 };
 
 AppWarp.PayloadType = {
@@ -489,6 +473,29 @@ AppWarp.WarpClient.Admin = (function(){
 
 		return JSON.stringify(json);
 	}
+	
+	var buildUpdateLicenseRequest = function(license,username, password){
+
+		var timeStamp = AppWarp.Utility.getODataUTCDateFilter();
+		var params = "";
+		params += "apiKey" + "";
+		params += "timeStamp" + timeStamp;
+		params += "user" + username;
+		params += "version" + "Admin_1.0";
+
+		var hmac = AppWarp.CryptoJS.HmacSHA1(params, password).toString();
+		var signature = encodeURIComponent(AppWarp.Utility.base64_encode(AppWarp.Utility.hex2bin(hmac)));
+
+		var json = {};
+		json.apiKey = "";
+		json.version = "Admin_1.0";
+		json.timeStamp = timeStamp;
+		json.user = username;
+		json.signature = signature;
+		json.license_key = license;
+
+		return JSON.stringify(json);
+	}
 
 	var isLiveStatRunning = false;
 	var statsSocket;
@@ -700,6 +707,60 @@ AppWarp.WarpClient.Admin = (function(){
 				callback(res);
 				socket.close();
 			}
-		}
+		},
+		
+		UpdateLicense: function (license, username, password, host, port, callback) {
+            var socket = new WebSocket("ws://"+host+":"+port);
+			socket.binaryType = "arraybuffer";
+			socket.onopen = function(){
+				var payload = buildUpdateLicenseRequest(license, username, password);
+				var bytes = buildWarpRequest(0,AppWarp.RequestType.UpdateLicense, AppWarp.Utility.aesEncrypt(payload, password), true);
+				socket.send(bytes.buffer);
+			};
+			socket.onclose = function(){
+			};
+			socket.onmessage = function(msg){
+				var bytearray = new Uint8Array(msg.data);
+				var res = new AppWarp.Response(bytearray, 0);
+				callback(res);
+				socket.close();
+			}
+		},
+		
+		QueryLicense: function (username, password, host, port, callback) {
+            var socket = new WebSocket("ws://"+host+":"+port);
+			socket.binaryType = "arraybuffer";
+			socket.onopen = function(){
+				var payload = buildAdminRequest(username, password);
+				var bytes = buildWarpRequest(0,AppWarp.RequestType.QueryLicense, AppWarp.Utility.aesEncrypt(payload, password), true);
+				socket.send(bytes.buffer);
+			};
+			socket.onclose = function(){
+			};
+			socket.onmessage = function(msg){
+				var bytearray = new Uint8Array(msg.data);
+				var res = new AppWarp.Response(bytearray, 0);
+				callback(res);
+				socket.close();
+			}
+		},
+		
+		UnlinkLicense: function (license, username, password, host, port, callback) {
+            var socket = new WebSocket("ws://"+host+":"+port);
+			socket.binaryType = "arraybuffer";
+			socket.onopen = function(){
+				var payload = buildUpdateLicenseRequest(license, username, password);
+				var bytes = buildWarpRequest(0,AppWarp.RequestType.UnlinkLicense, AppWarp.Utility.aesEncrypt(payload, password), true);
+				socket.send(bytes.buffer);
+			};
+			socket.onclose = function(){
+			};
+			socket.onmessage = function(msg){
+				var bytearray = new Uint8Array(msg.data);
+				var res = new AppWarp.Response(bytearray, 0);
+				callback(res);
+				socket.close();
+			}
+		},
 	}
 })();
