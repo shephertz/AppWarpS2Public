@@ -46,7 +46,7 @@
 					});
 				}
 			}, function(){
-				$("#loginInfo").text("Host/Port not available");
+				$("#loginInfo").text("Invalid Host/Port");
 				$("#btnWrapper").html('<input type="submit" class="button" value="Sign in" id="signInBtn">');
 				$("#signInBtn").click(function(){
 					$("#btnWrapper").html('<input type="button" class="buttonD" value="Signing In...">');
@@ -61,11 +61,6 @@
 					var memoryCtx = document.getElementById("memoryChart").getContext("2d");
 					var ccuCtx = document.getElementById("ccuChart").getContext("2d");
 					var roomsCtx = document.getElementById("roomChart").getContext("2d");
-					
-					var memoryChart = new Chart(memoryCtx);
-					var ccuChart = new Chart(ccuCtx);
-					var roomsChart = new Chart(roomsCtx);
-					
 					var count = x.length;
 
 					peakMemory = 0, peakCCU = 0, peakRooms = 0, peakTime = "";
@@ -116,7 +111,7 @@
 									rooms.splice(0, rooms.length - countLimit,0);
 								}
 
-								memoryChart.Line({
+								new Chart(memoryCtx).Line({
 									labels : x,
 									datasets : [
 										{
@@ -129,7 +124,7 @@
 									]
 								}, {animation: false, pointDot : false});
 
-								ccuChart.Line({
+								new Chart(ccuCtx).Line({
 									labels : x,
 									datasets : [
 										{
@@ -142,7 +137,7 @@
 									]
 								}, {animation: false, pointDot : false});
 
-								roomsChart.Line({
+								new Chart(roomsCtx).Line({
 									labels : x,
 									datasets : [
 										{
@@ -464,7 +459,7 @@
 							}
 						}
 
-						AppWarp.WarpClient.Admin.UpdateRoomProperties($("#appkey").val(), $("#roomname").val(), json, removeArr ,params.username, params.password, params.host, params.port, function(res){							
+						AppWarp.WarpClient.Admin.UpdateRoomProperties($("#appkey").val(), $("#roomname").val(), json, removeArr ,params.username, params.password, params.host, params.port, function(res){								
 							if(res.getResultCode() == AppWarp.ResultCode.Success){
 								var data = JSON.parse(res.getPayloadStringDec(params.password));
 								$("#log").html("Success: Room Properties Updated<br/>");
@@ -486,6 +481,67 @@
 						$("#keyValues").append(ele);
 						$("button[data-type|='btnRemove']").click(function(){
 							$(this).parent().remove();
+						});
+					});
+				});
+			else
+				this.$element().html('<div class="loggedWrapper">You are not logged in!!! <a href="#/">Click here to login</a></div>');
+		});
+		
+		this.get('#/options', function(){
+			if(params != null)
+				this.partial('templates/options.hb', function(){
+				
+					function loadCurrentLicense(){
+						AppWarp.WarpClient.Admin.QueryLicense(params.username, params.password, params.host, params.port, function(res){
+							var data = JSON.parse(res.getPayloadString());
+							var info = "<h4>Current License</h4>Email : " + data.email + "<br>" + "License : " + data.license_key + "<br>" + "CCUs : " + data.ccu;
+							$("#licenseInfo").html(info);
+							if(data.email === ""){
+								$('#activate').prop('disabled', false);
+								$('#deactivate').prop('disabled', true);
+							}
+							else{
+								$('#activate').prop('disabled', true);
+								$('#deactivate').prop('disabled', false)
+							}
+						});
+					}
+				
+					loadCurrentLicense();
+					$("#log").hide();
+					$("#activate").click(function(){
+						$("#log").show();
+						$("#log").html("Activating License Key. Please wait...");
+						AppWarp.WarpClient.Admin.UpdateLicense($("#license").val(),params.username, params.password, params.host, params.port, function(res){
+							if(res.getResultCode() == AppWarp.ResultCode.Success){
+								$("#log").html("License Updated");
+								loadCurrentLicense();
+							}else{
+								$("#log").html("Unable to update license. Check your server's log for more details");
+							}
+						});
+					});
+					$("#deactivate").click(function(){
+						$("#log").show();
+						$("#log").html("Releasing License key. Please wait...");
+						AppWarp.WarpClient.Admin.UpdateLicense("",params.username, params.password, params.host, params.port, function(res){						
+							if(res.getResultCode() == AppWarp.ResultCode.Success){
+								$("#log").html("License Released");
+								loadCurrentLicense();
+							}else{
+								$("#log").html("Unable to release license. Check your server's log for more details");
+							}
+						});
+					});
+					$("#unlink").click(function(){
+						$("#unlink_log").html("Unlinking License key. Please wait...");
+						AppWarp.WarpClient.Admin.UnlinkLicense($("#unlink_license").val(),params.username, params.password, params.host, params.port, function(res){						
+							if(res.getResultCode() == AppWarp.ResultCode.Success){
+								$("#unlink_log").html("License Unlinked");
+							}else{
+								$("#unlink_log").html("Unable to unlink license. Check your server's log for more details");
+							}
 						});
 					});
 				});

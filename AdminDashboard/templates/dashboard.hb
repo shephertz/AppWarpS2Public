@@ -7,8 +7,9 @@
           <ul id="dropdown_menu">
             <li><a href="#/dashboard">Home</a> |</li>
             <li><a href="#/zones">Zones</a> |</li>
-            <li><a href="#/rooms">Rooms</a></li>
-            <li><a href="#/props">Properties</a></li>
+            <li><a href="#/rooms">Rooms</a> |</li>
+            <li><a href="#/props">Properties</a> |</li>
+			<li><a href="#/options">Options</a></li>
           </ul>
         </div>
       </div>
