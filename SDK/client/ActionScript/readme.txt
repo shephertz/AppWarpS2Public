@@ -1,0 +1,1 @@
+* getSessionID and recoverConnectionWithSessionID added

@@ -1075,7 +1075,7 @@ var AppWarp;
             WarpClient.apiKey = API_KEY;
 
             WarpClient.serverAddress = server;
-            WarpClient.serverPort = port;
+            WarpClient.serverPort = port || "12346";
         };
 
         WarpClient.getInstance = function () {
@@ -1657,8 +1657,20 @@ var AppWarp;
                 if (this.responseCallbacks[AppWarp.Events.onConnectDone])
                     this.responseCallbacks[AppWarp.Events.onConnectDone](AppWarp.ResultCode.BadRequest);
             } else {
+                this.recovering = true;
                 this.connect(this.userName, this.authData);
             }
+        };
+
+        WarpClient.prototype.getSessionID = function () {
+            return this.SessionID;
+        };
+
+        WarpClient.prototype.recoverConnectionWithSessionID = function (sessionID, userName) {
+            this.SessionID = sessionID;
+            this.userName = userName;
+
+            this.recoverConnection();
         };
         WarpClient.instance = null;
 

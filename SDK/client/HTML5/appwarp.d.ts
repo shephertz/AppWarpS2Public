@@ -431,5 +431,7 @@ declare module AppWarp {
         public invokeRoomRPC(room: string, func: string): void;
         public setRecoveryAllowance(time: number): void;
         public recoverConnection(): void;
+        public getSessionID(): number;
+        public recoverConnectionWithSessionID(sessionID: number, userName: string): void;
     }
 }

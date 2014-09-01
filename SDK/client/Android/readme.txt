@@ -1,1 +1,1 @@
-performance bug fixes
+* getSessionID and recoverConnectionWithSessionID added
