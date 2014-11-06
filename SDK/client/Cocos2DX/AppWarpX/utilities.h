@@ -31,4 +31,15 @@ namespace AppWarp
 	bool getJSONBool(const char*,byte *,int );
 	std::string getODataUTCDateFilter();
     void appWarpTrace(std::string);
+	
+	class Arguments
+	{
+		cJSON *json;
+	public:
+		Arguments();
+		~Arguments();
+		void operator<<(double);
+		void operator<<(const char *);
+		cJSON *get();
+	};
 }

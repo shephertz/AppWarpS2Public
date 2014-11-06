@@ -202,6 +202,31 @@ namespace AppWarp
     {
         std::cout<<"AppWarp:"<<getODataUTCDateFilter()<<":"<<message<<std::endl;
     }
+	
+	Arguments::Arguments()
+	{
+		json = cJSON_CreateArray();
+	}
+
+	Arguments::~Arguments()
+	{
+		cJSON_Delete(json);
+	}
+
+	void Arguments::operator<<(double n)
+	{
+		cJSON_AddItemToArray(json,cJSON_CreateNumber(n));
+	}
+
+	void Arguments::operator<<(const char *string)
+	{
+		cJSON_AddItemToArray(json, cJSON_CreateString(string));
+	}
+
+	cJSON *Arguments::get()
+	{
+		return json;
+	}
     
 }
 

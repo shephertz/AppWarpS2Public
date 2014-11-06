@@ -173,6 +173,88 @@ namespace AppWarp
 				handleRoomResponse(RequestType::update_room_property, res);
 			else if(res->requestType == RequestType::get_room_with_n_user || res->requestType == RequestType::get_room_with_properties || res->requestType == RequestType::get_room_range)
 				handleZoneResponse(res->requestType, res);
+			else if(res->requestType == RequestType::zone_rpc)
+			{
+				RPCResult result;
+				
+				result.func = "";
+				result.value = "";
+				result.result = res->resultCode;
+				if(result.result == AppWarp::ResultCode::success)
+				{
+					std::string func = getJSONString("function",res->payLoad,res->payLoadSize);
+					char *str = new char[res->payLoadSize];
+					for(int i=0; i<res->payLoadSize; ++i)
+					{
+						str[i] = (char)res->payLoad[i];
+					}
+
+					cJSON *json, *begPtr;
+					json = cJSON_Parse(str);
+					begPtr = json;
+					json = json->child;
+					while(json != NULL)
+					{
+						if(strcmp(json->string,"return") ==  0)
+						{
+							if(json->type == cJSON_String)
+							{
+								result.func = func;
+								result.value = std::string(json->valuestring);
+							
+							}
+							break;
+						}
+						json = json->next;
+					}
+
+					cJSON_Delete(begPtr);
+					delete[] str;
+				}
+
+				if(_zonelistener != NULL)
+					_zonelistener->onSendRPCDone(result);
+				
+			}
+			else if(res->requestType == RequestType::room_rpc)
+			{
+				RPCResult result;
+				result.func = "";
+				result.value = "";
+				result.result = res->resultCode;
+				if(result.result == AppWarp::ResultCode::success)
+				{
+					std::string func = getJSONString("function",res->payLoad,res->payLoadSize);
+					char *str = new char[res->payLoadSize];
+					for(int i=0; i<res->payLoadSize; ++i)
+					{
+						str[i] = (char)res->payLoad[i];
+					}
+
+					cJSON *json, *begPtr;
+					json = cJSON_Parse(str);
+					begPtr = json;
+					json = json->child;
+					while(json != NULL)
+					{
+						if(strcmp(json->string,"return") ==  0)
+						{
+							if(json->type == cJSON_String)
+							{
+								result.func = func;
+								result.value = std::string(json->valuestring);
+							
+							}
+							break;
+						}
+						json = json->next;
+					}
+					cJSON_Delete(begPtr);
+					delete[] str;
+				}
+				if(_roomlistener != NULL)
+					_roomlistener->onSendRPCDone(result);
+			}
 
 			int ret = res->payLoadSize+9;
 			delete[] res->payLoad;

@@ -81,7 +81,7 @@ namespace AppWarp
         _instance = new Client();
 		_instance->APIKEY = AKEY;
 		_instance->APPWARPSERVERHOST = S2Host;
-        _instance->m_bRunning = true;
+        _instance->_running = true;
         _instance->scheduleUpdate();
         _instance->isWaitingForData = false;
         _instance->incompleteDataBuffer = NULL;
@@ -1521,4 +1521,63 @@ namespace AppWarp
 		cJSON_Delete(payloadJSON);
 		free(cRet);
     }
+	
+	void Client::invokeZoneRPC(std::string name, Arguments *args)
+	{
+		int byteLen;
+		byte *req;
+        
+		std::string payload;
+		cJSON *payloadJSON;
+		payloadJSON = cJSON_CreateObject();
+		cJSON_AddStringToObject(payloadJSON, "function", name.c_str());
+		cJSON_AddItemReferenceToObject(payloadJSON, "args", args->get());
+		char *cRet =  cJSON_PrintUnformatted(payloadJSON);
+		payload = cRet;
+        
+		req = buildWarpRequest(RequestType::zone_rpc, payload, byteLen);
+        
+		char *data = new char[byteLen];
+		for(int i=0; i< byteLen; ++i)
+		{
+			data[i] = req[i];
+		}
+
+		_socket->sockSend(data, byteLen);
+
+		delete[] data;
+		delete[] req;
+		cJSON_Delete(payloadJSON);
+		free(cRet);
+	}
+
+	void Client::invokeRoomRPC(std::string roomId,std::string name, Arguments *args)
+	{
+		int byteLen;
+		byte *req;
+        
+		std::string payload;
+		cJSON *payloadJSON;
+		payloadJSON = cJSON_CreateObject();
+		cJSON_AddStringToObject(payloadJSON, "function", name.c_str());
+		cJSON_AddItemReferenceToObject(payloadJSON, "args", args->get());
+		cJSON_AddStringToObject(payloadJSON, "roomId", roomId.c_str());
+		char *cRet =  cJSON_PrintUnformatted(payloadJSON);
+		payload = cRet;
+        
+		req = buildWarpRequest(RequestType::room_rpc, payload, byteLen);
+        
+		char *data = new char[byteLen];
+		for(int i=0; i< byteLen; ++i)
+		{
+			data[i] = req[i];
+		}
+
+		_socket->sockSend(data, byteLen);
+
+		delete[] data;
+		delete[] req;
+		cJSON_Delete(payloadJSON);
+		free(cRet);
+	}
 }

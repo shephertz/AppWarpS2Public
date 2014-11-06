@@ -34,9 +34,6 @@
 #include "pthread.h"
 #include "socket.h"
 
-#include "HMAC_SHA1.h"
-#include "base64.h"
-#include "urlencode.h"
 #include "cJSON.h"
 
 #include "defines.h"
@@ -479,7 +476,7 @@ namespace AppWarp
          */
         void stopGame();
         
-        /*
+        /**
          * Sends a move to the joined turn based room. Only allowed if its the sender's
          * turn.
          *
@@ -494,18 +491,26 @@ namespace AppWarp
          */
         void getMoveHistory();
         
-        /*
+        /**
          * Sets the connection recovery time (seconds) allowed that will be negotiated
          * with the server. By default it is 0 so there is no connection recovery.
          */
         void setRecoveryAllowance(int maxRecoveryTime);
         
         
-        /* 
+        /** 
          * Attempts to reconnect and recover the session. May succeed if done within
          * the recovery allowance time limit negotiated before the prior connect.
          */
         void recoverConnection();
+		
+		/**
+		 */
+		void invokeZoneRPC(std::string, Arguments *);
+
+		/**
+		 */
+		void invokeRoomRPC(std::string, std::string, Arguments *);
 
 
         /**
