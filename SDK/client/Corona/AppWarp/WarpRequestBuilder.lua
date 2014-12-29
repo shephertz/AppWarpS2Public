@@ -1,6 +1,5 @@
 
 local JSON = require "AppWarp.JSON"
-
 local WarpRequestBuilder = {}
 
   function WarpRequestBuilder.buildWarpRequest(calltype, sessionId, requestid, requestType, reserved, payloadType, payLoadSize, payLoad)
@@ -120,7 +119,7 @@ local WarpRequestBuilder = {}
       roomCreateTable["turnTime"] = turnTime
       roomCreateTable["inox"] = true
     end
-    
+	
     local roomCreateMessage = JSON:encode(roomCreateTable)
     local lengthPayload = string.len(tostring(roomCreateMessage));
     local warpMessage = WarpRequestBuilder.buildWarpRequest(WarpMessageTypeCode.REQUEST, WarpConfig.session_id, 0, WarpRequestTypeCode.CREATE_ROOM, 0, WarpContentTypeCode.JSON,
