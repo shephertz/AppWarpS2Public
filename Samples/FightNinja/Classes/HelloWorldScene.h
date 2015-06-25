@@ -7,7 +7,7 @@
 #include "appwarp.h"
 
 
-#define ROOM_ID             "390970905"
+#define ROOM_ID   "1162655627"
 
 
 class HelloWorld : public cocos2d::LayerColor, public AppWarp::ConnectionRequestListener,public AppWarp::RoomRequestListener,public AppWarp::NotificationListener,public AppWarp::ZoneRequestListener
@@ -59,12 +59,16 @@ public:
     void onChatReceived(AppWarp::chat chatevent);
     void onUserPaused(std::string user,std::string locId,bool isLobby);
     void onUserResumed(std::string user,std::string locId,bool isLobby);
+    void onSendRPCDone(AppWarp::RPCResult event);
+    void onDisconnectDone(int res);
     
     void scheduleRecover();
     void unscheduleRecover();
     void recover(float dt);
     void showReconnectingLayer(std::string message);
     
+    void invokeRoomRPC(Ref* pSender);
+    void invokeZoneRPC(Ref* pSender);
     
 };
 

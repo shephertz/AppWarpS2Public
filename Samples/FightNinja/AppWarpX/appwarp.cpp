@@ -287,6 +287,11 @@ namespace AppWarp
             
             if(_state == ConnectionState::disconnecting)
             {
+                if(_socket)
+                {
+                    delete _socket;
+                    _socket = NULL;
+                }
                 _state = ConnectionState::disconnected;
                 AppWarpSessionID = 0;
                 if(_connectionReqListener != NULL)
@@ -416,26 +421,34 @@ namespace AppWarp
         return true;
     }
 
+    void Client::setState(int newState){
+        _state = newState;
+    }
+    
 	void Client::disconnect()
 	{
-        
-
         if((_socket == NULL) || (_socket->sockDisconnect() == AppWarp::result_failure))
         {
             if(_connectionReqListener != NULL)
                 _connectionReqListener->onDisconnectDone(AppWarp::ResultCode::bad_request);
             return;
         }
-        keepAliveWatchDog = false;
-        this->unscheduleKeepAlive();
-        delete _socket;
-        _socket = NULL;
-        _state = ConnectionState::disconnecting;
-        AppWarpSessionID = 0;
         
-		if(_connectionReqListener != NULL)
-			_connectionReqListener->onDisconnectDone(AppWarp::ResultCode::success);
+        int byteLen;
+        byte *signOutReq = buildSignOutRequest(RequestType::signout, byteLen);
+        
+        _socket->sockSend((char*)signOutReq, byteLen);
+        
+        
+        delete[] signOutReq;
+        
+        setState(ConnectionState::disconnecting);
 
+        if((_socket->sockDisconnect() == AppWarp::result_failure))
+        {
+            if(_connectionReqListener != NULL)
+                _connectionReqListener->onDisconnectDone(AppWarp::ResultCode::bad_request);
+        }
 	}
 
 	void Client::joinLobby()

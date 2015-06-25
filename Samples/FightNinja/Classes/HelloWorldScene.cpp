@@ -140,7 +140,42 @@ void HelloWorld::startGame()
         scheduleUpdate();
     }
     
+    LabelTTF *roomRPCTitle = LabelTTF::create("InvokeRoomRPC", "Marker Felt", 30);
+    roomRPCTitle->setColor(Color3B::BLACK);
+    MenuItemLabel *invokeRoomRPC = MenuItemLabel::create(roomRPCTitle, CC_CALLBACK_1(HelloWorld::invokeRoomRPC, this));
+    invokeRoomRPC->setPosition(Point(winSize.width/4,100));
     
+    LabelTTF *zoneRPCTitle = LabelTTF::create("InvokeZoneRPC", "Marker Felt", 30);
+    zoneRPCTitle->setColor(Color3B::BLACK);
+    MenuItemLabel *invokeZoneRPC = MenuItemLabel::create(zoneRPCTitle, CC_CALLBACK_1(HelloWorld::invokeZoneRPC, this));
+    invokeZoneRPC->setPosition(Point(3*winSize.width/4,100));
+    
+    Menu *pMenu = Menu::create(invokeRoomRPC,invokeZoneRPC,NULL);
+    pMenu->setPosition(Point::ZERO);
+    addChild(pMenu, 1);
+}
+
+
+void HelloWorld::invokeRoomRPC(Ref* pSender)
+{
+    AppWarp::Client::getInstance()->disconnect();
+   /* AppWarp::Arguments *arguments = new AppWarp::Arguments();
+    arguments->operator<<(userName.c_str());
+    AppWarp::Client::getInstance()->invokeRoomRPC(ROOM_ID, "getPlayerInfo", arguments);*/
+}
+
+void HelloWorld::invokeZoneRPC(Ref* pSender)
+{
+    AppWarp::Arguments *arguments = new AppWarp::Arguments();
+    arguments->operator<<(userName.c_str());
+    AppWarp::Client::getInstance()->invokeZoneRPC("getUserProfile", arguments);
+}
+
+void HelloWorld::onSendRPCDone(AppWarp::RPCResult event)
+{
+    printf("\nFunction = %s",event.func.c_str());
+    printf("\nValue = %s",event.value.c_str());
+    printf("\nResult = %d",event.result);
 }
 
 void HelloWorld::update(float time)
@@ -150,7 +185,6 @@ void HelloWorld::update(float time)
     {
         return;
     }
-    
     
 	Array *projectilesToDelete = Array::create();
     if (_projectiles->count())
@@ -373,14 +407,14 @@ void HelloWorld::connectToAppWarp(Ref* pSender)
     if (isFirstLaunch)
     {
         isFirstLaunch = !isFirstLaunch;
-        AppWarp::Client::initialize("b98f4845-a239-42e6-9","192.168.1.94");
+        AppWarp::Client::initialize("f4273fec-386a-48dc-9","127.0.0.1");
         warpClientRef = AppWarp::Client::getInstance();
         warpClientRef->setRecoveryAllowance(60);
         warpClientRef->setConnectionRequestListener(this);
         warpClientRef->setNotificationListener(this);
         warpClientRef->setRoomRequestListener(this);
         warpClientRef->setZoneRequestListener(this);
-        userName = genRandom();
+        userName = "Rajeev";//genRandom();
         warpClientRef->connect(userName,"");
     }
     else
@@ -530,5 +564,17 @@ void HelloWorld::onUserResumed(std::string user,std::string locId,bool isLobby)
     //    printf("\nonUserResumed...user=%s",user.c_str());
     //    printf("\nonUserResumed...locId=%s",locId.c_str());
     removeStartGameLayer();
+}
+
+void HelloWorld::onDisconnectDone(int res)
+{
+    if (res == AppWarp::ResultCode::success) {
+        printf("Disconnected");
+        showStartGameLayer();
+    }
+    else
+    {
+        printf("Failed to Disconnect");
+    }
 }
 

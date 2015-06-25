@@ -59,6 +59,12 @@
 		521A8E6519F0C34300D177D7 /* Default-736h@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = 521A8E6319F0C34300D177D7 /* Default-736h@3x.png */; };
 		521A8EA919F11F5000D177D7 /* fonts in Resources */ = {isa = PBXBuildFile; fileRef = 521A8EA819F11F5000D177D7 /* fonts */; };
 		521A8EAA19F11F5000D177D7 /* fonts in Resources */ = {isa = PBXBuildFile; fileRef = 521A8EA819F11F5000D177D7 /* fonts */; };
+		5D22DAD81B341DEC006A0692 /* Player.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 5D22DAD41B341DEC006A0692 /* Player.cpp */; };
+		5D22DAD91B341DEC006A0692 /* StartGameLayer.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 5D22DAD61B341DEC006A0692 /* StartGameLayer.cpp */; };
+		5D22DADE1B341FE2006A0692 /* Bullet-blue.png in Resources */ = {isa = PBXBuildFile; fileRef = 5D22DADA1B341FE2006A0692 /* Bullet-blue.png */; };
+		5D22DADF1B341FE2006A0692 /* Bullet-red.png in Resources */ = {isa = PBXBuildFile; fileRef = 5D22DADB1B341FE2006A0692 /* Bullet-red.png */; };
+		5D22DAE01B341FE2006A0692 /* Enemy.png in Resources */ = {isa = PBXBuildFile; fileRef = 5D22DADC1B341FE2006A0692 /* Enemy.png */; };
+		5D22DAE11B341FE2006A0692 /* Player.png in Resources */ = {isa = PBXBuildFile; fileRef = 5D22DADD1B341FE2006A0692 /* Player.png */; };
 		5DF0F5591B185CFB007DEFB9 /* appwarp.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 5DF0F54C1B185CFB007DEFB9 /* appwarp.cpp */; };
 		5DF0F55A1B185CFB007DEFB9 /* appwarp_extended.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 5DF0F54E1B185CFB007DEFB9 /* appwarp_extended.cpp */; };
 		5DF0F55B1B185CFB007DEFB9 /* cJSON.c in Sources */ = {isa = PBXBuildFile; fileRef = 5DF0F54F1B185CFB007DEFB9 /* cJSON.c */; };
@@ -155,6 +161,14 @@
 		521A8E6219F0C34300D177D7 /* Default-667h@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Default-667h@2x.png"; sourceTree = "<group>"; };
 		521A8E6319F0C34300D177D7 /* Default-736h@3x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Default-736h@3x.png"; sourceTree = "<group>"; };
 		521A8EA819F11F5000D177D7 /* fonts */ = {isa = PBXFileReference; lastKnownFileType = folder; path = fonts; sourceTree = "<group>"; };
+		5D22DAD41B341DEC006A0692 /* Player.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Player.cpp; sourceTree = "<group>"; };
+		5D22DAD51B341DEC006A0692 /* Player.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Player.h; sourceTree = "<group>"; };
+		5D22DAD61B341DEC006A0692 /* StartGameLayer.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = StartGameLayer.cpp; sourceTree = "<group>"; };
+		5D22DAD71B341DEC006A0692 /* StartGameLayer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = StartGameLayer.h; sourceTree = "<group>"; };
+		5D22DADA1B341FE2006A0692 /* Bullet-blue.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Bullet-blue.png"; sourceTree = "<group>"; };
+		5D22DADB1B341FE2006A0692 /* Bullet-red.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Bullet-red.png"; sourceTree = "<group>"; };
+		5D22DADC1B341FE2006A0692 /* Enemy.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Enemy.png; sourceTree = "<group>"; };
+		5D22DADD1B341FE2006A0692 /* Player.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Player.png; sourceTree = "<group>"; };
 		5DF0F54C1B185CFB007DEFB9 /* appwarp.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = appwarp.cpp; sourceTree = "<group>"; };
 		5DF0F54D1B185CFB007DEFB9 /* appwarp.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = appwarp.h; sourceTree = "<group>"; };
 		5DF0F54E1B185CFB007DEFB9 /* appwarp_extended.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = appwarp_extended.cpp; sourceTree = "<group>"; };
@@ -295,6 +309,10 @@
 				46880B7619C43A67006E1F66 /* CloseNormal.png */,
 				46880B7719C43A67006E1F66 /* CloseSelected.png */,
 				46880B7A19C43A67006E1F66 /* HelloWorld.png */,
+				5D22DADA1B341FE2006A0692 /* Bullet-blue.png */,
+				5D22DADB1B341FE2006A0692 /* Bullet-red.png */,
+				5D22DADC1B341FE2006A0692 /* Enemy.png */,
+				5D22DADD1B341FE2006A0692 /* Player.png */,
 			);
 			name = Resources;
 			path = ../Resources;
@@ -307,6 +325,10 @@
 				46880B8519C43A87006E1F66 /* AppDelegate.h */,
 				46880B8619C43A87006E1F66 /* HelloWorldScene.cpp */,
 				46880B8719C43A87006E1F66 /* HelloWorldScene.h */,
+				5D22DAD41B341DEC006A0692 /* Player.cpp */,
+				5D22DAD51B341DEC006A0692 /* Player.h */,
+				5D22DAD61B341DEC006A0692 /* StartGameLayer.cpp */,
+				5D22DAD71B341DEC006A0692 /* StartGameLayer.h */,
 			);
 			name = Classes;
 			path = ../Classes;
@@ -482,8 +504,11 @@
 			files = (
 				5087E78117EB970100C73F5D /* Icon-120.png in Resources */,
 				5087E78617EB970100C73F5D /* Icon-76.png in Resources */,
+				5D22DAE11B341FE2006A0692 /* Player.png in Resources */,
+				5D22DAE01B341FE2006A0692 /* Enemy.png in Resources */,
 				5087E77F17EB970100C73F5D /* Default@2x.png in Resources */,
 				50EF629917ECD46A001EB2F8 /* Icon-100.png in Resources */,
+				5D22DADF1B341FE2006A0692 /* Bullet-red.png in Resources */,
 				5087E78317EB970100C73F5D /* Icon-152.png in Resources */,
 				46880B8119C43A67006E1F66 /* HelloWorld.png in Resources */,
 				46880B7D19C43A67006E1F66 /* CloseSelected.png in Resources */,
@@ -503,6 +528,7 @@
 				521A8E6419F0C34300D177D7 /* Default-667h@2x.png in Resources */,
 				46880B7B19C43A67006E1F66 /* CloseNormal.png in Resources */,
 				50EF629717ECD46A001EB2F8 /* Icon-58.png in Resources */,
+				5D22DADE1B341FE2006A0692 /* Bullet-blue.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -530,10 +556,12 @@
 				46880B8A19C43A87006E1F66 /* HelloWorldScene.cpp in Sources */,
 				5DF0F55A1B185CFB007DEFB9 /* appwarp_extended.cpp in Sources */,
 				503AE10017EB989F00D1A890 /* AppController.mm in Sources */,
+				5D22DAD91B341DEC006A0692 /* StartGameLayer.cpp in Sources */,
 				503AE10217EB989F00D1A890 /* RootViewController.mm in Sources */,
 				5DF0F55C1B185CFB007DEFB9 /* requests.cpp in Sources */,
 				5DF0F55D1B185CFB007DEFB9 /* socket.cpp in Sources */,
 				5DF0F55B1B185CFB007DEFB9 /* cJSON.c in Sources */,
+				5D22DAD81B341DEC006A0692 /* Player.cpp in Sources */,
 				503AE10117EB989F00D1A890 /* main.m in Sources */,
 				5DF0F55E1B185CFB007DEFB9 /* utilities.cpp in Sources */,
 				5DF0F5591B185CFB007DEFB9 /* appwarp.cpp in Sources */,
@@ -707,6 +735,7 @@
 					"$(SRCROOT)/../cocos2d/extensions",
 					"$(SRCROOT)/../cocos2d/external",
 					"$(SRCROOT)/../cocos2d/external/chipmunk/include/chipmunk",
+					"$(SRCROOT)/../cocos2d/external/curl/include/ios",
 				);
 				MACOSX_DEPLOYMENT_TARGET = 10.7;
 				ONLY_ACTIVE_ARCH = YES;
@@ -736,6 +765,7 @@
 					"$(SRCROOT)/../cocos2d/extensions",
 					"$(SRCROOT)/../cocos2d/external",
 					"$(SRCROOT)/../cocos2d/external/chipmunk/include/chipmunk",
+					"$(SRCROOT)/../cocos2d/external/curl/include/ios",
 				);
 				MACOSX_DEPLOYMENT_TARGET = 10.7;
 				OTHER_CFLAGS = "-DNS_BLOCK_ASSERTIONS=1";

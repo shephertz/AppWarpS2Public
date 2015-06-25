@@ -558,6 +558,7 @@ namespace AppWarp
         void scheduleKeepAlive();
         void unscheduleKeepAlive();
         void sendKeepAlive(float dt);
+        void setState(int newState);
 	};
 }
 

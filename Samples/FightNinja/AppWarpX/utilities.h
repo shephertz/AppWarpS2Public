@@ -38,6 +38,7 @@ namespace AppWarp
 	public:
 		Arguments();
 		~Arguments();
+        void operator<<(int);
 		void operator<<(double);
 		void operator<<(const char *);
 		cJSON *get();
