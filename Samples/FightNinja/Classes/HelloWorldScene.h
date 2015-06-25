@@ -7,7 +7,9 @@
 #include "appwarp.h"
 
 
-#define ROOM_ID   "1162655627"
+#define ROOM_ID     "1162655627"
+#define AppKey     "f4273fec-386a-48dc-9" 
+#define HOST        "127.0.0.1" //IP address where your server is hosted
 
 
 class HelloWorld : public cocos2d::LayerColor, public AppWarp::ConnectionRequestListener,public AppWarp::RoomRequestListener,public AppWarp::NotificationListener,public AppWarp::ZoneRequestListener

@@ -140,7 +140,7 @@ void HelloWorld::startGame()
         scheduleUpdate();
     }
     
-    LabelTTF *roomRPCTitle = LabelTTF::create("InvokeRoomRPC", "Marker Felt", 30);
+   /* LabelTTF *roomRPCTitle = LabelTTF::create("InvokeRoomRPC", "Marker Felt", 30);
     roomRPCTitle->setColor(Color3B::BLACK);
     MenuItemLabel *invokeRoomRPC = MenuItemLabel::create(roomRPCTitle, CC_CALLBACK_1(HelloWorld::invokeRoomRPC, this));
     invokeRoomRPC->setPosition(Point(winSize.width/4,100));
@@ -152,7 +152,7 @@ void HelloWorld::startGame()
     
     Menu *pMenu = Menu::create(invokeRoomRPC,invokeZoneRPC,NULL);
     pMenu->setPosition(Point::ZERO);
-    addChild(pMenu, 1);
+    addChild(pMenu, 1);*/
 }
 
 
@@ -407,7 +407,7 @@ void HelloWorld::connectToAppWarp(Ref* pSender)
     if (isFirstLaunch)
     {
         isFirstLaunch = !isFirstLaunch;
-        AppWarp::Client::initialize("f4273fec-386a-48dc-9","127.0.0.1");
+        AppWarp::Client::initialize(AppKey,HOST);
         warpClientRef = AppWarp::Client::getInstance();
         warpClientRef->setRecoveryAllowance(60);
         warpClientRef->setConnectionRequestListener(this);
