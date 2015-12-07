@@ -31,7 +31,7 @@ namespace AppWarp
 	class ConnectionRequestListener
 	{
 	public:
-		virtual void onConnectDone(int) {};
+		virtual void onConnectDone(int,std::string) {};
 		virtual void onDisconnectDone(int) {};
 	};
 

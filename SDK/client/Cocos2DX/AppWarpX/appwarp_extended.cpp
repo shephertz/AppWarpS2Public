@@ -255,6 +255,9 @@ namespace AppWarp
 				if(_roomlistener != NULL)
 					_roomlistener->onSendRPCDone(result);
 			}
+            else if(res->requestType == RequestType::keep_alive){
+                countPendingKeepAlive--;
+            }
 
 			int ret = res->payLoadSize+9;
 			delete[] res->payLoad;
@@ -419,6 +422,7 @@ namespace AppWarp
 					str[i] = (char)res->payLoad[i];
 				}
 				std::string sessionId_str = getJSONString("sessionid",res->payLoad, res->payLoadSize);
+                res->desc = "";
 				int sessionId = atoi(sessionId_str.c_str());
 				AppWarpSessionID = sessionId;
                 if (_state == ConnectionState::recovering)
@@ -431,6 +435,13 @@ namespace AppWarp
 			}
             else
             {
+                char *str = new char[res->payLoadSize];
+                for(int i=0; i<res->payLoadSize; ++i)
+                {
+                    str[i] = (char)res->payLoad[i];
+                }
+                std::string sessionId_str = getJSONString("desc",res->payLoad, res->payLoadSize);
+                res->desc = sessionId_str;
                 keepAliveWatchDog = false;
                 unscheduleKeepAlive();
                 _state = ConnectionState::disconnected;
@@ -438,7 +449,7 @@ namespace AppWarp
                 _socket = NULL;
             }
 			if(_connectionReqListener != NULL)
-				_connectionReqListener->onConnectDone(res->resultCode);
+				_connectionReqListener->onConnectDone(res->resultCode,res->desc);
 		}
 
 		void Client::handleLobbyResponse(int reqType,response *res)

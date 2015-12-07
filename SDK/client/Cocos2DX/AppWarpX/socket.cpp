@@ -81,7 +81,7 @@ namespace AppWarp
 		int Socket::sockSend(char *messageToSend,int messageLength)
 		{
             _callBack->keepAliveWatchDog = false;
-            int bytes_sent = send(sockd, messageToSend, messageLength, 0);
+            int bytes_sent = (int)send(sockd, messageToSend, messageLength, 0);
             if(bytes_sent != messageLength)
             {
                 return AppWarp::result_failure;
@@ -95,7 +95,7 @@ namespace AppWarp
 		void Socket::checkMessages()
 		{
 			unsigned char msg[4096];
-			int ret = recv(sockd, msg, 4096, 0);
+			int ret = (int)recv(sockd, msg, 4096, 0);
             if(ret > 0)
             {
                 _callBack->socketNewMsgCallback(msg, ret);

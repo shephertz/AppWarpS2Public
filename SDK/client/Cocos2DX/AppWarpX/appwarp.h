@@ -45,6 +45,9 @@
 
 #define CLIENT_KEEP_ALIVE_TIME_INTERVAL 2  //In second
 #define WARP_KEEP_ALIVE_TIME_INTERVAL (CLIENT_KEEP_ALIVE_TIME_INTERVAL*3)
+#define PENDING_KEEP_ALIVE_LIMIT 3
+
+
 
 namespace AppWarp
 {
@@ -525,7 +528,7 @@ namespace AppWarp
 		std::string APIKEY;
 		std::string APPWARPSERVERHOST;
         bool isWaitingForData;
-		
+		byte countPendingKeepAlive;
         Utility::Socket* _socket;
 		static Client* _instance;
 		Client();
@@ -558,6 +561,7 @@ namespace AppWarp
         void scheduleKeepAlive();
         void unscheduleKeepAlive();
         void sendKeepAlive(float dt);
+        void setState(int newState);
 	};
 }
 

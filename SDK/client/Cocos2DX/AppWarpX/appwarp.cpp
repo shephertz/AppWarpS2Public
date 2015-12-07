@@ -144,11 +144,11 @@ namespace AppWarp
         if (AppWarpSessionID==0 || userName.length() == 0 || _socket!=NULL || _state!=ConnectionState::disconnected || APPWARPSERVERHOST.length() <= 0)
         {
 			if(_connectionReqListener != NULL)
-				_connectionReqListener->onConnectDone(ResultCode::bad_request);
+				_connectionReqListener->onConnectDone(ResultCode::bad_request,"");
             return;
 		}
-        
         _state = ConnectionState::recovering;
+        _socketState = SocketStream::stream_connecting;
         pthread_t threadConnection;
         pthread_create(&threadConnection, NULL, &threadConnect, (void *)this);
     }
@@ -189,11 +189,12 @@ namespace AppWarp
 		if(user.length() == 0 || _socket!=NULL || _state!=ConnectionState::disconnected)
 		{
 			if(_connectionReqListener != NULL)
-				_connectionReqListener->onConnectDone(ResultCode::bad_request);
+				_connectionReqListener->onConnectDone(ResultCode::bad_request,"");
             return;
 		}
         userName = user;
         authData = customAuthData;
+        AppWarpSessionID = 0;
         _state = ConnectionState::connecting;
         pthread_t threadConnection;
         _socketState = SocketStream::stream_connecting;
@@ -210,6 +211,7 @@ namespace AppWarp
     
     void Client::scheduleKeepAlive()
     {
+        countPendingKeepAlive = 0;
         this->schedule(schedule_selector(Client::sendKeepAlive), CLIENT_KEEP_ALIVE_TIME_INTERVAL);
     }
     
@@ -224,6 +226,12 @@ namespace AppWarp
         {
             unscheduleKeepAlive();
         }
+        
+        if(countPendingKeepAlive >= PENDING_KEEP_ALIVE_LIMIT){
+            socketConnectionCallback(AppWarp::result_failure);
+            return;
+        }
+        
         if (keepAliveWatchDog)
         {
             int byteLen;
@@ -240,6 +248,7 @@ namespace AppWarp
             delete[] lobbyReq;
             
             keepAliveWatchDog = true;
+            countPendingKeepAlive++;
         }
         else
         {
@@ -257,7 +266,6 @@ namespace AppWarp
             _socket = NULL;
             return;
         }
-        //printf("\n..socketConnectionCallback");
         _socketState = SocketStream::stream_connected;
 		int byteLen;
 		byte * authReq = buildAuthRequest(userName, byteLen,this->APIKEY,this->authData);
@@ -299,14 +307,14 @@ namespace AppWarp
                     _connectionReqListener->onDisconnectDone(ResultCode::success);
                 }
             }
-            else if(_state != ConnectionState::disconnected && _state != ConnectionState::recovering)
+            else if(_state != ConnectionState::disconnected)
             {
                 _state = ConnectionState::disconnected;
                 if(AppWarpSessionID != 0 && RECOVERY_ALLOWANCE_TIME > 0)
                 {
                     if(_connectionReqListener != NULL)
                     {
-                        _connectionReqListener->onConnectDone(ResultCode::connection_error_recoverable);
+                        _connectionReqListener->onConnectDone(ResultCode::connection_error_recoverable,"");
                     }
                 }
                 else
@@ -314,14 +322,14 @@ namespace AppWarp
                     AppWarpSessionID = 0;
                     if(_connectionReqListener != NULL)
                     {
-                        _connectionReqListener->onConnectDone(ResultCode::connection_error);
+                        _connectionReqListener->onConnectDone(ResultCode::connection_error,"");
                     }
                 }
             }
         }
         else
         {
-            // printf("ConnectionState=%d",_state);
+           // printf("ConnectionState=%d",_state);
         }
     }
     
@@ -421,8 +429,12 @@ namespace AppWarp
         return true;
     }
 
+    void Client::setState(int newState){
+        _state = newState;
+    }
+    
 	void Client::disconnect()
-    {
+	{
         if((_socket == NULL) || (_socket->sockDisconnect() == AppWarp::result_failure))
         {
             if(_connectionReqListener != NULL)
@@ -439,13 +451,13 @@ namespace AppWarp
         delete[] signOutReq;
         
         setState(ConnectionState::disconnecting);
-        
+
         if((_socket->sockDisconnect() == AppWarp::result_failure))
         {
             if(_connectionReqListener != NULL)
                 _connectionReqListener->onDisconnectDone(AppWarp::ResultCode::bad_request);
         }
-    }
+	}
 
 	void Client::joinLobby()
 	{
@@ -552,6 +564,7 @@ namespace AppWarp
 			}
             return;
         }
+        appWarpTrace("Sent Join room request");
 		int byteLen;
 		byte *roomReq = buildRoomRequest(RequestType::join_room, roomId, byteLen);
 		char *data = new char[byteLen];

@@ -27,10 +27,11 @@ namespace AppWarp
 		byte* buildWarpRequest(int , byte *, int , int &);
 		byte* buildAuthRequest(std::string, int &,std::string, std::string);
 		byte* buildLobbyRequest(int,int &);
-		byte *buildRoomRequest(int,std::string,int &);
-		byte *buildCreateRoomRequest(std::string,std::string,int,int &);
-		byte *buildCreateRoomRequest(std::string,std::string,int,std::string,int,int &);
-        byte *buildKeepAliveRequest(int requestType, int &len);
+		byte* buildRoomRequest(int,std::string,int &);
+		byte* buildCreateRoomRequest(std::string,std::string,int,int &);
+		byte* buildCreateRoomRequest(std::string,std::string,int,std::string,int,int &);
+        byte* buildKeepAliveRequest(int requestType, int &len);
+        byte* buildSignOutRequest(int requestType, int &len);
 		response *buildResponse(char *, int);
 		notify *buildNotify(char *, int);
 }

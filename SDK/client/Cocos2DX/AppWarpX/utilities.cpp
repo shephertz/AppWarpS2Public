@@ -217,6 +217,11 @@ namespace AppWarp
 	{
 		cJSON_AddItemToArray(json,cJSON_CreateNumber(n));
 	}
+    
+    void Arguments::operator<<(int n)
+    {
+        cJSON_AddItemToArray(json,cJSON_CreateNumber(n));
+    }
 
 	void Arguments::operator<<(const char *string)
 	{

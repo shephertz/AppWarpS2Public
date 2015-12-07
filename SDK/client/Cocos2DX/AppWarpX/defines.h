@@ -34,6 +34,7 @@ namespace AppWarp
 		int reserved;
 		int payLoadType;
 		int payLoadSize;
+        std::string desc;
 		byte *payLoad;
 	};
 	typedef response_struct response; 
