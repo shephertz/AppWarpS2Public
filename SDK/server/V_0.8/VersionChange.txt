@@ -1,2 +1,0 @@
-* Return unmodifiable collections for internally managed data (rooms, users etc.)
-* Other Minor bug fixes

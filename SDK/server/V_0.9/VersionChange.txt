@@ -1,2 +1,0 @@
-* Ability to allow new users to connect with same name as an existing connection (discarding the older one)
-* Minor Bug Fixes

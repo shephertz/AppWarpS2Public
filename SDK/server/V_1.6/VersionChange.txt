@@ -1,0 +1,4 @@
+
+Version 1.5
+* Added CCU reset if license is not valid.
+

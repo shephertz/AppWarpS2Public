@@ -1,2 +1,0 @@
-* License Options from the admin dashboard.
-* Bug fixes
