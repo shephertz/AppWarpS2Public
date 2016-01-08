@@ -1,4 +1,4 @@
 
-Version 1.5
-* Added CCU reset if license is not valid.
+Version 1.6
+* getSessionId function added in IUser
 
