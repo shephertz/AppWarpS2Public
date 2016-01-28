@@ -1,0 +1,4 @@
+
+Version 1.7
+* Bug Fix for getSessionId for User
+
