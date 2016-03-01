@@ -1,6 +1,5 @@
 
 local JSON = require "AppWarp.JSON"
-
 local WarpRequestBuilder = {}
 
   function WarpRequestBuilder.buildWarpRequest(calltype, sessionId, requestid, requestType, reserved, payloadType, payLoadSize, payLoad)
@@ -27,7 +26,7 @@ local WarpRequestBuilder = {}
    authTable["authData"] = auth
    authTable["apiKey"] =  WarpConfig.apiKey;   
    authTable["keepalive"] =  WarpConfig.keepAliveInterval;
-   authTable["recoverytime"] =  RecoveryTime;
+   authTable["recoverytime"] =  WarpConfig.recoveryAllowance;
    local authMessage = JSON:encode(authTable);  
    local lengthPayload = string.len(tostring(authMessage));
    local warpMessage = WarpRequestBuilder.buildWarpRequest(WarpMessageTypeCode.REQUEST, sid, 0, WarpRequestTypeCode.AUTH, 0, WarpContentTypeCode.JSON, lengthPayload, tostring(authMessage));
@@ -116,11 +115,10 @@ local WarpRequestBuilder = {}
     roomCreateTable["owner"] = owner
     roomCreateTable["maxUsers"] = maxUsers
     roomCreateTable["properties"] = properties       
-    if(turnTime > 0) then      
+    if(turnTime > 0) then   
       roomCreateTable["turnTime"] = turnTime
       roomCreateTable["inox"] = true
     end
-    
     local roomCreateMessage = JSON:encode(roomCreateTable)
     local lengthPayload = string.len(tostring(roomCreateMessage));
     local warpMessage = WarpRequestBuilder.buildWarpRequest(WarpMessageTypeCode.REQUEST, WarpConfig.session_id, 0, WarpRequestTypeCode.CREATE_ROOM, 0, WarpContentTypeCode.JSON,

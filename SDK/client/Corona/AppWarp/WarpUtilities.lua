@@ -6,7 +6,7 @@ warplog = function(message)
   return
   end
   message = tostring(message);
-  print(os.clock().." : "..message);
+ -- print(os.clock().." : "..message);
 end
  
  function isUserNameValid(input)
@@ -60,7 +60,7 @@ end
  
  function decodeWarpResponseMessage(message, offset)
    local length = string.len(message) - offset;
-   print("decodeWarpResponseMessage buffer length: " .. length)
+   --print("decodeWarpResponseMessage buffer length: " .. length)
        
    local messageType = string.byte(message, offset+1, offset+1);
    local requestType = string.byte(message, offset+2, offset+2);
@@ -77,26 +77,26 @@ end
    
    local payloadSize = tonumber(payLoadSize);
    
-   print("messageType " .. messageType);
-   print("requestType " .. requestType);
-   print("resultCode " .. resultCode);
-   print("reserved " .. reserved);
-   print("payloadType " .. payloadType);
-   print("payloadSize " .. payloadSize);
+   --print("messageType " .. messageType);
+  -- print("requestType " .. requestType);
+   --print("resultCode " .. resultCode);
+  -- print("reserved " .. reserved);
+  -- print("payloadType " .. payloadType);
+  -- print("payloadSize " .. payloadSize);
    
    local payLoad = string.sub(message, offset+10, offset+10+payloadSize-1);
    
-   print("payLoad " .. payLoad);
+   --print("payLoad " .. payLoad);
    
    return requestType, resultCode, payLoad, payloadSize+9
   end 
   
  function decodeWarpNotifyMessage(message, offset)
- print("message="..message)
- print("offset="..offset)
+--print("message="..message)
+ --print("offset="..offset)
    local length = string.len(message) - offset;
    
-   print("decodeWarpNotifyMessage buffer length: " .. length)
+   --print("decodeWarpNotifyMessage buffer length: " .. length)
        
    local messageType = string.byte(message, offset+1, offset+1);
    local notifyType = string.byte(message, offset+2, offset+2);
@@ -112,15 +112,15 @@ end
    
    local payloadSize = tonumber(payLoadSize);
    
-   print("messageType " .. messageType);
-   print("notifyType " .. notifyType);
-   print("reserved " .. reserved);
-   print("payloadType " .. payloadType);
-   print("payloadSize " .. payloadSize);
+   --print("messageType " .. messageType);
+   --print("notifyType " .. notifyType);
+   --print("reserved " .. reserved);
+   --print("payloadType " .. payloadType);
+   --print("payloadSize " .. payloadSize);
    
    local payLoad = string.sub(message, offset+9, offset+9+payloadSize-1);
    
-   print("payLoad " .. payLoad);
+  -- print("payLoad " .. payLoad);
    
    return notifyType, payLoad, 8+payloadSize
    

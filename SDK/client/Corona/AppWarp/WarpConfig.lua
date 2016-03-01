@@ -7,4 +7,7 @@ WarpConfig = {
   ["session_id"] = nil;
   ["keepAliveInterval"] = 6;
   ["trace"] = false;
+  ["recoveryAllowance"] = 0;
+  ["pendingKeepAliveIntervalsLimit"] = 3;
+
 }

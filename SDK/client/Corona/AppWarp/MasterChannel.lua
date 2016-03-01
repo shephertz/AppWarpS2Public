@@ -17,7 +17,7 @@ function MasterChannel.socket_connect()
   --print("master port"..WarpConfigForMasterClient.warp_port)
   local status, err = client_socket:connect(WarpConfigForMasterClient.warp_host, WarpConfigForMasterClient.warp_port)
   if(err == "already connected")  then
-    print("channel connected")
+    --print("channel connected")
     MasterChannel.isConnected = true;
     WarpConfigForMasterClient.MasterClient.onConnect(true);    
   else
@@ -46,14 +46,14 @@ function MasterChannel.socket_recv()
     local partialstring = tostring(partial);
     local length = string.len(partialstring);
     if(length > 0) then
-      print("read some partial bytes "..tostring(length))
+      --print("read some partial bytes "..tostring(length))
       WarpConfigForMasterClient.MasterClient.receivedData(partial)
     end
   end  
   if (status == "timeout") then
-    print("timeout socket")
+    --print("timeout socket")
   elseif status == "closed" then 
-    print("closed socket")
+   -- print("closed socket")
     MasterChannel.isConnected = false;    
     client_socket = nil;  	
     WarpConfigForMasterClient.MasterClient.onConnect(false);
