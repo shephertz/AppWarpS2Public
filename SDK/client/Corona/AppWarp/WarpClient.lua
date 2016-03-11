@@ -65,6 +65,7 @@
   end
     
  local function onNotify(notifyType, payLoad)
+   
     if(notifyType == WarpNotifyTypeCode.UPDATE_PEERS) then
       if(NotificationListenerTable.onUpdatePeersReceived ~= nil) then
         NotificationListenerTable.onUpdatePeersReceived(payLoad)
@@ -72,7 +73,12 @@
       return
     end    
     local payLoadTable = JSON:decode(payLoad); 
-    if((notifyType == WarpNotifyTypeCode.CHAT) and (NotificationListenerTable.onChatReceived ~= nil)) then      
+    print("payLoadTable : ",payLoadTable)
+    if((notifyType == WarpNotifyTypeCode.CHAT) and (NotificationListenerTable.onChatReceived ~= nil)) then    
+       print("sender: ",payLoadTable['sender'])  
+       print("chat: ",payLoadTable['chat']) 
+       print("id: ",payLoadTable['id']) 
+       print("isLobby: ",payLoadTable['isLobby']) 
       NotificationListenerTable.onChatReceived(payLoadTable['sender'], payLoadTable['chat'], payLoadTable['id'], payLoadTable['isLobby'] ~= nil)
     elseif((notifyType == WarpNotifyTypeCode.PRIVATE_CHAT) and (NotificationListenerTable.onPrivateChatReceived ~= nil)) then
       NotificationListenerTable.onPrivateChatReceived(payLoadTable['sender'], payLoadTable['chat'])      
@@ -223,7 +229,8 @@
      if(RequestListenerTable.onGetMatchedRoomsDone ~= nil) then
         if(resultCode ~= WarpResponseResultCode.SUCCESS) then
           RequestListenerTable.onGetMatchedRoomsDone(resultCode, nil)          
-        else      
+        else     
+             print(payLoadTable) 
           local roomsTable = buildMatchedRoomsTable(payLoadTable)
           RequestListenerTable.onGetMatchedRoomsDone(resultCode, roomsTable)
         end
@@ -391,9 +398,11 @@
         sessionId = 0;
         _connectionState = WarpConnectionState.DISCONNECTING;
         
-        local signoutMsg = RequestBuilder.buildWarpRequest(WarpRequestTypeCode.SIGNOUT,
-            sessionId, 0, WarpMessageTypeCode.REQUEST, 0,
+        local signoutMsg = RequestBuilder.buildWarpRequest(WarpMessageTypeCode.REQUEST,
+            sessionId, 0, WarpRequestTypeCode.SIGNOUT, 0,
             WarpContentTypeCode.BINARY, 0, nil);
+			print(WarpRequestTypeCode.SIGNOUT)
+	     print(signoutMsg)
         Channel.socket_send(signoutMsg);
  end
  
@@ -763,11 +772,13 @@
   end
 
  function WarpClient.recoverConnection()
+     print('recoverConnection-----------')
     if (WarpConfig.session_id == 0 or _connectionState == WarpConnectionState.CONNECTED) then
       if(RequestListenerTable.onConnectDone ~= nil) then
         RequestListenerTable.onConnectDone(WarpResponseResultCode.BAD_REQUEST);
       end
     else
+      print("inside else-----------------")
       _connectionState = WarpConnectionState.RECOVERING;
     end
     countPendingKeepAlives = 0;
