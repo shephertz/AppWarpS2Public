@@ -3,11 +3,10 @@ local JSON = require "AppWarp.JSON"
 
 warplog = function(message)
   if(WarpConfig.trace == false) then
-    return
+  return
   end
-  
   message = tostring(message);
-  print(os.clock().." : "..message);
+ -- print(os.clock().." : "..message);
 end
  
  function isUserNameValid(input)
@@ -42,6 +41,7 @@ end
     for k,v in pairs(payLoadTable) do
       n = n+1      
       MatchingRooms[n]=v
+	  MatchingRooms[n].id = k
     end        
     return MatchingRooms
  end 
@@ -59,10 +59,8 @@ end
  end 
  
  function decodeWarpResponseMessage(message, offset)
-
    local length = string.len(message) - offset;
-   
-   warplog("decodeWarpResponseMessage buffer length: " .. length)
+   --print("decodeWarpResponseMessage buffer length: " .. length)
        
    local messageType = string.byte(message, offset+1, offset+1);
    local requestType = string.byte(message, offset+2, offset+2);
@@ -79,26 +77,26 @@ end
    
    local payloadSize = tonumber(payLoadSize);
    
-   warplog("messageType " .. messageType);
-   warplog("requestType " .. requestType);
-   warplog("resultCode " .. resultCode);
-   warplog("reserved " .. reserved);
-   warplog("payloadType " .. payloadType);
-   warplog("payloadSize " .. payloadSize);
+   --print("messageType " .. messageType);
+  -- print("requestType " .. requestType);
+   --print("resultCode " .. resultCode);
+  -- print("reserved " .. reserved);
+  -- print("payloadType " .. payloadType);
+  -- print("payloadSize " .. payloadSize);
    
    local payLoad = string.sub(message, offset+10, offset+10+payloadSize-1);
    
-   warplog("payLoad " .. payLoad);
+   --print("payLoad " .. payLoad);
    
    return requestType, resultCode, payLoad, payloadSize+9
-   
   end 
   
  function decodeWarpNotifyMessage(message, offset)
-
+--print("message="..message)
+ --print("offset="..offset)
    local length = string.len(message) - offset;
    
-   warplog("decodeWarpNotifyMessage buffer length: " .. length)
+   --print("decodeWarpNotifyMessage buffer length: " .. length)
        
    local messageType = string.byte(message, offset+1, offset+1);
    local notifyType = string.byte(message, offset+2, offset+2);
@@ -114,15 +112,15 @@ end
    
    local payloadSize = tonumber(payLoadSize);
    
-   warplog("messageType " .. messageType);
-   warplog("notifyType " .. notifyType);
-   warplog("reserved " .. reserved);
-   warplog("payloadType " .. payloadType);
-   warplog("payloadSize " .. payloadSize);
+   --print("messageType " .. messageType);
+   --print("notifyType " .. notifyType);
+   --print("reserved " .. reserved);
+   --print("payloadType " .. payloadType);
+   --print("payloadSize " .. payloadSize);
    
    local payLoad = string.sub(message, offset+9, offset+9+payloadSize-1);
    
-   warplog("payLoad " .. payLoad);
+  -- print("payLoad " .. payLoad);
    
    return notifyType, payLoad, 8+payloadSize
    
@@ -201,7 +199,6 @@ end
      return url_encode(hmac);
   end
   
-  
 function splitString(str, pat)
    local t = {}  -- NOTE: use {n = 0} in Lua-5.0
    local fpat = "(.-)" .. pat
@@ -219,4 +216,9 @@ function splitString(str, pat)
       table.insert(t, cap)
    end
    return t
-end  
+end
+
+function getMasterLookupRequest() 
+    local message = "GET /lookup?api=".. tostring(WarpConfigForMasterClient.apiKey).." HTTP/1.0\r\n\ Accept:text/html\r\n Connection:keep-alive\r\n\r\n";  
+    return message
+  end  

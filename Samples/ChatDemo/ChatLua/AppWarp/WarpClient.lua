@@ -13,7 +13,8 @@
  local _connectionState = WarpConnectionState.DISCONNECTED; 
  local _username
  local authData
- 
+ local countPendingKeepAlives = 0;
+
  local RequestListenerTable = {}
  local NotificationListenerTable = {}
  
@@ -33,18 +34,38 @@
    NotificationListenerTable[notification] = listener
  end 
  
+ function WarpClient.resetRequestListener(request)
+   RequestListenerTable[request] = nil
+ end
+ 
+ function WarpClient.resetNotificationListener(notification)
+   NotificationListenerTable[notification] = nil
+ end
+
  local function handleAuthResponse(resultCode, payLoadTable)
+ -- print("handleAuthResponse---------------")
+    local reasonCode = 0
     if(resultCode == WarpResponseResultCode.SUCCESS) then -- Success
       WarpConfig.session_id = tonumber(payLoadTable['sessionid']);
-      _connectionState = WarpConnectionState.CONNECTED;
+      if(_connectionState == WarpConnectionState.RECOVERING) then
+        _connectionState = WarpConnectionState.CONNECTED;
+        fireConnectionEvent(WarpResponseResultCode.SUCCESS_RECOVERED);
+      else
+        _connectionState = WarpConnectionState.CONNECTED;
+        fireConnectionEvent(WarpResponseResultCode.SUCCESS);  
+      end      
     else
+	  if(resultCode == WarpResponseResultCode.AUTH_ERROR) then
+		reasonCode = tonumber(payLoadTable['reasonCode'])
+	  end
       _connectionState = WarpConnectionState.DISCONNECTED;
+      fireConnectionEvent(resultCode)          
       Channel.socket_close()
     end   
-    fireConnectionEvent(resultCode)    
   end
     
  local function onNotify(notifyType, payLoad)
+   
     if(notifyType == WarpNotifyTypeCode.UPDATE_PEERS) then
       if(NotificationListenerTable.onUpdatePeersReceived ~= nil) then
         NotificationListenerTable.onUpdatePeersReceived(payLoad)
@@ -52,7 +73,12 @@
       return
     end    
     local payLoadTable = JSON:decode(payLoad); 
-    if((notifyType == WarpNotifyTypeCode.CHAT) and (NotificationListenerTable.onChatReceived ~= nil)) then      
+    print("payLoadTable : ",payLoadTable)
+    if((notifyType == WarpNotifyTypeCode.CHAT) and (NotificationListenerTable.onChatReceived ~= nil)) then    
+       print("sender: ",payLoadTable['sender'])  
+       print("chat: ",payLoadTable['chat']) 
+       print("id: ",payLoadTable['id']) 
+       print("isLobby: ",payLoadTable['isLobby']) 
       NotificationListenerTable.onChatReceived(payLoadTable['sender'], payLoadTable['chat'], payLoadTable['id'], payLoadTable['isLobby'] ~= nil)
     elseif((notifyType == WarpNotifyTypeCode.PRIVATE_CHAT) and (NotificationListenerTable.onPrivateChatReceived ~= nil)) then
       NotificationListenerTable.onPrivateChatReceived(payLoadTable['sender'], payLoadTable['chat'])      
@@ -203,7 +229,8 @@
      if(RequestListenerTable.onGetMatchedRoomsDone ~= nil) then
         if(resultCode ~= WarpResponseResultCode.SUCCESS) then
           RequestListenerTable.onGetMatchedRoomsDone(resultCode, nil)          
-        else      
+        else     
+             print(payLoadTable) 
           local roomsTable = buildMatchedRoomsTable(payLoadTable)
           RequestListenerTable.onGetMatchedRoomsDone(resultCode, roomsTable)
         end
@@ -228,7 +255,26 @@
         historyTable = buildMoveHistoryTable(payLoadTable)
       end
       RequestListenerTable.onGetMoveHistoryDone(resultCode, historyTable); 
-   end   
+   elseif(requestType == WarpRequestTypeCode.ZONE_RPC) then 
+      if(RequestListenerTable.onInvokeZoneRPCDone ~= nil) then
+        if(resultCode == WarpResponseResultCode.SUCCESS) then
+          RequestListenerTable.onInvokeZoneRPCDone(resultCode, payLoadTable["appKey"],payLoadTable["function"],payLoadTable["return"]);
+        else
+          RequestListenerTable.onInvokeZoneRPCDone(resultCode);
+        end
+      end 
+   elseif(requestType == WarpRequestTypeCode.ROOM_RPC) then 
+      if(RequestListenerTable.onInvokeRoomRPCDone ~= nil) then
+        if(resultCode == WarpResponseResultCode.SUCCESS) then
+          RequestListenerTable.onInvokeRoomRPCDone(resultCode, payLoadTable["appKey"],payLoadTable["roomId"],payLoadTable["function"],payLoadTable["return"]);
+        else
+          RequestListenerTable.onInvokeRoomRPCDone(resultCode);
+        end
+      end 
+   elseif(requestType == WarpRequestTypeCode.KEEP_ALIVE) then
+      countPendingKeepAlives = countPendingKeepAlives - 1;
+   end    
+ 
  end 
     
  function WarpClient.initialize(api, host)
@@ -273,11 +319,17 @@
     _username = username
     authData = auth
     _connectionState = WarpConnectionState.CONNECTING;
+    countPendingKeepAlives = 0;
  end
    
-   function WarpClient.onConnect(success)
-     if(success == true) then
+  function WarpClient.onConnect(success)
+   
+     if(success == true and _connectionState ~= WarpConnectionState.RECOVERING) then
+      
         local warpMessage = RequestBuilder.buildAuthRequest(_username, authData, 0);
+        Channel.socket_send(warpMessage);
+     elseif(success == true and _connectionState == WarpConnectionState.RECOVERING) then
+        local warpMessage = RequestBuilder.buildAuthRequest(_username, authData, WarpConfig.session_id);
         Channel.socket_send(warpMessage);
      elseif(_connectionState == WarpConnectionState.DISCONNECTING) then
        _connectionState = WarpConnectionState.DISCONNECTED; 
@@ -285,11 +337,21 @@
          RequestListenerTable.onDisconnectDone(WarpResponseResultCode.SUCCESS)
        end
      elseif(_connectionState ~= WarpConnectionState.DISCONNECTED) then
-       _connectionState = WarpConnectionState.DISCONNECTED; 
-       fireConnectionEvent(WarpResponseResultCode.CONNECTION_ERROR)            
+       if(tonumber(WarpConfig.recoveryAllowance) > 0 and tonumber(WarpConfig.session_id) ~= 0) then
+         _connectionState = WarpConnectionState.DISCONNECTED; 
+         fireConnectionEvent(WarpResponseResultCode.CONNECTION_ERROR_RECOVERABLE)  
+       else
+         _connectionState = WarpConnectionState.DISCONNECTED;
+         WarpConfig.session_id = 0;
+         fireConnectionEvent(WarpResponseResultCode.CONNECTION_ERROR)   
+       end  
      end
    end
-     
+
+
+
+
+ 
    function fireConnectionEvent(resultCode)     
      if(RequestListenerTable.onConnectDone ~= nil) then
        RequestListenerTable.onConnectDone(resultCode)
@@ -297,18 +359,29 @@
    end
      
    function WarpClient.Loop()   
-     if((Channel.isConnected == false) and (_connectionState == WarpConnectionState.CONNECTING)) then
+     if((Channel.isConnected == false) and (_connectionState == WarpConnectionState.CONNECTING or _connectionState == WarpConnectionState.RECOVERING)) then
        Channel.socket_connect()
-     end     
+     end 
+
      if(Channel.isConnected == true) then
       Channel.socket_recv();
      end
      if((_connectionState == WarpConnectionState.CONNECTED) and ((os.time() - lastSendTime) > 2)) then
        WarpClient.sendKeepAlive()
        lastSendTime = os.time()
+       incrementKeepAlives();
      end     
    end
-   
+
+   function incrementKeepAlives()
+       countPendingKeepAlives = countPendingKeepAlives + 1;
+       if(countPendingKeepAlives > WarpConfig.pendingKeepAliveIntervalsLimit) then
+          WarpClient.onConnect(false);
+       end
+       
+   end
+      
+
    function WarpClient.sendKeepAlive()
      local keepAliveMsg = RequestBuilder.buildWarpRequest(WarpMessageTypeCode.REQUEST, WarpConfig.session_id, 0, WarpRequestTypeCode.KEEP_ALIVE, 0, WarpContentTypeCode.FLAT_STRING, 0, nil);
      Channel.socket_send(keepAliveMsg);     
@@ -325,9 +398,11 @@
         sessionId = 0;
         _connectionState = WarpConnectionState.DISCONNECTING;
         
-        local signoutMsg = RequestBuilder.buildWarpRequest(WarpRequestTypeCode.SIGNOUT,
-            sessionId, 0, WarpMessageTypeCode.REQUEST, 0,
+        local signoutMsg = RequestBuilder.buildWarpRequest(WarpMessageTypeCode.REQUEST,
+            sessionId, 0, WarpRequestTypeCode.SIGNOUT, 0,
             WarpContentTypeCode.BINARY, 0, nil);
+			print(WarpRequestTypeCode.SIGNOUT)
+	     print(signoutMsg)
         Channel.socket_send(signoutMsg);
  end
  
@@ -661,6 +736,59 @@
     local warpMsg = RequestBuilder.buildWarpRequest(WarpMessageTypeCode.REQUEST, WarpConfig.session_id, 0, WarpRequestTypeCode.GET_ROOM_IN_RANGE, 0, WarpContentTypeCode.JSON, lengthPayload, reqPayload);
     Channel.socket_send(warpMsg);
   end
+
+  function WarpClient.invokeZoneRPC(funcName, ...)
+    local args = {}
+    local reqTable = {}
+    for i,v in ipairs(arg) do
+      args[i] = v;
+    end
+    reqTable["function"] = funcName
+    reqTable["args"] = args
+    local reqPayload = tostring(JSON:encode(reqTable))
+    local lengthPayload = string.len(reqPayload);
+    local warpMsg = RequestBuilder.buildWarpRequest(WarpMessageTypeCode.REQUEST, WarpConfig.session_id, 0, WarpRequestTypeCode.ZONE_RPC, 0, WarpContentTypeCode.JSON, lengthPayload, reqPayload);
+    Channel.socket_send(warpMsg);
+  end
+
+  function WarpClient.invokeRoomRPC(roomId, funcName, ...)
+    local args = {}
+    local reqTable = {}
+    for i,v in ipairs(arg) do
+      args[i] = v;
+    end
+    reqTable["roomId"] = roomId
+    reqTable["function"] = funcName
+    reqTable["args"] = args
+    local reqPayload = tostring(JSON:encode(reqTable))
+    local lengthPayload = string.len(reqPayload);
+    local warpMsg = RequestBuilder.buildWarpRequest(WarpMessageTypeCode.REQUEST, WarpConfig.session_id, 0, WarpRequestTypeCode.ROOM_RPC, 0, WarpContentTypeCode.JSON, lengthPayload, reqPayload);
+    Channel.socket_send(warpMsg);
+  end  
   
+  function WarpClient.setRecoveryAllowance(time)
+    -- print ("time::::"..time ) 
+    WarpConfig.recoveryAllowance = time;
+  end
+
+ function WarpClient.recoverConnection()
+     print('recoverConnection-----------')
+    if (WarpConfig.session_id == 0 or _connectionState == WarpConnectionState.CONNECTED) then
+      if(RequestListenerTable.onConnectDone ~= nil) then
+        RequestListenerTable.onConnectDone(WarpResponseResultCode.BAD_REQUEST);
+      end
+    else
+      print("inside else-----------------")
+      _connectionState = WarpConnectionState.RECOVERING;
+    end
+    countPendingKeepAlives = 0;
+  end
+
+  function WarpClient.recoverConnectionWithSessionID(sessionID, username)
+	WarpConfig.session_id = sessionID
+	_username = username
+	WarpClient.recoverConnection()
+  end
+
  return WarpClient
  

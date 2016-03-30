@@ -6,7 +6,6 @@ local client_socket = nil
 WarpChannel.isConnected = false
 
 function WarpChannel.socket_connect()
-  
   if(client_socket == nil) then    
     client_socket = socket.tcp();
     client_socket:settimeout(0)
@@ -20,9 +19,8 @@ function WarpChannel.socket_connect()
     WarpChannel.isConnected = true;
     WarpConfig.WarpClient.onConnect(true);    
   else
-    --warplog("error is "..tostring(err));
+    warplog("error is "..tostring(err));
   end
-  
 end
       
 function WarpChannel.socket_close()
@@ -51,7 +49,7 @@ function WarpChannel.socket_recv()
     end
   end  
   if (status == "timeout") then
-    --warplog("timeout socket")
+    warplog("timeout socket")
   elseif status == "closed" then 
     warplog("closed socket")
     WarpChannel.isConnected = false;    

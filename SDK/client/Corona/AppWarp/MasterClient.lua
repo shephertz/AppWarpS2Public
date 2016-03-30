@@ -49,7 +49,7 @@
  function MasterClient.connect()
     if (_connectionState ~= WarpConnectionState.DISCONNECTED and _connectionState ~= WarpConnectionState.DISCONNECTING) then
 		fireConnectionEvent(WarpResponseResultCode.BAD_REQUEST);
-		print("masterclient connection gave a bad request.")
+		--print("masterclient connection gave a bad request.")
         return;
     else
 	_connectionState = WarpConnectionState.CONNECTING;
@@ -100,7 +100,7 @@
  end
  
  function MasterClient.getAllServers()
-    print('MasterClient.getAllServers')
+    --print('MasterClient.getAllServers')
     if(_connectionState ~= WarpConnectionState.CONNECTED) then             
         return;
     end    
@@ -109,7 +109,7 @@
   end
 
  function MasterClient.sendCustomMessage(message)
-    print('MasterClient.sendCustomMessage')
+   -- print('MasterClient.sendCustomMessage')
     if(_connectionState ~= WarpConnectionState.CONNECTED) then             
         return;
     end    
