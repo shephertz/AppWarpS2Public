@@ -50,17 +50,18 @@
       </div>
       <div id="dashboardGraph" class="dashboardGraph">
         <div class="graph">
-		<h4>Memory</h4>
-        <canvas id="memoryChart" width="600" height="200"></canvas>
+		
+		<div id="memoryChart" style="height:200px; width:450px;"></div>
+       
 		</div>
         
 		<div class="graph mZero">
-		<h4>CCU</h4>
-        <canvas id="ccuChart" width="600" height="200"></canvas>
+		<div id="ccuChart" style="height:200px; width:450px;"></div>
+       
 		</div>
 		<div class="graph">
-        <h4>Rooms</h4>
-        <canvas id="roomChart" width="600" height="200"></canvas>
+       <div id="roomChart" style="height:200px; width:450px;"></div>
+       
 		</div>
       </div>
     </div>
