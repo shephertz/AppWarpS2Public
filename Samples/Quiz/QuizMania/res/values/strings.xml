@@ -1,0 +1,17 @@
+<resources>
+
+    <string name="app_name">QuizMania</string>
+
+    <string-array name="quiz_topic">
+        <item>Politics</item>
+        <item>Cricket</item>
+      
+    </string-array>
+     <string-array name="quiz_type">
+        <item>Single Player</item>
+        <item>With Random Player</item>
+        
+      
+    </string-array>
+
+</resources>

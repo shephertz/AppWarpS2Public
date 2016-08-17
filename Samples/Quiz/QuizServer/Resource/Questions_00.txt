@@ -1,0 +1,38 @@
+{
+    "Questions": [
+        {
+            "id": 1,
+            "Question": {
+                "Question": "Which former Indian President had the unique distinction of getting two consecutive terms in office?",
+                "AttachedElement": {
+                    "Type": 1,
+                    "Value": ""
+                }
+            },
+            "Options": [
+                {
+                    "Type": 1,
+                    "Value": "Dr Rajendra Prasad"
+                },
+                {
+                    "Type": 1,
+                    "Value": "Dr Fakhruddin Ali Ahmed"
+                },
+                {
+                    "Type": 1,
+                    "Value": "Dr Zakir Hussain"
+                },
+                {
+                    "Type": 1,
+                    "Value": "Giani Zail Singh"
+                }
+            ]
+        }
+    ],
+    "Answers": [
+        {
+            "QuestionId": 1,
+            "Answer": 1
+        }
+    ]
+}
