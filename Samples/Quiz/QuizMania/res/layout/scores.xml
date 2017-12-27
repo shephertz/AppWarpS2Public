@@ -1,0 +1,137 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@drawable/quizbackground" >
+     <RelativeLayout
+        android:id="@+id/header"
+        android:layout_width="match_parent"
+        android:layout_height="60dp"
+        android:background="@drawable/header"
+        android:padding="5dp" >
+
+        <ImageView
+            android:id="@+id/iconIV"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentLeft="true"
+            android:padding="5dp"
+            android:src="@drawable/ic_launcher" />
+ <TextView 
+      android:layout_width="wrap_content"
+        android:layout_height="50dp"
+        android:id="@+id/headerV"
+        android:text="SCORES"
+        android:textColor="@android:color/black"
+      
+       
+       android:gravity="center_vertical"
+ android:layout_centerInParent="true"
+        android:textStyle="bold"
+        />
+    </RelativeLayout>
+  
+     
+     
+   
+    
+  
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_marginTop="5dp"
+        android:gravity="center_vertical"
+     android:layout_below="@id/header"
+     android:layout_centerInParent="true"
+        android:orientation="vertical" >
+
+        <TextView
+            android:id="@+id/levelTV"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="5dp"
+            android:gravity="center"
+            android:text="Level"
+            android:textColor="@android:color/white"
+            android:textSize="24sp" />
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="30dp"
+            android:gravity="center"
+            android:padding="5dp"
+            android:text="Your Scores"
+            android:textColor="#4CD072"
+            android:textSize="22sp"
+            android:textStyle="bold" />
+
+        <TextView
+            android:id="@+id/currentScoreTV"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="5dp"
+            android:gravity="center"
+            android:padding="5dp"
+            android:text="Current level score 10"
+             android:textColor="@android:color/white"
+            android:textSize="18sp" />
+
+        <TextView
+            android:id="@+id/totalScoreTV"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="5dp"
+            android:gravity="center"
+            android:padding="5dp"
+            android:text="Total score 20"
+             android:textColor="@android:color/white"
+            android:textSize="18sp" />
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="30dp"
+            android:gravity="center"
+            android:padding="5dp"
+            android:id="@+id/opponentTV"
+            android:text="Opponent&apos;s Scores"
+            android:textColor="#4CD072"
+            android:textSize="22sp"
+            android:textStyle="bold" />
+
+        <TextView
+            android:id="@+id/oppCurrentScoreTV"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="5dp"
+            android:gravity="center"
+            android:padding="5dp"
+            android:text="Current level score 10"
+             android:textColor="@android:color/white"
+            android:textSize="18sp" />
+
+        <TextView
+            android:id="@+id/oppTotalScoreTV"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="5dp"
+            android:gravity="center"
+            android:padding="5dp"
+            android:text="Total score 20"
+          android:textColor="@android:color/white"
+            android:textSize="18sp" />
+         <TextView android:layout_width="170dp" 
+        android:layout_height="50dp"
+        android:layout_gravity="center_horizontal"
+        android:text="Restart"
+        android:gravity="center"
+        android:padding="10dp"
+        android:background="@drawable/restart"
+        android:textSize="22sp"
+        android:layout_marginTop="30dp"
+        android:id="@+id/nextLevelTV"
+        android:textColor="@android:color/white"/>
+    </LinearLayout>
+
+</RelativeLayout>

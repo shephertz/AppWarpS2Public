@@ -8,7 +8,7 @@
         <script src="bootstrap.min.js"></script>
         <script src="appwarp.min.js"></script>
         <script type="text/javascript">
-            var apiKey = "49130234-abf8-402b-b";
+            var apiKey = "bd7d69c1-1762-4752-9";
 			
             var _warpclient;
             var nameId = "";
@@ -135,7 +135,7 @@
 						$("#roomsRow").show();
 									
 						$("#roomInfo").html("Connecting...");
-						AppWarp.WarpClient.initialize(apiKey, "localhost");
+						AppWarp.WarpClient.initialize(apiKey, "192.168.1.55");
 						_warpclient = AppWarp.WarpClient.getInstance();
 						_warpclient.setResponseListener(AppWarp.Events.onConnectDone, onConnectDone);
 						_warpclient.setResponseListener(AppWarp.Events.onGetAllRoomsDone, onGetAllRoomsDone);

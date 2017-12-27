@@ -1,0 +1,192 @@
+2016-07-27 16:42:11,224 - WARNING: Error in loading license from server java.lang.Exception: no key in AppConfig.json
+2016-07-27 16:42:11,227 - WARNING: Running with 500 CCU limit
+2016-07-27 16:42:11,781 - ERROR: Error in getAllZonesFromHSQLDB java.sql.SQLSyntaxErrorException: user lacks privilege or object not found: SERVICE
+2016-07-27 16:57:38,561 - WARNING: Error in loading license from server java.lang.Exception: no key in AppConfig.json
+2016-07-27 16:57:38,563 - WARNING: Running with 500 CCU limit
+2016-08-01 16:18:25,847 - WARNING: Error in loading license from server java.lang.Exception: no key in AppConfig.json
+2016-08-01 16:18:25,852 - WARNING: Running with 500 CCU limit
+2016-08-01 16:23:23,841 - WARNING: Error in loading license from server java.lang.Exception: no key in AppConfig.json
+2016-08-01 16:23:23,844 - WARNING: Running with 500 CCU limit
+2016-08-01 16:23:34,269 - ERROR: Error in getStatement java.sql.SQLException: Database lock acquisition failure: lockFile: org.hsqldb.persist.LockFile@ec48705e[file =E:\Anjali\workspace\QuizServer\HSQLDBFile.lck, exists=true, locked=false, valid=false, ] method: checkHeartbeat read: 2016-08-01 10:53:33 heartbeat - read: -6612 ms.
+2016-08-01 16:23:34,271 - ERROR: Error in getAllZonesFromHSQLDB java.lang.NullPointerException
+2016-08-01 16:46:14,100 - WARNING: Error in loading license from server java.lang.Exception: no key in AppConfig.json
+2016-08-01 16:46:14,103 - WARNING: Running with 500 CCU limit
+2016-08-01 17:58:21,844 - WARNING: Error in loading license from server java.lang.Exception: no key in AppConfig.json
+2016-08-01 17:58:21,847 - WARNING: Running with 500 CCU limit
+2016-08-01 17:58:27,517 - WARNING: Failed Auth. Zone for 85f8d70eb74cdbc4170304831746776d0c7bc60ddfbd3133b7ab1790b765cf55 does not exist
+2016-08-01 17:58:35,254 - WARNING: Failed Auth. Zone for 85f8d70eb74cdbc4170304831746776d0c7bc60ddfbd3133b7ab1790b765cf55 does not exist
+2016-08-01 17:58:38,784 - WARNING: Failed Auth. Zone for 85f8d70eb74cdbc4170304831746776d0c7bc60ddfbd3133b7ab1790b765cf55 does not exist
+2016-08-01 17:59:19,194 - WARNING: Error in loading license from server java.lang.Exception: no key in AppConfig.json
+2016-08-01 17:59:19,197 - WARNING: Running with 500 CCU limit
+2016-08-01 17:59:29,621 - ERROR: Error in getStatement java.sql.SQLException: Database lock acquisition failure: lockFile: org.hsqldb.persist.LockFile@ec48705e[file =E:\Anjali\workspace\QuizServer\HSQLDBFile.lck, exists=true, locked=false, valid=false, ] method: checkHeartbeat read: 2016-08-01 12:29:28 heartbeat - read: -6533 ms.
+2016-08-01 17:59:29,622 - ERROR: Error in getAllZonesFromHSQLDB java.lang.NullPointerException
+2016-08-01 17:59:40,098 - ERROR: Error in getStatement java.sql.SQLException: Database lock acquisition failure: lockFile: org.hsqldb.persist.LockFile@ec48705e[file =E:\Anjali\workspace\QuizServer\HSQLDBFile.lck, exists=true, locked=false, valid=false, ] method: checkHeartbeat read: 2016-08-01 12:29:39 heartbeat - read: -7015 ms.
+2016-08-01 17:59:40,099 - WARNING: Error in createHSQLServiceTable java.lang.NullPointerException
+2016-08-01 17:59:46,862 - WARNING: Error in loading license from server java.lang.Exception: no key in AppConfig.json
+2016-08-01 17:59:46,865 - WARNING: Running with 500 CCU limit
+2016-08-01 17:59:50,430 - ERROR: Error in getStatement java.sql.SQLException: Database lock acquisition failure: lockFile: org.hsqldb.persist.LockFile@ec48705e[file =E:\Anjali\workspace\QuizServer\HSQLDBFile.lck, exists=true, locked=false, valid=false, ] method: checkHeartbeat read: 2016-08-01 12:29:49 heartbeat - read: -7348 ms.
+2016-08-01 17:59:50,430 - WARNING: Error in createHSQLMteringTable java.lang.NullPointerException
+2016-08-01 17:59:57,282 - ERROR: Error in getStatement java.sql.SQLException: Database lock acquisition failure: lockFile: org.hsqldb.persist.LockFile@ec48705e[file =E:\Anjali\workspace\QuizServer\HSQLDBFile.lck, exists=true, locked=false, valid=false, ] method: checkHeartbeat read: 2016-08-01 12:29:56 heartbeat - read: -4194 ms.
+2016-08-01 17:59:57,283 - ERROR: Error in getAllZonesFromHSQLDB java.lang.NullPointerException
+2016-08-01 18:00:00,651 - ERROR: Error in getStatement java.sql.SQLException: Database lock acquisition failure: lockFile: org.hsqldb.persist.LockFile@ec48705e[file =E:\Anjali\workspace\QuizServer\HSQLDBFile.lck, exists=true, locked=false, valid=false, ] method: checkHeartbeat read: 2016-08-01 12:29:59 heartbeat - read: -7569 ms.
+2016-08-01 18:00:00,652 - WARNING: Error in createHSQLRoomTable java.lang.NullPointerException
+2016-08-01 18:00:05,129 - WARNING: Failed Auth. Zone for 490dc9f5-e8f1-4ff4-a does not exist
+2016-08-01 18:00:44,605 - WARNING: Error in loading license from server java.lang.Exception: no key in AppConfig.json
+2016-08-01 18:00:44,609 - WARNING: Running with 500 CCU limit
+2016-08-01 18:52:43,786 - WARNING: Error in loading license from server java.lang.Exception: no key in AppConfig.json
+2016-08-01 18:52:43,789 - WARNING: Running with 500 CCU limit
+2016-08-02 10:04:57,535 - WARNING: Error in loading license from server java.lang.Exception: no key in AppConfig.json
+2016-08-02 10:04:57,561 - WARNING: Running with 500 CCU limit
+2016-08-02 10:07:01,808 - WARNING: Error in loading license from server java.lang.Exception: no key in AppConfig.json
+2016-08-02 10:07:01,811 - WARNING: Running with 500 CCU limit
+2016-08-02 10:11:53,219 - WARNING: Error in loading license from server java.lang.Exception: no key in AppConfig.json
+2016-08-02 10:11:53,223 - WARNING: Running with 500 CCU limit
+2016-08-02 10:28:59,360 - WARNING: Error in loading license from server java.lang.Exception: no key in AppConfig.json
+2016-08-02 10:28:59,363 - WARNING: Running with 500 CCU limit
+2016-08-02 10:38:14,550 - WARNING: Error in loading license from server java.lang.Exception: no key in AppConfig.json
+2016-08-02 10:38:14,554 - WARNING: Running with 500 CCU limit
+2016-08-02 11:26:54,792 - WARNING: Error in loading license from server java.lang.Exception: no key in AppConfig.json
+2016-08-02 11:26:54,796 - WARNING: Running with 500 CCU limit
+2016-08-02 11:47:33,484 - WARNING: Error in loading license from server java.lang.Exception: no key in AppConfig.json
+2016-08-02 11:47:33,489 - WARNING: Running with 500 CCU limit
+2016-08-02 11:47:35,587 - WARNING: Error in loading license from server java.lang.Exception: no key in AppConfig.json
+2016-08-02 11:47:35,589 - WARNING: Running with 500 CCU limit
+2016-08-02 11:47:46,005 - ERROR: Error in getStatement java.sql.SQLException: Database lock acquisition failure: lockFile: org.hsqldb.persist.LockFile@ec48705e[file =E:\Anjali\workspace\QuizServer\HSQLDBFile.lck, exists=true, locked=false, valid=false, ] method: checkHeartbeat read: 2016-08-02 06:17:44 heartbeat - read: -1263 ms.
+2016-08-02 11:47:46,006 - ERROR: Error in getAllZonesFromHSQLDB java.lang.NullPointerException
+2016-08-02 11:48:09,932 - WARNING: Error in loading license from server java.lang.Exception: no key in AppConfig.json
+2016-08-02 11:48:09,936 - WARNING: Running with 500 CCU limit
+2016-08-02 11:50:18,117 - WARNING: Error in loading license from server java.lang.Exception: no key in AppConfig.json
+2016-08-02 11:50:18,120 - WARNING: Running with 500 CCU limit
+2016-08-02 12:39:05,675 - WARNING: Error in loading license from server java.lang.Exception: no key in AppConfig.json
+2016-08-02 12:39:05,675 - WARNING: Running with 500 CCU limit
+2016-08-02 12:46:36,459 - WARNING: Error in loading license from server java.lang.Exception: no key in AppConfig.json
+2016-08-02 12:46:36,462 - WARNING: Running with 500 CCU limit
+2016-08-02 13:09:27,327 - WARNING: Error in loading license from server java.lang.Exception: no key in AppConfig.json
+2016-08-02 13:09:27,330 - WARNING: Running with 500 CCU limit
+2016-08-02 14:11:03,041 - WARNING: Error in loading license from server java.lang.Exception: no key in AppConfig.json
+2016-08-02 14:11:03,044 - WARNING: Running with 500 CCU limit
+2016-08-02 15:00:43,972 - WARNING: Error in loading license from server java.lang.Exception: no key in AppConfig.json
+2016-08-02 15:00:43,975 - WARNING: Running with 500 CCU limit
+2016-08-02 15:01:22,444 - WARNING: Error in loading license from server java.lang.Exception: no key in AppConfig.json
+2016-08-02 15:01:22,447 - WARNING: Running with 500 CCU limit
+2016-08-02 15:26:42,950 - WARNING: Error in loading license from server java.lang.Exception: no key in AppConfig.json
+2016-08-02 15:26:42,953 - WARNING: Running with 500 CCU limit
+2016-08-02 15:58:46,134 - WARNING: Error in loading license from server java.lang.Exception: no key in AppConfig.json
+2016-08-02 15:58:46,137 - WARNING: Running with 500 CCU limit
+2016-08-02 16:13:09,378 - WARNING: Error in loading license from server java.lang.Exception: no key in AppConfig.json
+2016-08-02 16:13:09,381 - WARNING: Running with 500 CCU limit
+2016-08-02 16:21:20,476 - WARNING: Error in loading license from server java.lang.Exception: no key in AppConfig.json
+2016-08-02 16:21:20,479 - WARNING: Running with 500 CCU limit
+2016-08-02 16:29:46,868 - WARNING: Error in loading license from server java.lang.Exception: no key in AppConfig.json
+2016-08-02 16:29:46,871 - WARNING: Running with 500 CCU limit
+2016-08-02 16:35:57,276 - WARNING: Error in loading license from server java.lang.Exception: no key in AppConfig.json
+2016-08-02 16:35:57,279 - WARNING: Running with 500 CCU limit
+2016-08-02 16:38:49,893 - WARNING: Error in loading license from server java.lang.Exception: no key in AppConfig.json
+2016-08-02 16:38:49,896 - WARNING: Running with 500 CCU limit
+2016-08-02 16:57:34,598 - WARNING: Error in loading license from server java.lang.Exception: no key in AppConfig.json
+2016-08-02 16:57:34,601 - WARNING: Running with 500 CCU limit
+2016-08-02 17:01:06,220 - WARNING: Error in loading license from server java.lang.Exception: no key in AppConfig.json
+2016-08-02 17:01:06,223 - WARNING: Running with 500 CCU limit
+2016-08-02 17:16:55,698 - WARNING: Error in loading license from server java.lang.Exception: no key in AppConfig.json
+2016-08-02 17:16:55,701 - WARNING: Running with 500 CCU limit
+2016-08-02 17:35:15,770 - WARNING: Error in loading license from server java.lang.Exception: no key in AppConfig.json
+2016-08-02 17:35:15,773 - WARNING: Running with 500 CCU limit
+2016-08-02 17:49:45,260 - WARNING: Error in loading license from server java.lang.Exception: no key in AppConfig.json
+2016-08-02 17:49:45,262 - WARNING: Running with 500 CCU limit
+2016-08-02 17:50:02,379 - WARNING: Error in loading license from server java.lang.Exception: no key in AppConfig.json
+2016-08-02 17:50:02,381 - WARNING: Running with 500 CCU limit
+2016-08-02 18:05:00,257 - WARNING: Error in loading license from server java.lang.Exception: no key in AppConfig.json
+2016-08-02 18:05:00,259 - WARNING: Running with 500 CCU limit
+2016-08-02 18:06:28,566 - WARNING: Error in loading license from server java.lang.Exception: no key in AppConfig.json
+2016-08-02 18:06:28,568 - WARNING: Running with 500 CCU limit
+2016-08-02 18:15:39,730 - WARNING: Error in loading license from server java.lang.Exception: no key in AppConfig.json
+2016-08-02 18:15:39,732 - WARNING: Running with 500 CCU limit
+2016-08-02 18:15:59,173 - WARNING: Error in loading license from server java.lang.Exception: no key in AppConfig.json
+2016-08-02 18:15:59,176 - WARNING: Running with 500 CCU limit
+2016-08-02 18:17:27,337 - WARNING: Error in loading license from server java.lang.Exception: no key in AppConfig.json
+2016-08-02 18:17:27,339 - WARNING: Running with 500 CCU limit
+2016-08-02 18:21:41,610 - WARNING: Error in loading license from server java.lang.Exception: no key in AppConfig.json
+2016-08-02 18:21:41,613 - WARNING: Running with 500 CCU limit
+2016-08-02 18:22:40,953 - WARNING: Error in loading license from server java.lang.Exception: no key in AppConfig.json
+2016-08-02 18:22:40,956 - WARNING: Running with 500 CCU limit
+2016-08-02 18:26:05,200 - WARNING: Error in loading license from server java.lang.Exception: no key in AppConfig.json
+2016-08-02 18:26:05,202 - WARNING: Running with 500 CCU limit
+2016-08-02 18:31:13,698 - WARNING: Error in loading license from server java.lang.Exception: no key in AppConfig.json
+2016-08-02 18:31:13,701 - WARNING: Running with 500 CCU limit
+2016-08-04 10:33:15,139 - WARNING: Error in loading license from server java.lang.Exception: no key in AppConfig.json
+2016-08-04 10:33:15,171 - WARNING: Running with 500 CCU limit
+2016-08-04 11:20:45,725 - WARNING: Error in loading license from server java.lang.Exception: no key in AppConfig.json
+2016-08-04 11:20:45,729 - WARNING: Running with 500 CCU limit
+2016-08-04 11:20:56,168 - ERROR: Error in getStatement java.sql.SQLException: Database lock acquisition failure: lockFile: org.hsqldb.persist.LockFile@ec48705e[file =E:\Anjali\workspace\QuizServer\HSQLDBFile.lck, exists=true, locked=false, valid=false, ] method: checkHeartbeat read: 2016-08-04 05:50:55 heartbeat - read: -9737 ms.
+2016-08-04 11:20:56,169 - ERROR: Error in getAllZonesFromHSQLDB java.lang.NullPointerException
+2016-08-04 11:21:06,679 - ERROR: Error in getStatement java.sql.SQLException: Database lock acquisition failure: lockFile: org.hsqldb.persist.LockFile@ec48705e[file =E:\Anjali\workspace\QuizServer\HSQLDBFile.lck, exists=true, locked=false, valid=false, ] method: checkHeartbeat read: 2016-08-04 05:51:05 heartbeat - read: -253 ms.
+2016-08-04 11:21:06,680 - WARNING: Error in createHSQLServiceTable java.lang.NullPointerException
+2016-08-04 11:21:16,954 - ERROR: Error in getStatement java.sql.SQLException: Database lock acquisition failure: lockFile: org.hsqldb.persist.LockFile@ec48705e[file =E:\Anjali\workspace\QuizServer\HSQLDBFile.lck, exists=true, locked=false, valid=false, ] method: checkHeartbeat read: 2016-08-04 05:51:15 heartbeat - read: -527 ms.
+2016-08-04 11:21:16,954 - WARNING: Error in createHSQLMteringTable java.lang.NullPointerException
+2016-08-04 11:21:27,204 - ERROR: Error in getStatement java.sql.SQLException: Database lock acquisition failure: lockFile: org.hsqldb.persist.LockFile@ec48705e[file =E:\Anjali\workspace\QuizServer\HSQLDBFile.lck, exists=true, locked=false, valid=false, ] method: checkHeartbeat read: 2016-08-04 05:51:26 heartbeat - read: -778 ms.
+2016-08-04 11:21:27,205 - WARNING: Error in createHSQLRoomTable java.lang.NullPointerException
+2016-08-04 11:40:36,766 - WARNING: Error in loading license from server java.lang.Exception: no key in AppConfig.json
+2016-08-04 11:40:36,770 - WARNING: Running with 500 CCU limit
+2016-08-04 11:40:47,192 - ERROR: Error in getStatement java.sql.SQLException: Database lock acquisition failure: lockFile: org.hsqldb.persist.LockFile@ec48705e[file =E:\Anjali\workspace\QuizServer\HSQLDBFile.lck, exists=true, locked=false, valid=false, ] method: checkHeartbeat read: 2016-08-04 06:10:46 heartbeat - read: -761 ms.
+2016-08-04 11:40:47,192 - ERROR: Error in getAllZonesFromHSQLDB java.lang.NullPointerException
+2016-08-04 11:41:09,024 - WARNING: Error in loading license from server java.lang.Exception: no key in AppConfig.json
+2016-08-04 11:41:09,026 - WARNING: Running with 500 CCU limit
+2016-08-04 11:47:12,595 - WARNING: Error in loading license from server java.lang.Exception: no key in AppConfig.json
+2016-08-04 11:47:12,598 - WARNING: Running with 500 CCU limit
+2016-08-04 11:50:42,035 - WARNING: Error in loading license from server java.lang.Exception: no key in AppConfig.json
+2016-08-04 11:50:42,038 - WARNING: Running with 500 CCU limit
+2016-08-04 11:52:07,916 - WARNING: Error in loading license from server java.lang.Exception: no key in AppConfig.json
+2016-08-04 11:52:07,920 - WARNING: Running with 500 CCU limit
+2016-08-04 12:02:34,968 - WARNING: Error in loading license from server java.lang.Exception: no key in AppConfig.json
+2016-08-04 12:02:34,972 - WARNING: Running with 500 CCU limit
+2016-08-04 12:06:09,363 - WARNING: Error in loading license from server java.lang.Exception: no key in AppConfig.json
+2016-08-04 12:06:09,366 - WARNING: Running with 500 CCU limit
+2016-08-04 12:21:18,975 - WARNING: Error in loading license from server java.lang.Exception: no key in AppConfig.json
+2016-08-04 12:21:18,977 - WARNING: Running with 500 CCU limit
+2016-08-04 12:24:56,052 - WARNING: Error in loading license from server java.lang.Exception: no key in AppConfig.json
+2016-08-04 12:24:56,055 - WARNING: Running with 500 CCU limit
+2016-08-04 12:48:48,793 - WARNING: Error in loading license from server java.lang.Exception: no key in AppConfig.json
+2016-08-04 12:48:48,796 - WARNING: Running with 500 CCU limit
+2016-08-04 13:10:15,959 - WARNING: Error in loading license from server java.lang.Exception: no key in AppConfig.json
+2016-08-04 13:10:15,962 - WARNING: Running with 500 CCU limit
+2016-08-04 14:23:55,561 - WARNING: Error in loading license from server java.lang.Exception: no key in AppConfig.json
+2016-08-04 14:23:55,587 - WARNING: Running with 500 CCU limit
+2016-08-04 14:41:11,200 - WARNING: Error in loading license from server java.lang.Exception: no key in AppConfig.json
+2016-08-04 14:41:11,203 - WARNING: Running with 500 CCU limit
+2016-08-04 14:47:35,232 - WARNING: Adaptor rejected sdf
+2016-08-04 14:47:45,776 - WARNING: Adaptor rejected sdf
+2016-08-04 14:52:57,868 - WARNING: Error in loading license from server java.lang.Exception: no key in AppConfig.json
+2016-08-04 14:52:57,872 - WARNING: Running with 500 CCU limit
+2016-08-04 14:54:27,378 - WARNING: Adaptor rejected A
+2016-08-04 14:54:37,457 - WARNING: Adaptor rejected A
+2016-08-04 14:57:03,081 - WARNING: Error in loading license from server java.lang.Exception: no key in AppConfig.json
+2016-08-04 14:57:03,084 - WARNING: Running with 500 CCU limit
+2016-08-04 15:32:01,212 - WARNING: Error in loading license from server java.lang.Exception: no key in AppConfig.json
+2016-08-04 15:32:01,215 - WARNING: Running with 500 CCU limit
+2016-08-04 18:07:05,397 - WARNING: Error in loading license from server java.lang.Exception: no key in AppConfig.json
+2016-08-04 18:07:05,400 - WARNING: Running with 500 CCU limit
+2016-08-05 11:34:30,760 - WARNING: Error in loading license from server java.lang.Exception: no key in AppConfig.json
+2016-08-05 11:34:30,763 - WARNING: Running with 500 CCU limit
+2016-08-05 11:35:47,326 - WARNING: Error in loading license from server java.lang.Exception: no key in AppConfig.json
+2016-08-05 11:35:47,329 - WARNING: Running with 500 CCU limit
+2016-08-05 11:35:57,767 - ERROR: Error in getStatement java.sql.SQLException: Database lock acquisition failure: lockFile: org.hsqldb.persist.LockFile@ec48705e[file =E:\Anjali\workspace\QuizServer\HSQLDBFile.lck, exists=true, locked=false, valid=false, ] method: checkHeartbeat read: 2016-08-05 06:05:56 heartbeat - read: -5714 ms.
+2016-08-05 11:35:57,768 - ERROR: Error in getAllZonesFromHSQLDB java.lang.NullPointerException
+2016-08-05 11:36:12,204 - WARNING: Error in loading license from server java.lang.Exception: no key in AppConfig.json
+2016-08-05 11:36:12,207 - WARNING: Running with 500 CCU limit
+2016-08-05 12:09:37,049 - WARNING: Error in loading license from server java.lang.Exception: no key in AppConfig.json
+2016-08-05 12:09:37,052 - WARNING: Running with 500 CCU limit
+2016-08-16 16:28:07,958 - WARNING: Error in loading license from server java.lang.Exception: no key in AppConfig.json
+2016-08-16 16:28:07,971 - WARNING: Running with 500 CCU limit
+2016-08-16 16:28:58,035 - WARNING: Error in loading license from server java.lang.Exception: no key in AppConfig.json
+2016-08-16 16:28:58,038 - WARNING: Running with 500 CCU limit
+2016-08-16 16:29:08,451 - ERROR: Error in getStatement java.sql.SQLException: Database lock acquisition failure: lockFile: org.hsqldb.persist.LockFile@ec48705e[file =E:\Anjali\workspace\QuizServer\HSQLDBFile.lck, exists=true, locked=false, valid=false, ] method: checkHeartbeat read: 2016-08-16 10:59:07 heartbeat - read: -9089 ms.
+2016-08-16 16:29:08,452 - ERROR: Error in getAllZonesFromHSQLDB java.lang.NullPointerException
+2016-08-16 16:29:21,682 - WARNING: Error in loading license from server java.lang.Exception: no key in AppConfig.json
+2016-08-16 16:29:21,686 - WARNING: Running with 500 CCU limit
+2016-08-16 16:31:20,586 - WARNING: Adaptor rejected q
+2016-08-16 16:31:38,914 - WARNING: Error in loading license from server java.lang.Exception: no key in AppConfig.json
+2016-08-16 16:31:38,917 - WARNING: Running with 500 CCU limit
+2016-08-16 16:36:49,826 - WARNING: Error in loading license from server java.lang.Exception: no key in AppConfig.json
+2016-08-16 16:36:49,829 - WARNING: Running with 500 CCU limit
+2016-08-16 17:22:41,723 - WARNING: Error in loading license from server java.lang.Exception: no key in AppConfig.json
+2016-08-16 17:22:41,726 - WARNING: Running with 500 CCU limit

@@ -1,0 +1,38 @@
+{
+    "Questions": [
+        {
+            "id": 1,
+            "Question": {
+                "Question": "Who assassinated Mahatma Gandhi??",
+                "AttachedElement": {
+                    "Type": 1,
+                    "Value": ""
+                }
+            },
+            "Options": [
+                {
+                    "Type": 1,
+                    "Value": "Karamchand"
+                },
+                {
+                    "Type": 1,
+                    "Value": "Nathuram Godse"
+                },
+                {
+                    "Type": 1,
+                    "Value": "Ashfaquallah Khan"
+                },
+                {
+                    "Type": 1,
+                    "Value": "None of the Above"
+                }
+            ]
+        }
+    ],
+    "Answers": [
+        {
+            "QuestionId": 1,
+            "Answer": 2
+        }
+    ]
+}

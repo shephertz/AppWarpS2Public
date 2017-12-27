@@ -1,0 +1,38 @@
+{
+    "Questions": [
+        {
+            "id": 1,
+            "Question": {
+                "Question": "Who won the First Twenty-20 World Cup?",
+                "AttachedElement": {
+                    "Type": 1,
+                    "Value": ""
+                }
+            },
+            "Options": [
+                {
+                    "Type": 1,
+                    "Value": "India"
+                },
+                {
+                    "Type": 1,
+                    "Value": "Pakistan"
+                },
+                {
+                    "Type": 1,
+                    "Value": "England"
+                },
+                {
+                    "Type": 1,
+                    "Value": "South Africa"
+                }
+            ]
+        }
+    ],
+    "Answers": [
+        {
+            "QuestionId": 1,
+            "Answer": 1
+        }
+    ]
+}

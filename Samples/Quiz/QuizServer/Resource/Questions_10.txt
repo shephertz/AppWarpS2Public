@@ -1,0 +1,42 @@
+{
+    "Questions": [
+        {
+            "id": 1,
+            "Question": {
+                "Question": "Who has scored the most runs in a single First-class innings?",
+                "AttachedElement": {
+                    "Type": 1,
+                    "Value": ""
+                }
+            },
+            "Options": [
+                {
+                    "Type": 1,
+                    "Value": "Hanif Mohammad"
+                },
+                {
+                    "Type": 1,
+                    "Value": "Brian Lara"
+                },
+                {
+                    "Type": 1,
+                    "Value": "Don Bradman"
+                },
+                {
+                    "Type": 1,
+                    "Value": "Sachin Tendulkar"
+                }
+            ]
+        }
+    ],
+    "Answers": [
+        {
+            "QuestionId": 1,
+            "Answer": 2
+        },
+        {
+            "QuestionId": 2,
+            "Answer": 3
+        }
+    ]
+}

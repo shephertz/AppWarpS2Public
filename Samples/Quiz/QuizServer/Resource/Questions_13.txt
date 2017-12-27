@@ -1,0 +1,38 @@
+{
+    "Questions": [
+        {
+            "id": 1,
+            "Question": {
+                "Question": "Who is Sunil Gavaskar's only test match victim?",
+                "AttachedElement": {
+                    "Type": 1,
+                    "Value": ""
+                }
+            },
+            "Options": [
+                {
+                    "Type": 1,
+                    "Value": "Hanif Mohammad"
+                },
+                {
+                    "Type": 1,
+                    "Value": "Brian Lara"
+                },
+                {
+                    "Type": 1,
+                    "Value": "Don Bradman"
+                },
+                {
+                    "Type": 1,
+                    "Value": "Zaheer Abbas"
+                }
+            ]
+        }
+    ],
+    "Answers": [
+        {
+            "QuestionId": 1,
+            "Answer": 4
+        }
+    ]
+}
